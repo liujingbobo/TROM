@@ -8,11 +8,24 @@ namespace PlayerControllerTest
 {
     public class PlayerController : MonoBehaviour
     {
-        public FSM StateMachine;
+        public bool grounded;
+        
+        [SerializeField] private LayerMask groundLayer;
 
-        public void Start()
+        private void OnCollisionEnter2D(Collision2D col)
         {
-            StateMachine.Switch(FSM.PlayerState.Idle);
+            var targetLayer = 1 << col.gameObject.layer;
+            if (targetLayer !=groundLayer) return;
+            grounded = true;
+            print("Touch Ground!!");
+        }
+
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            var targetLayer = 1 << other.gameObject.layer;
+            if (targetLayer !=groundLayer) return;
+            grounded = false;
+            print("Leave Ground!!");
         }
     }
 }

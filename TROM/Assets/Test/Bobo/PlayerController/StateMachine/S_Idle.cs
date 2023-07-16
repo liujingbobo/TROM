@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PlayerControllerTest
 {
@@ -15,12 +16,12 @@ namespace PlayerControllerTest
             // TODO: 
         }
     
-        public override void OnMove()
+        public override void OnMove(InputAction.CallbackContext context)
         {
             sm.Switch(FSM.PlayerState.Move);
         }
 
-        public override void OnJump()
+        public override void OnJump(InputAction.CallbackContext context)
         {
             sm.Switch(FSM.PlayerState.Jump);
         }

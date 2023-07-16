@@ -266,10 +266,10 @@
                 {
                     "name": "",
                     "id": "ebace223-11b9-474d-bcc7-b2c487f27abe",
-                    "path": "",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
