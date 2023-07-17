@@ -14,6 +14,11 @@ namespace PlayerControllerTest
         public override void StateUpdate()
         {
             // TODO: 
+
+            if (sm.MoveValue != Vector2.zero)
+            {
+                sm.Switch(FSM.PlayerState.Move);
+            }
         }
     
         public override void OnMove(InputAction.CallbackContext context)
@@ -23,7 +28,11 @@ namespace PlayerControllerTest
 
         public override void OnJump(InputAction.CallbackContext context)
         {
-            sm.Switch(FSM.PlayerState.Jump);
+            if (context is { started: true, canceled: false })
+            {
+                sm.Switch(FSM.PlayerState.Jump);
+            }
         }
+        
     }
 }
