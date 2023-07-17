@@ -8,61 +8,59 @@ namespace PlayerControllerTest
 {
     public class S_Jump : IState
     {
-        private Rigidbody2D TargetRb2D => sm.rigidbody2D;
+        private Rigidbody2D TargetRb2D => sm.targetRb2D;
         private PlayerInput input;
-        
-        private float _horizontalMoveSpeed = 0;
-        private bool jumped = false;
-        private float preVerVal;
-
+        private bool jumped;
+        private float timeAfterJump;
+        private bool CanCheckGround => timeAfterJump >= sm.groundCheckGap;
         public override void StateEnter()
         {
-            Debug.Log("Enter First");
             jumped = false;
-            preVerVal = 0;
         }
-        
         public override void StateFixedUpdate()
         {
-            Debug.Log("Jump Fixed Enter");
-            Debug.Log($"Fixed Updates: {TargetRb2D.transform.position}");
-            Debug.Log($"Fixed Updates: Grounded: {sm.controller.grounded}");
-            
             if (jumped == false)
             {
-                Debug.Log("Jump Fixed Update no jump");
+                timeAfterJump = 0;
                 TargetRb2D.velocity = new Vector2(sm.MoveValue.x * sm.moveSpeedOnAir, sm.jumpSpeed);
+                TargetRb2D.gravityScale = sm.initJumpGravityCurve.Evaluate(timeAfterJump);
                 jumped = true;
             }
-            else
+            else 
             {
-                Debug.Log("Jump Fixed Update jumped");
-                float curVerVel = TargetRb2D.velocity.y;
+                timeAfterJump += Time.fixedDeltaTime;
 
-                if (curVerVel <= 0 && sm.controller.grounded)
-                {
-                    sm.Switch(FSM.PlayerState.Idle);
-                }
-                else if (curVerVel < 0)
-                {
-                    TargetRb2D.velocity = new Vector2(sm.MoveValue.x * sm.moveSpeedOnAir, TargetRb2D.velocity.y);
-                    TargetRb2D.gravityScale = sm.fallGravity;
-                }
+                var curVelocity = TargetRb2D.velocity;
+                var curVerVel = curVelocity.y;
+                
+                curVelocity = new Vector2(sm.MoveValue.x * sm.moveSpeedOnAir, curVelocity.y);
+                TargetRb2D.velocity = curVelocity;
 
-                preVerVal = curVerVel;
+                if (curVerVel < 0)
+                {
+                    TargetRb2D.gravityScale = sm.fallGravityScale;
+                }
+                else
+                {
+                    TargetRb2D.gravityScale = sm.initJumpGravityCurve.Evaluate(timeAfterJump);
+                }
+                
+                if (CanCheckGround && sm.detection.grounded && curVelocity.y == 0)
+                {
+                    if (sm.MoveValue != Vector2.zero)
+                    {
+                        sm.Switch(FSM.PlayerState.Move);
+                    }
+                    else
+                    {
+                        sm.Switch(FSM.PlayerState.Idle);
+                    }
+                }
             }
         }
-
-        public override void StateUpdate()
-        {
-            Debug.Log("Jump Update Enter");
-            Debug.Log($"Updates: {TargetRb2D.transform.position}");
-            Debug.Log($"Updates: Grounded: {sm.controller.grounded}");
-        }
-
         public override void StateExit()
         {
-            TargetRb2D.gravityScale = sm.regularGravity;
+            TargetRb2D.gravityScale = sm.regularGravityScale;
         }
     }
 }

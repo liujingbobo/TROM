@@ -9,21 +9,16 @@ namespace PlayerControllerTest
     {
         public override void StateEnter()
         {
-            // TODO: Play Anim
+            sm.targetRb2D.gravityScale = 0;
+            sm.targetRb2D.velocity = Vector2.zero;
         }
-        public override void StateUpdate()
-        {
-            // TODO: 
 
+        public override void OnMove(InputAction.CallbackContext context)
+        {
             if (sm.MoveValue != Vector2.zero)
             {
                 sm.Switch(FSM.PlayerState.Move);
             }
-        }
-    
-        public override void OnMove(InputAction.CallbackContext context)
-        {
-            sm.Switch(FSM.PlayerState.Move);
         }
 
         public override void OnJump(InputAction.CallbackContext context)
@@ -33,6 +28,13 @@ namespace PlayerControllerTest
                 sm.Switch(FSM.PlayerState.Jump);
             }
         }
-        
+
+        public override void StateFixedUpdate()
+        {
+            if (!sm.detection.grounded)
+            {
+                sm.Switch(FSM.PlayerState.Falling);
+            }
+        }
     }
 }
