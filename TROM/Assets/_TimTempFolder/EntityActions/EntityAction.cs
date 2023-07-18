@@ -20,6 +20,11 @@ public abstract class EntityAction<TEntity> : MonoBehaviour
         this.fromEntity = fromEntity;
     }
 
+    private void Awake()
+    {
+        state = EntityActionState.Invalid;
+    }
+
     public void StartAction()
     {
         state = EntityActionState.InProgress;

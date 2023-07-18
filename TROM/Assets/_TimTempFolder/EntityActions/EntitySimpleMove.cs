@@ -19,6 +19,7 @@ public class EntitySimpleMove : EntityAction<GameEntity>
     protected override void OnActionStop(EntityActionStopReason reason)
     {
         _delayTween.Kill();
+        fromEntity.rBody2D.velocity = Vector2.zero;
         if (reason == EntityActionStopReason.Completed)
         {
             fromEntity.idle.StartAction();
@@ -27,13 +28,19 @@ public class EntitySimpleMove : EntityAction<GameEntity>
 
     private void Update()
     {
+        if (state == EntityActionState.InProgress)
+        {
+            fromEntity.spriteRenderer.flipX = fromEntity.rBody2D.velocity.x < 0;
+        }
     }
 
+    public Vector2 direction;
+    public float speed = 5;
     private void FixedUpdate()
     {
         if (state == EntityActionState.InProgress)
         {
-            fromEntity.rBody2D.AddForce(Vector2.right * fromEntity.rBody2D.mass);
+            fromEntity.rBody2D.velocity = direction * speed;
         }
     }
 }
