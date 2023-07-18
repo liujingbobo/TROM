@@ -12,34 +12,47 @@ namespace PlayerControllerTest
     [RequireComponent(typeof(Rigidbody2D))]
     public class FSM : MonoBehaviour
     {
+        // Components
         public GameObject character;
         public PlayerDetection detection;
         public PlayerController controller;
+        public Animator animator;
+        public SpriteRenderer spriteRenderer;
 
-        public AnimationCurve smoothStartMoveCurve;
-        public AnimationCurve fakeFiction;
-        public AnimationCurve initJumpGravityCurve;
-        public float regularGravityScale = 1.0f;
-        public float fallGravityScale = 1.5f;
-        public float moveSpeed = 10f;
-        public float jumpSpeed = 10;
-        public float moveSpeedOnAir;
-        public float groundCheckGap;
-        public float coyoteTime;
+        public PlayerDirection direction;
         
-        private Vector2 moveValue;
+        // Move
+        [BoxGroup("Move")]public float moveSpeed = 10f;
+        [BoxGroup("Move")]public float coyoteTime;
+        [BoxGroup("Move")]public float acceleration;
+        
+        // Jump
+        
+        [BoxGroup("Jump")]public float jumpSpeed = 10;
+        [BoxGroup("Jump")]public float jumpGroundCheckGap = 0.1f;
+        [BoxGroup("Jump")]public float ascendingGravityScaleLight = 1.0f;
+        [BoxGroup("Jump")]public float ascendingGravityScaleHeavy = 1.0f;
+        [BoxGroup("Jump")]public float fallGravityScale = 1.5f;
+        [BoxGroup("Jump")]public float smallJumpTime;
+        [BoxGroup("Jump")]public float bigJumpTime;
+        [BoxGroup("Jump")]public float airAcceleration;
+        [BoxGroup("Jump")]public float moveSpeedOnAir;
+        
+        // Falling
+        [BoxGroup("Falling")]
+        public float fallingGroundCheckGap = 0.1f;
 
-        public Vector2 MoveValue => moveValue;
-        
+        [BoxGroup("Other")]
         public Rigidbody2D targetRb2D;
 
         private readonly Dictionary<PlayerState, IState> stateMachine = new Dictionary<PlayerState, IState>();
 
         [ShowInInspector] private PlayerState curStateTag = PlayerState.InValid;
         [ShowInInspector] private PlayerState preStateTag = PlayerState.InValid;
-
+        public Vector2 MoveValue { get; private set; }
         public PlayerState PreStateTag => preStateTag;
-        
+        public AnimationType CurAnimation = AnimationType.Empty;
+
         private IState CurState => curStateTag != PlayerState.InValid && stateMachine.ContainsKey(curStateTag)
             ? stateMachine[curStateTag]
             : null;
@@ -78,6 +91,23 @@ namespace PlayerControllerTest
             }
         }
 
+        public void PlayAnim(AnimationType animationType)
+        {
+            if (CurAnimation == animationType) return;
+            
+            animator.Play(animationType switch
+            {
+                AnimationType.Idle => "Idle",
+                AnimationType.Walk => "Walk",
+                AnimationType.Run => "Run",
+                AnimationType.JumpRise => "JumpRise",
+                AnimationType.JumpFall => "JumpFall",
+                AnimationType.JumpMid => "JumpMid"
+            });
+        }
+
+        #region Event
+
         private void Update()
         {
             if (curStateTag != PlayerState.InValid && stateMachine.ContainsKey(curStateTag))
@@ -94,14 +124,16 @@ namespace PlayerControllerTest
             CurState?.StateFixedUpdate();
         }
 
+        #endregion
+
+
         #region Actions
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            moveValue = context.ReadValue<Vector2>();
+            MoveValue = context.ReadValue<Vector2>();
             CurState?.OnMove(context);
         }
-
         public void OnJump(InputAction.CallbackContext context)
         {
             CurState?.OnJump(context);
@@ -117,6 +149,22 @@ namespace PlayerControllerTest
             Jump = 20,
             Climb = 30,
             Falling = 40,
+        }
+
+        public enum AnimationType
+        {
+            Empty,
+            Idle,
+            Walk,
+            Run,
+            JumpRise,
+            JumpMid,
+            JumpFall
+        }
+        public enum PlayerDirection
+        {
+            Front,
+            Back
         }
     }
 }
