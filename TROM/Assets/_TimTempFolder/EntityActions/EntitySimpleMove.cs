@@ -11,6 +11,7 @@ public class EntitySimpleMove : EntityAction<GameEntity>
     protected override void OnActionStart()
     {
         fromEntity.animator.Play("Run",0);
+        fromEntity.animator.Update(0);
     }
 
     protected override void OnActionStop(EntityActionStopReason reason)
@@ -18,7 +19,7 @@ public class EntitySimpleMove : EntityAction<GameEntity>
         fromEntity.rBody2D.velocity = Vector2.zero;
         if (reason == EntityActionStopReason.Completed)
         {
-            fromEntity.idle.StartAction();
+            fromEntity.idleAction.StartAction();
         }
     }
 

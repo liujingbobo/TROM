@@ -26,7 +26,7 @@ public class SeenSeekAttackAI : MonoBehaviour
     {
         if (fromEntity == null) fromEntity = GetComponent<GameEntity>();
         _gsm = GameEntityStateMachine.CreateStateMachine(transform, fromEntity);
-        _gsm.AddRuntimeState(State.Seek.ToString(),null, OnUpdateSeek);
+        _gsm.AddRuntimeState(State.Seek.ToString(),OnStartSeek, OnUpdateSeek);
         _gsm.AddRuntimeState(State.Follow.ToString(),null, OnUpdateFollow);
         _gsm.AddRuntimeState(State.Attack.ToString(),OnStartAttack, OnUpdateAttack);
         _gsm.StartAtState(State.Seek.ToString());
@@ -36,7 +36,14 @@ public class SeenSeekAttackAI : MonoBehaviour
     {
         _gsm.ExecuteStateUpdate();
     }
-
+    
+    public void OnStartSeek()
+    {
+        if (fromEntity.idleAction.GetState() != EntityActionState.InProgress)
+        {
+            fromEntity.idleAction.StartAction();
+        }
+    }
     public void OnUpdateSeek()
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, seekRadius, layerMask);
@@ -74,7 +81,7 @@ public class SeenSeekAttackAI : MonoBehaviour
         if (distanceToTarget < attackDistance && fromEntity.moveAction.GetState() == EntityActionState.InProgress)
         {
             fromEntity.moveAction.StopAction(EntityActionStopReason.Completed);
-            fromEntity.idle.StartAction();
+            fromEntity.idleAction.StartAction();
             _gsm.SwitchToState(State.Attack.ToString());
             return;
         }

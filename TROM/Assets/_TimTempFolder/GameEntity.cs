@@ -11,7 +11,7 @@ public class GameEntity : MonoBehaviour
     public Rigidbody2D rBody2D;
     public SpriteRenderer spriteRenderer;
 
-    public EntityIdle idle;
+    public EntityIdle idleAction;
     public EntitySimpleMove moveAction;
     public EntitySimpleAttack attackAction;
     private void Awake()

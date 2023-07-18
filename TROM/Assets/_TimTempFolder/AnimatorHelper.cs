@@ -27,20 +27,29 @@ public class AnimatorHelper : MonoBehaviour
         {
             AnimationClip clip = animator.runtimeAnimatorController.animationClips[i];
 
-            AnimationEvent animationStartEvent = new AnimationEvent();
-            animationStartEvent.time = 0;
-            animationStartEvent.functionName = "TriggerStartEvent";
-            animationStartEvent.stringParameter = clip.name;
-            clip.AddEvent(animationStartEvent);
+            var found = clip.events.FirstOrDefault(e => e.functionName == "TriggerStartEvent");
+            if (found == null)
+            {
+                Debug.Log($"adding start event {transform.name}");
+                AnimationEvent animationStartEvent = new AnimationEvent();
+                animationStartEvent.time = 0;
+                animationStartEvent.functionName = "TriggerStartEvent";
+                animationStartEvent.stringParameter = clip.name;
+                clip.AddEvent(animationStartEvent);
+            }
             
-            AnimationEvent animationEndEvent = new AnimationEvent();
-            animationEndEvent.time = clip.length;
-            animationEndEvent.functionName = "TriggerEndEvent";
-            animationEndEvent.stringParameter = clip.name;
-            clip.AddEvent(animationEndEvent);
+            var found2 = clip.events.FirstOrDefault(e => e.functionName == "TriggerEndEvent");
+            if (found2 == null)
+            {
+                Debug.Log($"adding end event {transform.name}");
+                AnimationEvent animationStartEvent = new AnimationEvent();
+                animationStartEvent.time = clip.length;
+                animationStartEvent.functionName = "TriggerEndEvent";
+                animationStartEvent.stringParameter = clip.name;
+                clip.AddEvent(animationStartEvent);
+            }
         }
     }
-    
     public void TriggerStartEvent(string clipName)
     {
         var type = AnimationEventType.AnimationStart;
