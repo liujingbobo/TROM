@@ -74,6 +74,7 @@ public class SeenSeekAttackAI : MonoBehaviour
         if (distanceToTarget > seekRadius)
         {
             chaseTarget = null;
+            fromEntity.moveAction.StopAction(EntityActionStopReason.Completed);
             _gsm.SwitchToState(State.Seek.ToString());
             return;
         }
