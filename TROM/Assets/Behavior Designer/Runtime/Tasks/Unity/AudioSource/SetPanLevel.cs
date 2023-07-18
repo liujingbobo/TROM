@@ -1,45 +1,46 @@
+#if UNITY_4_6 || UNITY_4_7
 using UnityEngine;
 
-namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityLight
+namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAudioSource
 {
-    [TaskCategory("Unity/Light")]
-    [TaskDescription("Stores the intensity of the light.")]
-    public class GetIntensity : Action
+    [TaskCategory("Unity/AudioSource")]
+    [TaskDescription("Sets the pan level value of the AudioSource. Returns Success.")]
+    public class SetPanLevel : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
-        [RequiredField]
-        [Tooltip("The intensity to store")]
-        public SharedFloat storeValue;
+        [Tooltip("The pan level value of the AudioSource")]
+        public SharedFloat panLevel;
 
-        // cache the light component
-        private Light light;
+        private AudioSource audioSource;
         private GameObject prevGameObject;
 
         public override void OnStart()
         {
             var currentGameObject = GetDefaultGameObject(targetGameObject.Value);
             if (currentGameObject != prevGameObject) {
-                light = currentGameObject.GetComponent<Light>();
+                audioSource = currentGameObject.GetComponent<AudioSource>();
                 prevGameObject = currentGameObject;
             }
         }
 
         public override TaskStatus OnUpdate()
         {
-            if (light == null) {
-                Debug.LogWarning("Light is null");
+            if (audioSource == null) {
+                Debug.LogWarning("AudioSource is null");
                 return TaskStatus.Failure;
             }
 
-            storeValue = light.intensity;
+            audioSource.panLevel = panLevel.Value;
+
             return TaskStatus.Success;
         }
 
         public override void OnReset()
         {
             targetGameObject = null;
-            storeValue = 0;
+            panLevel = 1;
         }
     }
 }
+#endif

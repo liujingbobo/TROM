@@ -1,16 +1,16 @@
+#if UNITY_4_6 || UNITY_4_7
 using UnityEngine;
 
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityLight
 {
     [TaskCategory("Unity/Light")]
-    [TaskDescription("Stores the intensity of the light.")]
-    public class GetIntensity : Action
+    [TaskDescription("Sets the shadow softness of the light.")]
+    public class SetShadowSoftness : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
-        [RequiredField]
-        [Tooltip("The intensity to store")]
-        public SharedFloat storeValue;
+        [Tooltip("The shadow softness to set")]
+        public SharedFloat shadowSoftness;
 
         // cache the light component
         private Light light;
@@ -32,14 +32,15 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityLight
                 return TaskStatus.Failure;
             }
 
-            storeValue = light.intensity;
+            light.shadowSoftness = shadowSoftness.Value;
             return TaskStatus.Success;
         }
 
         public override void OnReset()
         {
             targetGameObject = null;
-            storeValue = 0;
+            shadowSoftness = 0;
         }
     }
 }
+#endif
