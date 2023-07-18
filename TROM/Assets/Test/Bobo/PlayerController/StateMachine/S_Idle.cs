@@ -9,8 +9,8 @@ namespace PlayerControllerTest
     {
         public override void StateEnter()
         {
-            sm.targetRb2D.gravityScale = 0;
             sm.targetRb2D.velocity = Vector2.zero;
+            sm.PlayAnim(FSM.AnimationType.Idle);
         }
 
         public override void OnMove(InputAction.CallbackContext context)

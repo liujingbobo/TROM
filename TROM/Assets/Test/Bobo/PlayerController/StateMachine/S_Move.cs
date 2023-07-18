@@ -7,39 +7,29 @@ namespace PlayerControllerTest
     public class S_Move : IState
     {
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
-
+        private Vector2 MoveValue => sm.MoveValue;
             
-        [ShowInInspector] private bool isStopping; // Player have no input
         [ShowInInspector] private float timeAfterStop;
         [ShowInInspector] private float timeAfterStart;
-        [ShowInInspector] private bool isPositive;
         [ShowInInspector] private bool isFalling;
         [ShowInInspector] private bool started;
-        [ShowInInspector] private bool smoothStart;
-        [ShowInInspector] private float speedWhenStop;
-        [ShowInInspector] private float speedOnEnter;
-        
-        
+
         public override void StateEnter()
         {
-            sm.targetRb2D.gravityScale = 0;
             started = false;
             timeAfterStart = 0;
             isFalling = false;
-            smoothStart = sm.MoveValue == Vector2.zero;
+            sm.PlayAnim(FSM.AnimationType.Run);
         }
 
         public override void OnMove(InputAction.CallbackContext context)
         {
             if (sm.MoveValue == Vector2.zero)
             {
-                isStopping = true;
                 timeAfterStop = 0;
-                speedWhenStop = TargetRb2D.velocity.x;
             }
             else
             {
-                isStopping = false;
                 timeAfterStop = 0;
             }
         }
@@ -63,45 +53,63 @@ namespace PlayerControllerTest
             }
             
             var curVelocity = sm.targetRb2D.velocity;
-            Vector2 newVelocity = curVelocity;
 
-            if (!sm.detection.grounded && !isFalling)
+            // TODO: Falling
+            if (!sm.detection.grounded)
             {
-                isFalling = true;
-                sm.targetRb2D.gravityScale = sm.fallGravityScale;
-            }
-            
-            if (isStopping) // Simulate Fiction
-            {
-                var speed = sm.fakeFiction.Evaluate(timeAfterStop) * speedWhenStop;
-                
-                if (isPositive ? (speed <= 0) : (speed >= 0))
+                if(!isFalling)
                 {
-                    newVelocity.x = 0;
-                    sm.Switch(FSM.PlayerState.Idle);
+                    isFalling = true;
                 }
                 else
                 {
-                    newVelocity = TargetRb2D.velocity = new Vector2(speed, TargetRb2D.velocity.y);
+                    sm.Switch(FSM.PlayerState.Falling);
+                    return;
                 }
-                
-                timeAfterStop += Time.fixedDeltaTime;
             }
             else
             {
-                if (smoothStart)
+                isFalling = false;
+            }
+            
+            var speedChangeValue = MoveValue.x * sm.acceleration * Time.fixedDeltaTime;
+            var curX = curVelocity.x;
+            if (MoveValue != Vector2.zero)
+            {
+                // Move
+                curX += speedChangeValue;
+                curX = Mathf.Clamp(curX, -sm.moveSpeed,
+                    sm.moveSpeed);
+            }
+            else
+            {
+                // Stop or deceleration\
+                if (curX != 0)
                 {
-                    newVelocity.x = sm.MoveValue.x * sm.moveSpeed * sm.smoothStartMoveCurve.Evaluate(timeAfterStart);
+                    if (curX > 0)
+                    {
+                        curX -= sm.acceleration * Time.fixedDeltaTime;
+                        curX = Mathf.Max(curX, 0);
+                    }
+                    else
+                    {                            
+                        curX += sm.acceleration * Time.fixedDeltaTime;
+                        curX = Mathf.Min(curX, 0);
+                    }
+
+                    if (curX == 0)
+                    {
+                        sm.Switch(FSM.PlayerState.Idle);
+                    }
                 }
-                else
-                {
-                    newVelocity.x = sm.MoveValue.x * sm.moveSpeed;
-                }
-                
-                isPositive = sm.MoveValue.x > 0;
             }
 
-            TargetRb2D.velocity = newVelocity;
+            TargetRb2D.velocity = new Vector2(curX, 0);
+            
+            if (curX != 0)
+            {
+                sm.spriteRenderer.flipX = curX < 0;
+            }
         }
     }
 }
