@@ -113,15 +113,18 @@ namespace PlayerControllerTest
                 }
 
                 // if (CanCheckGround && sm.detection.grounded && curVelocity.y == 0)
-                if (CanCheckGround && sm.detection.grounded)
+                if (CanCheckGround && sm.detection.grounded && curVelocity.y <= 0)
                 {
                     if (sm.MoveValue != Vector2.zero)
                     {
                         Debug.Log($"Jump use time :{timeAfterJump}");
+                        sm.FixPosition();
                         sm.Switch(FSM.PlayerState.Move);
                     }
                     else
                     {
+                        Debug.Log($"Jump use time :{timeAfterJump}");
+                        sm.FixPosition();
                         sm.Switch(FSM.PlayerState.Idle);
                     }
                 }
@@ -130,6 +133,8 @@ namespace PlayerControllerTest
                 {
                     sm.spriteRenderer.flipX = curX < 0;
                 }
+
+
             }
         }
 

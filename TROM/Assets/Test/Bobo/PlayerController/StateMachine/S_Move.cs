@@ -72,11 +72,21 @@ namespace PlayerControllerTest
                 isFalling = false;
             }
             
+            
+            
             var speedChangeValue = MoveValue.x * sm.acceleration * Time.fixedDeltaTime;
             var curX = curVelocity.x;
+            
             if (MoveValue != Vector2.zero)
             {
                 // Move
+
+                if (curX * MoveValue.x < 0)
+                {
+                    // use turn speed
+                    speedChangeValue = MoveValue.x * sm.turnSpeed * Time.fixedDeltaTime;
+                }
+
                 curX += speedChangeValue;
                 curX = Mathf.Clamp(curX, -sm.moveSpeed,
                     sm.moveSpeed);

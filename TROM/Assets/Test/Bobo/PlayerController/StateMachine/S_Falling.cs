@@ -86,6 +86,7 @@ public class S_Falling : IState
 
         if (curY == 0)
         {
+            sm.FixPosition();
             sm.Switch(sm.MoveValue != Vector2.zero ? FSM.PlayerState.Move : FSM.PlayerState.Idle);
         }
     }

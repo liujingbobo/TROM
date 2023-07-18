@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using BehaviorDesigner.Runtime.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -25,6 +26,7 @@ namespace PlayerControllerTest
         [BoxGroup("Move")]public float moveSpeed = 10f;
         [BoxGroup("Move")]public float coyoteTime;
         [BoxGroup("Move")]public float acceleration;
+        [BoxGroup("Move")] public float turnSpeed;
         
         // Jump
         
@@ -106,6 +108,20 @@ namespace PlayerControllerTest
             });
         }
 
+        public void FixPosition()
+        {
+            var newPosition = transform.position;
+                
+            RaycastHit2D hit = Physics2D.Raycast(new Vector2(newPosition.x, newPosition.y) + Vector2.up, Vector2.down, 1,
+                LayerMask.GetMask($"Ground"));
+
+            if (hit.collider != null)
+            {
+                newPosition = new Vector3(hit.point.x, hit.point.y, newPosition.z);
+                transform.position = newPosition;
+            }
+        }
+        
         #region Event
 
         private void Update()
