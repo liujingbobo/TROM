@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EntitySimpleAttack : EntityAction<GameEntity>
-{
+{    
+    public Vector2 direction;
     protected override void OnActionStart()
     {
         fromEntity.animator.Play("Punch01",0);

@@ -55,7 +55,7 @@ public abstract class EntityAction<TEntity> : MonoBehaviour
     protected abstract void OnActionStart();
     protected abstract void OnActionStop(EntityActionStopReason reason);
     
-    public virtual EntityActionState CheckState()
+    public virtual EntityActionState GetState()
     {
         return state;
     }

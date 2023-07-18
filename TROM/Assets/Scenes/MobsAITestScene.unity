@@ -621,7 +621,7 @@ GameObject:
   m_Component:
   - component: {fileID: 204150928}
   - component: {fileID: 204150929}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: IdleAction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1317,7 +1317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 431835280}
   - component: {fileID: 431835281}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: MoveAction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2388,7 +2388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 666479856}
   - component: {fileID: 666479857}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: attackAction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2424,6 +2424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fromEntity: {fileID: 1509254950}
   state: 0
+  direction: {x: 0, y: 0}
 --- !u!1 &687380130
 GameObject:
   m_ObjectHideFlags: 0
@@ -6361,7 +6362,8 @@ GameObject:
   - component: {fileID: 1509254942}
   - component: {fileID: 1509254950}
   - component: {fileID: 1509254941}
-  m_Layer: 9
+  - component: {fileID: 1509254951}
+  m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6397,7 +6399,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.92}
@@ -6418,7 +6420,7 @@ Rigidbody2D:
   m_Mass: 50
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -6468,6 +6470,25 @@ MonoBehaviour:
   idle: {fileID: 204150929}
   moveAction: {fileID: 431835281}
   attackAction: {fileID: 666479857}
+--- !u!114 &1509254951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509254940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07051fd1e392a7429b6f8ac3b1ae79a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fromEntity: {fileID: 0}
+  seekRadius: 6
+  attackDistance: 0.75
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  chaseTarget: {fileID: 0}
 --- !u!1 &1526632098
 GameObject:
   m_ObjectHideFlags: 0
@@ -7152,7 +7173,7 @@ GameObject:
   - component: {fileID: 1717305570}
   - component: {fileID: 1717305569}
   - component: {fileID: 1717305571}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
