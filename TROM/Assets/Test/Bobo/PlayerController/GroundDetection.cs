@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Tools;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ public class GroundDetection : MonoBehaviour
         SetGrounded();
         print("Touch Ground!!");
     }
+    
     private void OnTriggerExit2D(Collider2D other)
     {
         var targetLayer = 1 << other.gameObject.layer;

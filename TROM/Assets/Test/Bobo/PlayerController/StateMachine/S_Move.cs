@@ -16,6 +16,7 @@ namespace PlayerControllerTest
 
         public override void StateEnter()
         {
+            sm.targetRb2D.gravityScale = 0;
             started = false;
             timeAfterStart = 0;
             isFalling = false;
@@ -24,7 +25,7 @@ namespace PlayerControllerTest
 
         public override void OnMove(InputAction.CallbackContext context)
         {
-            if (sm.MoveValue == Vector2.zero)
+            if (sm.MoveValue.x == 0)
             {
                 timeAfterStop = 0;
             }
@@ -77,7 +78,7 @@ namespace PlayerControllerTest
             var speedChangeValue = MoveValue.x * sm.acceleration * Time.fixedDeltaTime;
             var curX = curVelocity.x;
             
-            if (MoveValue != Vector2.zero)
+            if (MoveValue.x != 0)
             {
                 // Move
 
@@ -111,6 +112,10 @@ namespace PlayerControllerTest
                     {
                         sm.Switch(FSM.PlayerState.Idle);
                     }
+                }
+                else
+                {
+                    sm.Switch(FSM.PlayerState.Idle);
                 }
             }
 

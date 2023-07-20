@@ -9,4 +9,7 @@ using UnityEngine.Serialization;
 public class PlayerDetection : MonoBehaviour
 {
     [SerializeField] public bool grounded;
+
+    public CustomColliderDetector frontHungDetector;
+    public CustomColliderDetector backHungDetector;
 }
