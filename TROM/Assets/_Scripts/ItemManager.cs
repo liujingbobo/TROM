@@ -8,9 +8,16 @@ using UnityEngine.InputSystem;
 
 public class ItemManager : MonoBehaviour
 {
+    public static ItemManager Singleton;
+    
     private Dictionary<ItemID, ItemConfigScriptableObjects> _itemIdToConfigDictionary =
         new Dictionary<ItemID, ItemConfigScriptableObjects>();
-    
+
+    private void Awake()
+    {
+        Singleton = this;
+    }
+
     private void Start()
     {
         LoadItemConfigs();
@@ -21,11 +28,17 @@ public class ItemManager : MonoBehaviour
         _itemIdToConfigDictionary.Clear();
         foreach (ItemID id in Enum.GetValues(typeof(ItemID)))
         {
+            if(id == ItemID.Null) continue;
             var address = $"Assets/_Scripts/ItemConfigs/{id}.asset";
             var op = Addressables.LoadAssetAsync<ItemConfigScriptableObjects>(address);
             ItemConfigScriptableObjects so = op.WaitForCompletion();
             _itemIdToConfigDictionary.Add(id, so);
         }
+    }
+
+    public ItemConfigScriptableObjects GetItemConfig(ItemID itemID)
+    {
+        return _itemIdToConfigDictionary[itemID];
     }
 
     [Button]
@@ -52,6 +65,7 @@ public class ItemManager : MonoBehaviour
 
 public enum ItemID
 {
+    Null,
     Wood,
     Parts,
     
@@ -65,6 +79,7 @@ public enum ItemID
 
 public enum ItemType
 {
+    Null,
     Material,
     Consumable,
 }

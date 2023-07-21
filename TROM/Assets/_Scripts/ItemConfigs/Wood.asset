@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: 0
   itemType: 0
   itemIcon: {fileID: 109800182, guid: 7810966f0f690954c87305933cabf2b0, type: 3}
-  weightPerItem: 1
+  weightPerItem: 5
   maxStack: 1
