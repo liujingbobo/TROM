@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using BehaviorDesigner.Runtime.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -43,7 +42,13 @@ namespace PlayerControllerTest
         // Falling
         [BoxGroup("Falling")]
         public float fallingGroundCheckGap = 0.1f;
-
+        
+        // Hang
+        public float hangSnappingSpeed = 5;
+        public float hangSnapRange = 0.5f;
+        public Vector2 hangStartOffset;
+        public Vector2 hangEndOffset;
+        
         [BoxGroup("Other")]
         public Rigidbody2D targetRb2D;
 
@@ -70,11 +75,13 @@ namespace PlayerControllerTest
             stateMachine[PlayerState.Move] = new S_Move().Init(this);
             stateMachine[PlayerState.Jump] = new S_Jump().Init(this);
             stateMachine[PlayerState.Falling] = new S_Falling().Init(this);
+            stateMachine[PlayerState.Hang] = new S_Hang().Init(this);
             Switch(PlayerState.Idle);
         }
 
         public void Switch(PlayerState targetState)
         {
+            Debug.Log($"Ready to switch to {targetState.ToString()}");
             if (curStateTag != PlayerState.InValid)
             {
                 if (stateMachine.ContainsKey(curStateTag))
@@ -165,6 +172,7 @@ namespace PlayerControllerTest
             Jump = 20,
             Climb = 30,
             Falling = 40,
+            Hang = 50,
         }
 
         public enum AnimationType

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +10,29 @@ namespace PlayerControllerTest
     {
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
         private bool CanCheckGround => timeAfterJump >= sm.jumpGroundCheckGap;
+
+        private bool CanHung
+        {
+            get
+            {
+                if (MoveValue.x != 0)
+                {
+                    if (MoveValue.x > 0)
+                    {
+                        return sm.detection.frontHungDetector.collider2Ds.Count > 0;
+                    }
+                    else
+                    {
+                        return sm.detection.backHungDetector.collider2Ds.Count > 0;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        
         private Vector2 MoveValue => sm.MoveValue;
 
         private bool jumped;
@@ -111,11 +133,24 @@ namespace PlayerControllerTest
                         }
                     }
                 }
-
-                // if (CanCheckGround && sm.detection.grounded && curVelocity.y == 0)
+                
+                // Set sprite position
+                if (curX != 0)
+                {
+                    sm.spriteRenderer.flipX = curX < 0;
+                }
+                
+                // Check Hungable
+                // if (curVelocity.y <= 0 && CanHung && !sm.detection.grounded)
+                if (curVelocity.y <= 0 && CanHung && !sm.detection.grounded)
+                {
+                    sm.Switch(FSM.PlayerState.Hang);
+                    return;
+                }
+                
                 if (CanCheckGround && sm.detection.grounded && curVelocity.y <= 0)
                 {
-                    if (sm.MoveValue != Vector2.zero)
+                    if (sm.MoveValue.x != 0)
                     {
                         Debug.Log($"Jump use time :{timeAfterJump}");
                         sm.FixPosition();
@@ -127,11 +162,6 @@ namespace PlayerControllerTest
                         sm.FixPosition();
                         sm.Switch(FSM.PlayerState.Idle);
                     }
-                }
-
-                if (curX != 0)
-                {
-                    sm.spriteRenderer.flipX = curX < 0;
                 }
 
 

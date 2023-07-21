@@ -84,10 +84,9 @@ public class S_Falling : IState
             return;
         }
 
-        if (curY == 0)
-        {
-            sm.FixPosition();
-            sm.Switch(sm.MoveValue != Vector2.zero ? FSM.PlayerState.Move : FSM.PlayerState.Idle);
-        }
+        if (curY != 0) return;
+        
+        sm.FixPosition();
+        sm.Switch(sm.MoveValue.x != 0 ? FSM.PlayerState.Move : FSM.PlayerState.Idle);
     }
 }
