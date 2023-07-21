@@ -15,6 +15,11 @@ public class ItemContainer : MonoBehaviour
     public void Start()
     {
     }
+
+    private void UpdateCurrentWeight()
+    {
+        currentWeight = itemList.Sum(x => x.weight);
+    }
     
     public void AddItem(Item item)
     {
@@ -22,9 +27,17 @@ public class ItemContainer : MonoBehaviour
         item.transform.localPosition = Vector3.zero;
         
         itemList.Add(item);
-        currentWeight = itemList.Sum(x => x.weight);
+        UpdateCurrentWeight();
     }
-
+    public bool RemoveItem(Item item)
+    {
+        if (!itemList.Contains(item)) throw new Exception("Given Item Not This Container");
+        
+        var succes = itemList.Remove(item);
+        UpdateCurrentWeight();
+        return succes;
+    }
+    
     [Button]
     public void TestAddItem(ItemID id)
     {

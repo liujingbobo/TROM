@@ -716,6 +716,7 @@ GameObject:
   - component: {fileID: 134454556}
   - component: {fileID: 134454558}
   - component: {fileID: 134454557}
+  - component: {fileID: 134454559}
   m_Layer: 5
   m_Name: ItemSlot
   m_TagString: Untagged
@@ -782,6 +783,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 134454555}
   m_CullTransparentMesh: 1
+--- !u!114 &134454559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134454555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 134454557}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &185349995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1595,6 +1640,7 @@ GameObject:
   - component: {fileID: 364187971}
   - component: {fileID: 364187973}
   - component: {fileID: 364187972}
+  - component: {fileID: 364187974}
   m_Layer: 5
   m_Name: ItemSlot
   m_TagString: Untagged
@@ -1661,6 +1707,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364187970}
   m_CullTransparentMesh: 1
+--- !u!114 &364187974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364187970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 134454557}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &407746756
 GameObject:
   m_ObjectHideFlags: 0
@@ -3807,7 +3897,6 @@ GameObject:
   - component: {fileID: 1119564344}
   - component: {fileID: 1119564347}
   - component: {fileID: 1119564346}
-  - component: {fileID: 1119564345}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -3836,18 +3925,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 160}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &1119564345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119564343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cac2f9509fa3e15438517bbbb65e2d12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1119564346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4370,7 +4447,6 @@ GameObject:
   - component: {fileID: 1281221884}
   - component: {fileID: 1281221885}
   - component: {fileID: 1281221886}
-  - component: {fileID: 1281221887}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -4437,18 +4513,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &1281221887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281221883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cac2f9509fa3e15438517bbbb65e2d12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1352829058
 GameObject:
   m_ObjectHideFlags: 0
@@ -4644,15 +4708,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitButton: {fileID: 2124858883}
+  dropButton: {fileID: 1867632282}
+  equipButton: {fileID: 1626900679}
+  takeButton: {fileID: 1909355686}
+  grabAllButton: {fileID: 956594434}
   root: {fileID: 556177903}
   backpackItemSlotParent: {fileID: 1281221884}
   backpackItemSlotPrefab: {fileID: 134454555}
-  backpackItemSlotGrower: {fileID: 1281221887}
   searchedContainerItemSlotParent: {fileID: 1119564344}
   searchedContainerItemSlotPrefab: {fileID: 364187970}
-  searchedContainerItemSlotGrower: {fileID: 1119564345}
   playerBackpack: {fileID: 130338971}
   searchedContainer: {fileID: 1055429404}
+  selectedColor: {r: 1, g: 0.63346815, b: 0, a: 1}
+  nonSelectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1400712749
 GameObject:
   m_ObjectHideFlags: 0

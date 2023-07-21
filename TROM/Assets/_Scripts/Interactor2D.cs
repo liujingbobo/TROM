@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Interactor2D : MonoBehaviour
 {
@@ -30,6 +31,12 @@ public class Interactor2D : MonoBehaviour
     private void Update()
     {
         UpdateNearestInteractable();
+        
+        //TODO added a quick f key to interact Nearest
+        if (Keyboard.current.fKey.wasPressedThisFrame)
+        {
+            InteractNearestInteractableStart();
+        }
     }
 
     private void UpdateNearestInteractable()

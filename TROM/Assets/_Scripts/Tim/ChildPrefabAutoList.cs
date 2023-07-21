@@ -3,18 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AutoChildPrefabGrower : MonoBehaviour
+public class ChildPrefabAutoList<T> where T:IAutoListChildData
 {
     private GameObject _defaultChildPrefab;
     private Transform _parent;
 
     private List<GameObject> _childObjects = new List<GameObject>();
-    private List<IAutoGrowChildData> _childData = new List<IAutoGrowChildData>();
-
-    public void Init<T>(GameObject defaultPrefab, Transform parentTransform) where T:IAutoGrowChildData
+    private List<T> _childData = new List<T>();
+    private Action<T,int> _setupAction; //T for dataType, int for index in List
+    
+    public void Init(GameObject defaultPrefab, Transform parentTransform, Action<T,int> setupAction)
     {
         _defaultChildPrefab = defaultPrefab;
         _parent = parentTransform;
+        _setupAction = setupAction;
         
         _childObjects.Clear();
         _childData.Clear();
@@ -29,22 +31,31 @@ public class AutoChildPrefabGrower : MonoBehaviour
             var dataInstance = (T)instance;
             
             dataInstance.ReadDataFromGameObject(childGO);
+            _setupAction(dataInstance, i);
+            
             _childObjects.Add(childGO);
             _childData.Add(dataInstance);
         }
     }
 
-    public GameObject AddNewChild<T>() where T:IAutoGrowChildData
+    public List<T> GetDataList()
     {
+        return _childData;
+    }
+
+    public GameObject AddNewChild()
+    {
+        int newIndex = _childObjects.Count;
         var wasInactive = _defaultChildPrefab.activeSelf;
         _defaultChildPrefab.SetActive(true);
-        var newChild = Instantiate(_defaultChildPrefab, _parent);
+        var newChild = GameObject.Instantiate(_defaultChildPrefab, _parent);
         
         var dataType = typeof(T);
         var instance = Activator.CreateInstance(dataType);
         var dataInstance = (T)instance;
         
         dataInstance.ReadDataFromGameObject(newChild);
+        _setupAction(dataInstance, newIndex);
         
         _childObjects.Add(newChild);
         _childData.Add(dataInstance);
@@ -54,14 +65,14 @@ public class AutoChildPrefabGrower : MonoBehaviour
         return newChild;
     }
 
-    public void GetChildObjectAndData<T>(int index, out GameObject go, out T data) where T:IAutoGrowChildData
+    public void GetChildObjectAndData(int index, out GameObject go, out T data)
     {
         var extraCount = index - (_childObjects.Count -1);
         if (extraCount > 0)
         {
             for (int i = 0; i < extraCount; i++)
             {
-                AddNewChild<T>();
+                AddNewChild();
             }
         }
 
@@ -69,14 +80,14 @@ public class AutoChildPrefabGrower : MonoBehaviour
         data = (T)_childData[index];
     }
 
-    public void ShowByCount<T>(int count)where T:IAutoGrowChildData
+    public void ShowByCount(int count)
     {
         var extraCount = count - (_childObjects.Count);
         if (extraCount > 0)
         {
             for (int i = 0; i < extraCount; i++)
             {
-                AddNewChild<T>();
+                AddNewChild();
             }
         }
 
@@ -87,8 +98,8 @@ public class AutoChildPrefabGrower : MonoBehaviour
     }
 }
 
-public interface IAutoGrowChildData
+public interface IAutoListChildData
 {
-    public IAutoGrowChildData Instantiate();
+    public IAutoListChildData Instantiate();
     public void ReadDataFromGameObject(GameObject go);
 }
