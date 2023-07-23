@@ -12,10 +12,6 @@ public class ItemContainer : MonoBehaviour
     public float maxWeight;
     public float maxSlot;
     
-    public void Start()
-    {
-    }
-
     private void UpdateCurrentWeight()
     {
         currentWeight = itemList.Sum(x => x.weight);

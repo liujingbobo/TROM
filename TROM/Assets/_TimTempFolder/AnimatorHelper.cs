@@ -18,37 +18,6 @@ public class AnimatorHelper : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        SetUpBasicAnimationEvent();
-    }
-
-    public void SetUpBasicAnimationEvent()
-    {
-        for(int i=0; i<animator.runtimeAnimatorController.animationClips.Length; i++)
-        {
-            AnimationClip clip = animator.runtimeAnimatorController.animationClips[i];
-
-            var found = clip.events.FirstOrDefault(e => e.functionName == "TriggerStartEvent");
-            if (found == null)
-            {
-                Debug.Log($"adding start event {transform.name}");
-                AnimationEvent animationStartEvent = new AnimationEvent();
-                animationStartEvent.time = 0;
-                animationStartEvent.functionName = "TriggerStartEvent";
-                animationStartEvent.stringParameter = clip.name;
-                clip.AddEvent(animationStartEvent);
-            }
-            
-            var found2 = clip.events.FirstOrDefault(e => e.functionName == "TriggerEndEvent");
-            if (found2 == null)
-            {
-                Debug.Log($"adding end event {transform.name}");
-                AnimationEvent animationStartEvent = new AnimationEvent();
-                animationStartEvent.time = clip.length;
-                animationStartEvent.functionName = "TriggerEndEvent";
-                animationStartEvent.stringParameter = clip.name;
-                clip.AddEvent(animationStartEvent);
-            }
-        }
     }
     public void TriggerStartEvent(string clipName)
     {

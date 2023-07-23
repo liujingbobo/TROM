@@ -9,7 +9,6 @@ public class SceneItemContainer : ItemContainer
     public SpriteRenderer interactIcon;
     public void Start()
     {
-        base.Start();
         interactIcon.gameObject.SetActive(false);
     }
 

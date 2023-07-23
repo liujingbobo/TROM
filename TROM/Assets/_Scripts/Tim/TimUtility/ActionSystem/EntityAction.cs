@@ -6,8 +6,9 @@ using UnityEngine;
 
 public abstract class EntityAction<TEntity> : MonoBehaviour
 {
+    public bool showLog = false;
     public TEntity fromEntity;
-    public EntityActionState state;
+    public EntityActionState actionState;
 
     public event Action OnActionStarting;
     public event Action OnActionStarted;
@@ -22,34 +23,37 @@ public abstract class EntityAction<TEntity> : MonoBehaviour
 
     private void Awake()
     {
-        state = EntityActionState.Invalid;
+        actionState = EntityActionState.Invalid;
     }
 
     public void StartAction()
     {
-        state = EntityActionState.InProgress;
+        actionState = EntityActionState.InProgress;
         OnActionStarting?.Invoke();
         OnActionStart();
         OnActionStarted?.Invoke();
+        if(showLog) Debug.Log($"{this.GetType().Name} Action Started");
     }
     
     public void StopAction(EntityActionStopReason reason)
     {
         //check current state, if its in progress, handle base on reason
-        if (state == EntityActionState.InProgress)
+        if (actionState == EntityActionState.InProgress)
         {
             if (reason == EntityActionStopReason.Completed)
             {
-                state = EntityActionState.Succeeded;
+                actionState = EntityActionState.Completed;
             }
             else
             {
-                state = EntityActionState.Failed;
+                actionState = EntityActionState.Interrupted;
             }
-            OnActionStopping?.Invoke(state, reason);
+            OnActionStopping?.Invoke(actionState, reason);
             OnActionStop(reason);
-            OnActionStopped?.Invoke(state, reason);
+            OnActionStopped?.Invoke(actionState, reason);
         }
+        if(showLog) Debug.Log($"{this.GetType().Name} Action Started");
+
     }
     
     protected abstract void OnActionStart();
@@ -57,7 +61,7 @@ public abstract class EntityAction<TEntity> : MonoBehaviour
     
     public virtual EntityActionState GetState()
     {
-        return state;
+        return actionState;
     }
 }
 
@@ -65,8 +69,8 @@ public enum EntityActionState
 {
     Invalid,
     InProgress,
-    Failed,
-    Succeeded
+    Completed,
+    Interrupted,
 }
 
 public enum EntityActionStopReason

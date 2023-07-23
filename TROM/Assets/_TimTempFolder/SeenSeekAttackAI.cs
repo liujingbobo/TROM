@@ -38,11 +38,11 @@ public class SeenSeekAttackAI : MonoBehaviour
     }
     
     public void OnStartSeek()
-    {
+    {/*
         if (fromEntity.idleAction.GetState() != EntityActionState.InProgress)
         {
             fromEntity.idleAction.StartAction();
-        }
+        }*/
     }
     public void OnUpdateSeek()
     {
@@ -74,41 +74,41 @@ public class SeenSeekAttackAI : MonoBehaviour
         if (distanceToTarget > seekRadius)
         {
             chaseTarget = null;
-            fromEntity.moveAction.StopAction(EntityActionStopReason.Completed);
+            //fromEntity.moveAction.StopAction(EntityActionStopReason.Completed);
             _gsm.SwitchToState(State.Seek.ToString());
             return;
         }
 
-        if (distanceToTarget < attackDistance && fromEntity.moveAction.GetState() == EntityActionState.InProgress)
+        //if (distanceToTarget < attackDistance && fromEntity.moveAction.GetState() == EntityActionState.InProgress)
         {
-            fromEntity.moveAction.StopAction(EntityActionStopReason.Completed);
-            fromEntity.idleAction.StartAction();
+            //fromEntity.moveAction.StopAction(EntityActionStopReason.Completed);
+            //fromEntity.idleAction.StartAction();
             _gsm.SwitchToState(State.Attack.ToString());
             return;
         }
         
         var moveDirection = chaseTarget.position.x > fromEntity.transform.position.x ? Vector2.right : Vector2.left;
         
-        if(fromEntity.moveAction)fromEntity.moveAction.direction = moveDirection;
-        if (fromEntity.moveAction.GetState() != EntityActionState.InProgress)
+        //if(fromEntity.moveAction)fromEntity.moveAction.direction = moveDirection;
+        //if (fromEntity.moveAction.GetState() != EntityActionState.InProgress)
         {
-            fromEntity.moveAction.StartAction();
+            //fromEntity.moveAction.StartAction();
         }
     }
 
     public void OnStartAttack()
     {
         var direction = chaseTarget.position.x > fromEntity.transform.position.x ? Vector2.right : Vector2.left;
-        if(fromEntity.attackAction) fromEntity.attackAction.direction = direction;
-        if (fromEntity.attackAction.GetState() != EntityActionState.InProgress)
+        //if(fromEntity.attackAction) fromEntity.attackAction.direction = direction;
+        //if (fromEntity.attackAction.GetState() != EntityActionState.InProgress)
         {
-            fromEntity.attackAction.StartAction();
+            //fromEntity.attackAction.StartAction();
         }
     }
     public void OnUpdateAttack()
     {
         var distanceToTarget = Vector3.Distance(chaseTarget.position, fromEntity.transform.position);
-        if (fromEntity.attackAction.GetState() != EntityActionState.InProgress)
+        //if (fromEntity.attackAction.GetState() != EntityActionState.InProgress)
         {
             if (distanceToTarget < attackDistance)
             {
