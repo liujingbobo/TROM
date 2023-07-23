@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace PlayerControllerTest
 {
-    public abstract class IState
+    public abstract class IState : MonoBehaviour
     {
         protected FSM sm;
         public virtual IState Init(FSM sm)

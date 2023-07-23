@@ -7,17 +7,25 @@ using UnityEngine.InputSystem;
 
 public class S_Falling : IState
 {
+    // Falling
+    [BoxGroup("Falling")]
+    public float fallingGroundCheckGap = 0.1f;
+    [BoxGroup("Jump")] public float airAcceleration; 
+    [BoxGroup("Jump")] public float moveSpeedOnAir; // Separate the speed on air and ground
+    [BoxGroup("Jump")] public float horizontalMoveThreshold; // Only chang
+    [BoxGroup("Jump")] public float fallGravityScale = 1.5f;
+
     private Rigidbody2D TargetRb2D => sm.targetRb2D;
     private Vector2 MoveValue => sm.MoveValue;
 
     [ShowInInspector] private float timeAfterEnter;
     [ShowInInspector] private bool started;
     [ShowInInspector] private bool CanJump => timeAfterEnter <= sm.coyoteTime;
-    private bool CanCheckGround => timeAfterEnter >= sm.fallingGroundCheckGap;
+    private bool CanCheckGround => timeAfterEnter >= fallingGroundCheckGap;
     
     public override void StateEnter()
     {
-        sm.targetRb2D.gravityScale = sm.fallGravityScale;
+        sm.targetRb2D.gravityScale = fallGravityScale;
         timeAfterEnter = 0;
         started = false;
         sm.PlayAnim(FSM.AnimationType.JumpFall);
@@ -43,7 +51,7 @@ public class S_Falling : IState
             timeAfterEnter += Time.fixedDeltaTime;
         }
         
-        var speedChangeValue = MoveValue.x * sm.airAcceleration * Time.fixedDeltaTime;
+        var speedChangeValue = MoveValue.x * airAcceleration * Time.fixedDeltaTime;
         var curVelocity = TargetRb2D.velocity;
         var curY = curVelocity.y;
         var curX = curVelocity.x;
@@ -51,8 +59,8 @@ public class S_Falling : IState
         {
             // Move
             curX += speedChangeValue;
-            curX = Mathf.Clamp(curX, -sm.moveSpeedOnAir,
-                sm.moveSpeedOnAir);
+            curX = Mathf.Clamp(curX, -moveSpeedOnAir,
+                moveSpeedOnAir);
         }
         else
         {
@@ -61,12 +69,12 @@ public class S_Falling : IState
             {
                 if (curX > 0)
                 {
-                    curX -= sm.airAcceleration * Time.fixedDeltaTime;
+                    curX -= airAcceleration * Time.fixedDeltaTime;
                     curX = Mathf.Max(curX, 0);
                 }
                 else
                 {                            
-                    curX += sm.airAcceleration * Time.fixedDeltaTime;
+                    curX += airAcceleration * Time.fixedDeltaTime;
                     curX = Mathf.Min(curX, 0);
                 }
             }
