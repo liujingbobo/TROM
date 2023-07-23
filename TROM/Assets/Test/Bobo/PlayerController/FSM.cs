@@ -21,19 +21,7 @@ namespace PlayerControllerTest
         public SpriteRenderer spriteRenderer;
 
         public PlayerDirection direction;
-        
-        // Move
-        [BoxGroup("Move")]public float moveSpeed = 10f;
-        [BoxGroup("Move")]public float coyoteTime;
-        [BoxGroup("Move")]public float acceleration;
-        [BoxGroup("Move")]public float turnSpeed;
 
-        // Hang
-        public float hangSnappingSpeed = 5;
-        public float hangSnapRange = 0.5f;
-        public Vector2 hangStartOffset;
-        public Vector2 hangEndOffset;
-        
         [BoxGroup("Other")]
         public Rigidbody2D targetRb2D;
 
@@ -90,7 +78,7 @@ namespace PlayerControllerTest
 
             if (stateMachine.ContainsKey(curStateTag))
             {
-                stateMachine[curStateTag].StateEnter();
+                stateMachine[curStateTag].StateEnter(preStateTag);
             }
         }
 

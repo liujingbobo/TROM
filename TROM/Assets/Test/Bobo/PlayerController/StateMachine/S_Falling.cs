@@ -12,18 +12,19 @@ public class S_Falling : IState
     public float fallingGroundCheckGap = 0.1f;
     [BoxGroup("Jump")] public float airAcceleration; 
     [BoxGroup("Jump")] public float moveSpeedOnAir; // Separate the speed on air and ground
-    [BoxGroup("Jump")] public float horizontalMoveThreshold; // Only chang
+    [BoxGroup("Jump")] public float horizontalMoveThreshold; 
     [BoxGroup("Jump")] public float fallGravityScale = 1.5f;
-
+    [BoxGroup("Jump")] public float coyoteTime;
+    
     private Rigidbody2D TargetRb2D => sm.targetRb2D;
     private Vector2 MoveValue => sm.MoveValue;
 
-    [ShowInInspector] private float timeAfterEnter;
-    [ShowInInspector] private bool started;
-    [ShowInInspector] private bool CanJump => timeAfterEnter <= sm.coyoteTime;
+    private float timeAfterEnter;
+    private bool started;
+    private bool CanJump => timeAfterEnter <= coyoteTime;
     private bool CanCheckGround => timeAfterEnter >= fallingGroundCheckGap;
     
-    public override void StateEnter()
+    public override void StateEnter(FSM.PlayerState preState)
     {
         sm.targetRb2D.gravityScale = fallGravityScale;
         timeAfterEnter = 0;

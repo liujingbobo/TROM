@@ -8,6 +8,12 @@ using UnityEngine.InputSystem;
 
 public class S_Hang : IState
 {
+    // Hang
+    public float hangSnappingSpeed = 5;
+    public float hangSnapRange = 0.5f;
+    public Vector2 hangStartOffset;
+    public Vector2 hangEndOffset;
+    
     private Collider2D targetCollider;
     private Collider2D playerCollider;
     private Vector2 enterInput;
@@ -16,7 +22,8 @@ public class S_Hang : IState
     private bool jumped;
     private Vector2 startTargetPos;
     private Vector2 endTargetPos;
-    public override void StateEnter()
+    
+    public override void StateEnter(FSM.PlayerState preState)
     {
         inited = false;
         jumped = false;
@@ -27,8 +34,8 @@ public class S_Hang : IState
         sm.animator.Play("LedgeHangPreview");
         enterInput = sm.MoveValue;
         var colPos = targetCollider.transform.position.xy();
-        var offset = new Vector2((sm.MoveValue.x > 0 ? 1 : -1) * sm.hangStartOffset.x, sm.hangStartOffset.y);
-        var endoffset = new Vector2((sm.MoveValue.x > 0 ? 1 : -1) * sm.hangEndOffset.x, sm.hangEndOffset.y);
+        var offset = new Vector2((sm.MoveValue.x > 0 ? 1 : -1) * hangStartOffset.x, hangStartOffset.y);
+        var endoffset = new Vector2((sm.MoveValue.x > 0 ? 1 : -1) * hangEndOffset.x,hangEndOffset.y);
         endTargetPos = colPos + endoffset;
         startTargetPos = colPos + offset;
         playerCollider = sm.targetRb2D.transform.GetComponent<Collider2D>();
@@ -48,7 +55,7 @@ public class S_Hang : IState
                 {
                     var distance = startTargetPos - sm.character.transform.position.xy();
                     
-                    if (distance.magnitude <= sm.hangSnapRange)
+                    if (distance.magnitude <= hangSnapRange)
                     {
                         sm.character.transform.position = startTargetPos;
                         sm.targetRb2D.velocity = Vector2.zero;
@@ -56,7 +63,7 @@ public class S_Hang : IState
                     }
                     else
                     {
-                        distance = distance.normalized * sm.hangSnappingSpeed;
+                        distance = distance.normalized * hangSnappingSpeed;
                         sm.targetRb2D.velocity = distance;
                     }
                 }

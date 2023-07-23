@@ -23,8 +23,8 @@ namespace PlayerControllerTest
         [BoxGroup("Jump")] public float horizontalMoveThreshold; // Only change velocity when moveValue.x > horizontalMoveThreshold
         
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
-        [ShowInInspector] private bool CanCheckGround => timeAfterJump >= jumpGroundCheckGap;
-        [ShowInInspector] private bool CanHang
+        private bool CanCheckGround => timeAfterJump >= jumpGroundCheckGap;
+        private bool CanHang
         {
             get
             {
@@ -51,7 +51,7 @@ namespace PlayerControllerTest
 
         private JumpState curState;
 
-        public override void StateEnter()
+        public override void StateEnter(FSM.PlayerState preState)
         {
             jumped = false;
             isReleased = false;
@@ -162,16 +162,12 @@ namespace PlayerControllerTest
 
                 // Check Hangable
                 // if (curVelocity.y <= 0 && CanHung && !sm.detection.grounded)
-                if (curState == JumpState.Fall)
-                {
-                    
-                }
-                if (curVelocity.y <= 0 && CanHang && !sm.detection.grounded)
+                if (CanHang && !sm.detection.grounded)
                 {
                     sm.Switch(FSM.PlayerState.Hang);
                     return;
                 }
-
+                
                 #endregion
                 
                 #region GroundDetection
