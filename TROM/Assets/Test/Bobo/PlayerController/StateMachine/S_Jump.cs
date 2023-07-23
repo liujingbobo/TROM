@@ -30,14 +30,7 @@ namespace PlayerControllerTest
             {
                 if (MoveValue.x != 0)
                 {
-                    if (MoveValue.x > 0)
-                    {
-                        return sm.detection.frontHungDetector.collider2Ds.Count > 0;
-                    }
-                    else
-                    {
-                        return sm.detection.backHungDetector.collider2Ds.Count > 0;
-                    }
+                    return sm.detection.hangDetector.collider2Ds.Count > 0;
                 }
                 else
                 {

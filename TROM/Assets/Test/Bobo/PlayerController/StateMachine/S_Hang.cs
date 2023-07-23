@@ -23,9 +23,7 @@ public class S_Hang : IState
         curState = HungState.Snapping;
         enterInput = sm.MoveValue;
         sm.targetRb2D.gravityScale = 0;
-        targetCollider = sm.MoveValue.x > 0
-            ? sm.detection.frontHungDetector.collider2Ds.Last()
-            : sm.detection.backHungDetector.collider2Ds.Last();
+        targetCollider = sm.detection.hangDetector.collider2Ds.Last();
         sm.animator.Play("LedgeHangPreview");
         enterInput = sm.MoveValue;
         var colPos = targetCollider.transform.position.xy();
