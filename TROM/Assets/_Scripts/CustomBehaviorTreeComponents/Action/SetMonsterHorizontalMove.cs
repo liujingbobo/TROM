@@ -7,14 +7,15 @@ using BehaviorDesigner.Runtime.Tasks;
 [TaskIcon("Assets/Behavior Designer Movement/Editor/Icons/{SkinColor}WanderIcon.png")]
 public class SetMonsterHorizontalMove : Action
 {
-    public Transform entityTransform;
     public MonsterController controller;
-    
-    public Vector2 direction;
+
+    public SharedTransform entityTransform;
+    public SharedTransform memoryTransform;
     
     public override TaskStatus OnUpdate()
     {
-        controller.MoveTo(direction.normalized);
+        var xDirection = memoryTransform.Value.position - entityTransform.Value.position;
+        controller.MoveTo(xDirection.SetY(0).normalized);
         return TaskStatus.Success;
     }
 }

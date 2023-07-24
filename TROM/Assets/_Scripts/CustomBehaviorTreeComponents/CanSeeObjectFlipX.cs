@@ -11,6 +11,7 @@ public class CanSeeObjectFlipX : CanSeeObject
     public bool spriteFaceRight = true;
     public SpriteRenderer entitySpriteRenderer;
     public float angleOffset;
+    public SharedTransform memoryTransform;
     
     public override void OnAwake()
     {
@@ -35,6 +36,9 @@ public class CanSeeObjectFlipX : CanSeeObject
             if(entitySpriteRenderer.flipX) angleOffset2D.Value = angleOffset;
             else angleOffset2D.Value = -angleOffset;
         }
-        return base.OnUpdate();
+        var result = base.OnUpdate();
+
+        if(result == TaskStatus.Success) memoryTransform.Value.position = returnedObject.Value.transform.position;
+        return result;
     }
 }
