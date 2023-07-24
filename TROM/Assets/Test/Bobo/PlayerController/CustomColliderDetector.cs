@@ -10,9 +10,10 @@ public class CustomColliderDetector : MonoBehaviour
 
     public bool checkCustomLayer;
 
-    public List<CustomLayer> targetCustomLayer;
+    public List<CustomLayer> targetCustomLayer = new List<CustomLayer>();
 
     public List<Collider2D> collider2Ds = new List<Collider2D>();
+    
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (targetLayer.MMContains(col.gameObject.layer))

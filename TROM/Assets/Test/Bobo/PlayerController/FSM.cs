@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using BehaviorDesigner.Runtime.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,42 +21,21 @@ namespace PlayerControllerTest
         public SpriteRenderer spriteRenderer;
 
         public PlayerDirection direction;
-        
-        // Move
-        [BoxGroup("Move")]public float moveSpeed = 10f;
-        [BoxGroup("Move")]public float coyoteTime;
-        [BoxGroup("Move")]public float acceleration;
-        [BoxGroup("Move")] public float turnSpeed;
-        
-        // Jump
-        
-        [BoxGroup("Jump")]public float jumpSpeed = 10;
-        [BoxGroup("Jump")]public float jumpGroundCheckGap = 0.1f;
-        [BoxGroup("Jump")]public float ascendingGravityScaleLight = 1.0f;
-        [BoxGroup("Jump")]public float ascendingGravityScaleHeavy = 1.0f;
-        [BoxGroup("Jump")]public float fallGravityScale = 1.5f;
-        [BoxGroup("Jump")]public float smallJumpTime;
-        [BoxGroup("Jump")]public float bigJumpTime;
-        [BoxGroup("Jump")]public float airAcceleration;
-        [BoxGroup("Jump")]public float moveSpeedOnAir;
-        
-        // Falling
-        [BoxGroup("Falling")]
-        public float fallingGroundCheckGap = 0.1f;
-        
-        // Hang
-        public float hangSnappingSpeed = 5;
-        public float hangSnapRange = 0.5f;
-        public Vector2 hangStartOffset;
-        public Vector2 hangEndOffset;
-        
+
         [BoxGroup("Other")]
         public Rigidbody2D targetRb2D;
 
         private readonly Dictionary<PlayerState, IState> stateMachine = new Dictionary<PlayerState, IState>();
 
+        public IState JumpState;
+        public IState IdleState;
+        public IState MoveState;
+        public IState HangState;
+        public IState FallingState;
+
         [ShowInInspector] private PlayerState curStateTag = PlayerState.InValid;
         [ShowInInspector] private PlayerState preStateTag = PlayerState.InValid;
+        
         public Vector2 MoveValue { get; private set; }
         public PlayerState PreStateTag => preStateTag;
         public AnimationType CurAnimation = AnimationType.Empty;
@@ -66,22 +46,24 @@ namespace PlayerControllerTest
 
         private void Start()
         {
+            stateMachine[PlayerState.Jump] = JumpState.Init(this);
+            stateMachine[PlayerState.Idle] = IdleState.Init(this);
+            stateMachine[PlayerState.Move] = MoveState.Init(this);
+            stateMachine[PlayerState.Hang] = HangState.Init(this);
+            stateMachine[PlayerState.Falling] = FallingState.Init(this);
+
             Init();
         }
 
         private void Init()
         {
-            stateMachine[PlayerState.Idle] = new S_Idle().Init(this);
-            stateMachine[PlayerState.Move] = new S_Move().Init(this);
-            stateMachine[PlayerState.Jump] = new S_Jump().Init(this);
-            stateMachine[PlayerState.Falling] = new S_Falling().Init(this);
-            stateMachine[PlayerState.Hang] = new S_Hang().Init(this);
             Switch(PlayerState.Idle);
         }
 
         public void Switch(PlayerState targetState)
         {
             Debug.Log($"Ready to switch to {targetState.ToString()}");
+            
             if (curStateTag != PlayerState.InValid)
             {
                 if (stateMachine.ContainsKey(curStateTag))
@@ -96,7 +78,7 @@ namespace PlayerControllerTest
 
             if (stateMachine.ContainsKey(curStateTag))
             {
-                stateMachine[curStateTag].StateEnter();
+                stateMachine[curStateTag].StateEnter(preStateTag);
             }
         }
 
@@ -179,11 +161,16 @@ namespace PlayerControllerTest
         {
             Empty,
             Idle,
+            
+            WalkStart,
             Walk,
+            WalkEnd,
+            
             Run,
+            
             JumpRise,
             JumpMid,
-            JumpFall
+            JumpFall,
         }
         public enum PlayerDirection
         {

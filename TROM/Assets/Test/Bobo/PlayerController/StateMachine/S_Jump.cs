@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,23 +10,27 @@ namespace PlayerControllerTest
 {
     public class S_Jump : IState
     {
+        // Jump
+        [BoxGroup("Jump")] public float jumpSpeed = 10;
+        [BoxGroup("Jump")] public float jumpGroundCheckGap = 0.1f; 
+        [BoxGroup("Jump")] public float ascendingGravityScaleLight = 1.0f;
+        [BoxGroup("Jump")] public float ascendingGravityScaleHeavy = 1.0f;
+        [BoxGroup("Jump")] public float fallGravityScale = 1.5f;
+        [BoxGroup("Jump")] public float smallJumpTime;
+        [BoxGroup("Jump")] public float bigJumpTime;
+        [BoxGroup("Jump")] public float airAcceleration; 
+        [BoxGroup("Jump")] public float moveSpeedOnAir; // Separate the speed on air and ground
+        [BoxGroup("Jump")] public float horizontalMoveThreshold; // Only change velocity when moveValue.x > horizontalMoveThreshold
+        
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
-        private bool CanCheckGround => timeAfterJump >= sm.jumpGroundCheckGap;
-
-        private bool CanHung
+        private bool CanCheckGround => timeAfterJump >= jumpGroundCheckGap;
+        private bool CanHang
         {
             get
             {
                 if (MoveValue.x != 0)
                 {
-                    if (MoveValue.x > 0)
-                    {
-                        return sm.detection.frontHungDetector.collider2Ds.Count > 0;
-                    }
-                    else
-                    {
-                        return sm.detection.backHungDetector.collider2Ds.Count > 0;
-                    }
+                    return sm.detection.hangDetector.collider2Ds.Count > 0;
                 }
                 else
                 {
@@ -43,7 +49,9 @@ namespace PlayerControllerTest
 
         private bool reachedHighes = false;
 
-        public override void StateEnter()
+        private JumpState curState;
+
+        public override void StateEnter(FSM.PlayerState preState)
         {
             jumped = false;
             isReleased = false;
@@ -60,117 +68,136 @@ namespace PlayerControllerTest
 
         public override void StateFixedUpdate()
         {
-            if (jumped == false)
+            var curVelocity = TargetRb2D.velocity;
+            var curVelocityY = curVelocity.y;
+            var curVelocityX = curVelocity.x;
+            var inputX = MoveValue.x;
+            var inputY = MoveValue.y;
+            if (curState == JumpState.Boost)
             {
                 timeAfterJump = 0;
-                TargetRb2D.velocity = new Vector2(sm.MoveValue.x * sm.moveSpeedOnAir, sm.jumpSpeed);
-                TargetRb2D.gravityScale = sm.ascendingGravityScaleLight;
-                jumped = true;
+                TargetRb2D.velocity = new Vector2(sm.MoveValue.x * moveSpeedOnAir, jumpSpeed);
+                TargetRb2D.gravityScale = ascendingGravityScaleLight;
                 sm.PlayAnim(FSM.AnimationType.JumpRise);
+                curState = JumpState.Rise;
+                return;
             }
             else
             {
+                // Jump time so far
                 timeAfterJump += Time.fixedDeltaTime;
 
-                var curVelocity = TargetRb2D.velocity;
-                var curY = curVelocity.y;
-                var curX = curVelocity.x;
+                #region HorizontalMove
 
-                // TODO: Horizontal
-                var speedChangeValue = MoveValue.x * sm.airAcceleration * Time.fixedDeltaTime;
+                // Check if the current input is enough for changing the speed. 
+                bool horizontalInputValid = Mathf.Abs(inputX) >= horizontalMoveThreshold;
                 
-                if (MoveValue != Vector2.zero)
+                if (horizontalInputValid)
                 {
+                    var horizontalSpeedChangeValue = (inputX > 0 ? 1 : -1) * airAcceleration * Time.fixedDeltaTime;
+
                     // Move
-                    curX += speedChangeValue;
-                    curX = Mathf.Clamp(curX, -sm.moveSpeedOnAir,
-                        sm.moveSpeedOnAir);
+                    curVelocityX += horizontalSpeedChangeValue;
+                    curVelocityX = Mathf.Clamp(curVelocityX, -moveSpeedOnAir,
+                        moveSpeedOnAir);
                 }
                 else
                 {
                     // Stop or deceleration\
-                    if (curX != 0)
+                    if (curVelocityX != 0)
                     {
-                        if (curX > 0)
+                        if (curVelocityX > 0)
                         {
-                            curX -= sm.airAcceleration * Time.fixedDeltaTime;
-                            curX = Mathf.Max(curX, 0);
+                            curVelocityX -= airAcceleration * Time.fixedDeltaTime;
+                            curVelocityX = Mathf.Max(curVelocityX, 0);
                         }
                         else
-                        {                            
-                            curX += sm.airAcceleration * Time.fixedDeltaTime;
-                            curX = Mathf.Min(curX, 0);
+                        {
+                            curVelocityX += airAcceleration * Time.fixedDeltaTime;
+                            curVelocityX = Mathf.Min(curVelocityX, 0);
                         }
                     }
                 }
+                
+                TargetRb2D.velocity = new Vector2(curVelocityX, curVelocityY);
+                #endregion
 
-                TargetRb2D.velocity = new Vector2(curX, curY);
+                #region VerticalMove
 
                 // Vertical Gravity
-                if (curY < 0) // Falling
+                if (curState == JumpState.Rise)
                 {
-                    if (!reachedHighes)
+                    if (timeAfterJump >= bigJumpTime)
                     {
-                        reachedHighes = true;
-                        Debug.Log($"Reach Highest: {sm.transform.position.y}");
-                    }
-                    TargetRb2D.gravityScale = sm.fallGravityScale;
-                    sm.PlayAnim(FSM.AnimationType.JumpFall);
-                }
-                else
-                {
-                    if (timeAfterJump >= sm.bigJumpTime)
-                    {
-                        TargetRb2D.gravityScale = sm.ascendingGravityScaleHeavy;
+                        TargetRb2D.gravityScale = ascendingGravityScaleHeavy;
                         sm.PlayAnim(FSM.AnimationType.JumpMid);
                     }
-                    else if (timeAfterJump >= sm.smallJumpTime)
+                    else if (timeAfterJump >= smallJumpTime)
                     {
                         if (isReleased)
                         {
-                            TargetRb2D.gravityScale = sm.ascendingGravityScaleHeavy;
+                            TargetRb2D.gravityScale = ascendingGravityScaleHeavy;
                             sm.PlayAnim(FSM.AnimationType.JumpMid);
                         }
                     }
+
+                    if (curVelocityY == 0)
+                    {
+                        curState = JumpState.Fall;
+                        Debug.Log($"Reach Highest: {sm.transform.position.y}");
+                        TargetRb2D.gravityScale = fallGravityScale;
+                        sm.PlayAnim(FSM.AnimationType.JumpFall);
+                    }
                 }
-                
+
+                #endregion
+
                 // Set sprite position
-                if (curX != 0)
+                if (curVelocityX != 0)
                 {
-                    sm.spriteRenderer.flipX = curX < 0;
+                    sm.spriteRenderer.flipX = curVelocityX < 0;
                 }
                 
-                // Check Hungable
+                #region HangDetection
+
+                // Check Hangable
                 // if (curVelocity.y <= 0 && CanHung && !sm.detection.grounded)
-                if (curVelocity.y <= 0 && CanHung && !sm.detection.grounded)
+                if (CanHang && !sm.detection.grounded)
                 {
                     sm.Switch(FSM.PlayerState.Hang);
                     return;
                 }
                 
-                if (CanCheckGround && sm.detection.grounded && curVelocity.y <= 0)
+                #endregion
+                
+                #region GroundDetection
+
+                if (curState == JumpState.Fall)
                 {
-                    if (sm.MoveValue.x != 0)
+                    if (CanCheckGround && sm.detection.grounded)
                     {
-                        Debug.Log($"Jump use time :{timeAfterJump}");
-                        sm.FixPosition();
-                        sm.Switch(FSM.PlayerState.Move);
-                    }
-                    else
-                    {
-                        Debug.Log($"Jump use time :{timeAfterJump}");
-                        sm.FixPosition();
-                        sm.Switch(FSM.PlayerState.Idle);
+                        if (sm.MoveValue.x != 0)
+                        {
+                            Debug.Log($"Jump use time :{timeAfterJump}");
+                            sm.FixPosition();
+                            sm.Switch(FSM.PlayerState.Move);
+                        }
+                        else
+                        {
+                            Debug.Log($"Jump use time :{timeAfterJump}");
+                            sm.FixPosition();
+                            sm.Switch(FSM.PlayerState.Idle);
+                        }
                     }
                 }
-
-
+                
+                #endregion
             }
         }
 
         public override void StateExit()
         {
-            TargetRb2D.gravityScale = sm.ascendingGravityScaleLight;
+            TargetRb2D.gravityScale = ascendingGravityScaleLight;
         }
 
         void SwitchGravity(GravityType t)
@@ -183,16 +210,25 @@ namespace PlayerControllerTest
 
             TargetRb2D.gravityScale = curGravity switch
             {
-                GravityType.Light => sm.ascendingGravityScaleLight,
-                GravityType.Heavy => sm.ascendingGravityScaleHeavy,
-                GravityType.Fall => sm.fallGravityScale,
-                _ => sm.ascendingGravityScaleLight
+                GravityType.Light => ascendingGravityScaleLight,
+                GravityType.Heavy => ascendingGravityScaleHeavy,
+                GravityType.Fall => fallGravityScale,
+                _ => ascendingGravityScaleLight
             };
         }
-        
+
         enum GravityType
         {
-            Light, Heavy, Fall
+            Light,
+            Heavy,
+            Fall
+        }
+
+        enum JumpState
+        {
+            Boost,
+            Rise,
+            Fall
         }
     }
 }

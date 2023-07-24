@@ -6,6 +6,14 @@ namespace PlayerControllerTest
 {
     public class S_Move : IState
     {
+                
+        // Move
+        [BoxGroup("Move")]public float moveSpeed = 10f;
+        [BoxGroup("Move")]public float coyoteTime;
+        [BoxGroup("Move")]public float acceleration;
+        [BoxGroup("Move")]public float turnSpeed;
+        
+
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
         private Vector2 MoveValue => sm.MoveValue;
             
@@ -14,7 +22,7 @@ namespace PlayerControllerTest
         [ShowInInspector] private bool isFalling;
         [ShowInInspector] private bool started;
 
-        public override void StateEnter()
+        public override void StateEnter(FSM.PlayerState preState)
         {
             sm.targetRb2D.gravityScale = 0;
             started = false;
@@ -75,7 +83,7 @@ namespace PlayerControllerTest
             
             
             
-            var speedChangeValue = MoveValue.x * sm.acceleration * Time.fixedDeltaTime;
+            var speedChangeValue = MoveValue.x * acceleration * Time.fixedDeltaTime;
             var curX = curVelocity.x;
             
             if (MoveValue.x != 0)
@@ -85,12 +93,12 @@ namespace PlayerControllerTest
                 if (curX * MoveValue.x < 0)
                 {
                     // use turn speed
-                    speedChangeValue = MoveValue.x * sm.turnSpeed * Time.fixedDeltaTime;
+                    speedChangeValue = MoveValue.x * turnSpeed * Time.fixedDeltaTime;
                 }
 
                 curX += speedChangeValue;
-                curX = Mathf.Clamp(curX, -sm.moveSpeed,
-                    sm.moveSpeed);
+                curX = Mathf.Clamp(curX, -moveSpeed,
+                    moveSpeed);
             }
             else
             {
@@ -99,12 +107,12 @@ namespace PlayerControllerTest
                 {
                     if (curX > 0)
                     {
-                        curX -= sm.acceleration * Time.fixedDeltaTime;
+                        curX -= acceleration * Time.fixedDeltaTime;
                         curX = Mathf.Max(curX, 0);
                     }
                     else
                     {                            
-                        curX += sm.acceleration * Time.fixedDeltaTime;
+                        curX += acceleration * Time.fixedDeltaTime;
                         curX = Mathf.Min(curX, 0);
                     }
 

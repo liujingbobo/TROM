@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +8,9 @@ namespace PlayerControllerTest
 {
     public class S_Idle : IState
     {
-        public override void StateEnter()
+        [BoxGroup] public float horizontalMoveThreshold = 0.1f;
+        
+        public override void StateEnter(FSM.PlayerState preState)
         {
             sm.targetRb2D.gravityScale = 0;
             sm.targetRb2D.velocity = Vector2.zero;
@@ -16,7 +19,7 @@ namespace PlayerControllerTest
 
         public override void OnMove(InputAction.CallbackContext context)
         {
-            if (sm.MoveValue.x != 0)
+            if (Mathf.Abs(sm.MoveValue.x) > horizontalMoveThreshold)
             {
                 sm.Switch(FSM.PlayerState.Move);
             }
