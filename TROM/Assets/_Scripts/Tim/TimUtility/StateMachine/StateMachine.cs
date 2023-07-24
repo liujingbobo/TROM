@@ -24,6 +24,19 @@ namespace TimUtility
             return currentState;
         }
 
+        public TState GetState(TStateKey key)
+        {
+            if (states.ContainsKey(key))
+            {
+                return states[key];
+            }
+            else
+            {
+                Debug.LogError($"State Key:{key} is not found in the state machine.");
+                return default;
+            }
+        }
+        
         public void AddState(TStateKey key, TState state)
         {
             if (!states.ContainsKey(key))

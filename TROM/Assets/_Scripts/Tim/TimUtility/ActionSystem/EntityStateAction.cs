@@ -36,7 +36,7 @@ public class EntityStateAction : EntityAction<GameEntity>, IState
         {
             if (actionType == ActionType.TimedToDefaultOnComplete || actionType == ActionType.ToDefaultOnComplete)
             {
-                actionStateMachine.SwitchToDefaultAction();
+                actionStateMachine.TryPlayDefaultAction();
             }
         }
     }
@@ -57,7 +57,7 @@ public class EntityStateAction : EntityAction<GameEntity>, IState
     [Button]
     public void SwitchToActionState()
     {
-        actionStateMachine.SwitchToState(GetType().Name);
+        actionStateMachine.TryPlayAction(GetType().Name);
     }
     [Button]
     public void TestStartAction()

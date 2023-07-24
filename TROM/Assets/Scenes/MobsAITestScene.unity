@@ -236,7 +236,7 @@ MonoBehaviour:
   actionType: 1
   animationFinishTime: 0
   direction: {x: 0, y: 0}
-  speed: 5
+  speed: 1
 --- !u!114 &204150933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,15 +246,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 204150927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c271f999f1d82d8419ead6c9fd19bad5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2789f822136884849ae82fa2d051068e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   debugCurrentState: 
   defaultAction: {fileID: 204150929}
   actionList:
-  - {fileID: 204150929}
   - {fileID: 204150931}
   - {fileID: 204150932}
+  - {fileID: 204150929}
   - {fileID: 204150930}
 --- !u!1 &258380655
 GameObject:
@@ -502,7 +502,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 292752101}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
   m_Name: 
@@ -510,7 +510,7 @@ MonoBehaviour:
   startWhenEnabled: 1
   asynchronousLoad: 0
   pauseWhenDisabled: 0
-  restartWhenComplete: 0
+  restartWhenComplete: 1
   logTaskChanges: 0
   group: 0
   resetValuesOnRestart: 0
@@ -523,14 +523,25 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(449.5,30)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-4.118578,172.727173)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"CanSeeObjectFlipX","NodeData":{"Offset":"(-183.181839,127.72731)"},"ID":2,"Name":"Can
-        See Object Flip X","Instant":true,"BooleanspriteFaceRight":true,"SingleangleOffset":0,"BooleanusePhysics2D":false,"SharedGameObjecttargetObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedGameObjectListtargetObjects":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":null,"List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":""},"LayerMaskobjectLayerMask":0,"Int32maxCollisionCount":200,"LayerMaskignoreLayerMask":4,"SharedFloatfieldOfViewAngle":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":90},"SharedFloatviewDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1000},"SharedVector3offset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedFloatangleOffset2D":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"HumanBodyBonestargetBone":"Hips","SharedBooldrawDebugRay":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBooldisableAgentColliderLayer":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedGameObjectreturnedObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null}}]}}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(449.5,30)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(8.381415,147.727173)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(-202.71875,119.477692)"},"ID":2,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(4.781268,109.477692)"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"SetMonsterHorizontalMove","NodeData":{"Offset":"(-264.444427,138.611115)"},"ID":4,"Name":"Set
+        Monster Horizontal Move","Instant":true,"TransformentityTransform":0,"MonsterControllercontroller":1,"Vector2direction":"(1,0)"},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-219.444427,188.611115)"},"ID":5,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"SetMonsterIdle","NodeData":{"Offset":"(-99.44438,141.111115)"},"ID":6,"Name":"Set
+        Monster Idle","Instant":true,"MonsterControllercontroller":2},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-60.66064,186.111115)"},"ID":7,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"SetMonsterHorizontalMove","NodeData":{"Offset":"(67.49995,137.5)"},"ID":8,"Name":"Set
+        Monster Horizontal Move","Instant":true,"TransformentityTransform":3,"MonsterControllercontroller":4,"Vector2direction":"(-1,0)"},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(120,200)"},"ID":9,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"SetMonsterIdle","NodeData":{"Offset":"(235.000015,137.5)"},"ID":10,"Name":"Set
+        Monster Idle","Instant":true,"MonsterControllercontroller":5},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(275,187.5)"},"ID":11,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]}]},{"Type":"CanSeeObjectFlipX","NodeData":{"Offset":"(160.568008,204.810669)"},"ID":12,"Name":"Can
+        See Object Flip X","Instant":true,"BooleanspriteFaceRight":true,"SingleangleOffset":0,"BooleanusePhysics2D":false,"SharedGameObjecttargetObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedGameObjectListtargetObjects":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":null,"List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":""},"LayerMaskobjectLayerMask":0,"Int32maxCollisionCount":200,"LayerMaskignoreLayerMask":4,"SharedFloatfieldOfViewAngle":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":90},"SharedFloatviewDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1000},"SharedVector3offset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedFloatangleOffset2D":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"HumanBodyBonestargetBone":"Hips","SharedBooldrawDebugRay":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBooldisableAgentColliderLayer":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedGameObjectreturnedObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null}}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedBehaviour","Name":"actionStateMachine","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"parentEntityTransform","IsShared":true,"TransformmValue":6}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
         startIndex: 
         dataPosition: 
-        unityObjects: []
+        unityObjects:
+        - {fileID: 1509254943}
+        - {fileID: 204150933}
+        - {fileID: 204150933}
+        - {fileID: 1509254943}
+        - {fileID: 204150933}
+        - {fileID: 204150933}
+        - {fileID: 1509254943}
         byteData: 
         byteDataArray: 
       Version: 1.7.6
@@ -1308,7 +1319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &520581966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1322,8 +1333,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grounded: 0
-  frontHungDetector: {fileID: 1499161733}
-  backHungDetector: {fileID: 1432454549}
 --- !u!114 &520581967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,25 +1351,12 @@ MonoBehaviour:
   animator: {fileID: 281909444}
   spriteRenderer: {fileID: 281909442}
   direction: 0
-  moveSpeed: 8
-  coyoteTime: 0.2
-  acceleration: 50
-  turnSpeed: 100
-  jumpSpeed: 8
-  jumpGroundCheckGap: 0.1
-  ascendingGravityScaleLight: 0.8
-  ascendingGravityScaleHeavy: 1.2
-  fallGravityScale: 2
-  smallJumpTime: 1.31
-  bigJumpTime: 1.35
-  airAcceleration: 30
-  moveSpeedOnAir: 7
-  fallingGroundCheckGap: 0.1
-  hangSnappingSpeed: 1
-  hangSnapRange: 5
-  hangStartOffset: {x: -0.3310003, y: -1.87}
-  hangEndOffset: {x: 0.327, y: 0}
   targetRb2D: {fileID: 520581971}
+  JumpState: {fileID: 0}
+  IdleState: {fileID: 0}
+  MoveState: {fileID: 0}
+  HangState: {fileID: 0}
+  FallingState: {fileID: 0}
   CurAnimation: 0
 --- !u!114 &520581968
 MonoBehaviour:

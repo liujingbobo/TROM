@@ -7,35 +7,34 @@ using UnityEngine;
 public class EntityActionStateMachine: MonoBehaviour
 {
     public string debugCurrentState = null;
-    private StateMachine<string, EntityStateAction> stateMachine;
+    protected StateMachine<string, EntityStateAction> StateMachine;
 
     public EntityStateAction defaultAction;
     public List<EntityStateAction> actionList;
     public void Awake()
     {
-        stateMachine = new StateMachine<string, EntityStateAction>();
+        StateMachine = new StateMachine<string, EntityStateAction>();
         foreach (var stateAction in actionList)
         {
-            stateMachine.AddState(stateAction.GetType().Name, stateAction);
+            StateMachine.AddState(stateAction.GetType().Name, stateAction);
         }
-        stateMachine.SwitchToState(defaultAction.GetType().Name);
+        StateMachine.SwitchToState(defaultAction.GetType().Name);
     }
 
     private void Update()
     {
-        debugCurrentState = stateMachine.currentStateKey;
+        debugCurrentState = StateMachine.currentStateKey;
     }
 
-    public void SwitchToState(string actionStateKey)
+    public void TryPlayAction(string actionStateKey)
     {
-        stateMachine.currentState?.StopAction(EntityActionStopReason.Interrupted);
-        stateMachine.SwitchToState(actionStateKey);
-        
+        StateMachine.currentState?.StopAction(EntityActionStopReason.Interrupted);
+        StateMachine.SwitchToState(actionStateKey);
     }
     
-    public void SwitchToDefaultAction()
+    public void TryPlayDefaultAction()
     {
-        stateMachine.SwitchToState(defaultAction.GetType().Name);
+        StateMachine.SwitchToState(defaultAction.GetType().Name);
 
     }
 }
