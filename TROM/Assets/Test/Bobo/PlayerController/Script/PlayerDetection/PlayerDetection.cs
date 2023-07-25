@@ -12,4 +12,5 @@ public class PlayerDetection : MonoBehaviour
 
     public CustomColliderDetector upperHangDetector;
     public CustomColliderDetector downHangDetector;
+    public CustomColliderDetector ladderDetector;
 }

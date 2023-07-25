@@ -63,6 +63,7 @@ public class CustomColliderDetector : MonoBehaviour
     public enum CustomLayer
     {
         Ground,
-        Hang
+        Hang,
+        Ladder
     }
 }
