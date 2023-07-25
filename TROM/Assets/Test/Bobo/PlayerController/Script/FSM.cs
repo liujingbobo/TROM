@@ -19,7 +19,7 @@ namespace PlayerControllerTest
         public PlayerController controller;
         public Animator animator;
         public SpriteRenderer spriteRenderer;
-
+        public Collider2D playerCollider;
         public PlayerDirection direction;
 
         [BoxGroup("Other")]
@@ -50,7 +50,7 @@ namespace PlayerControllerTest
             stateMachine[PlayerState.Idle] = IdleState.Init(this);
             stateMachine[PlayerState.Move] = MoveState.Init(this);
             stateMachine[PlayerState.Hang] = HangState.Init(this);
-            stateMachine[PlayerState.Falling] = FallingState.Init(this);
+            stateMachine[PlayerState.Fall] = FallingState.Init(this);
 
             Init();
         }
@@ -93,7 +93,10 @@ namespace PlayerControllerTest
                 AnimationType.Run => "Run",
                 AnimationType.JumpRise => "JumpRise",
                 AnimationType.JumpFall => "JumpFall",
-                AnimationType.JumpMid => "JumpMid"
+                AnimationType.JumpMid => "JumpMid",
+                AnimationType.LedgeHangPreview => "LedgeHangPreview",
+                AnimationType.LedgeClimbPreview => "LedgeClimbPreview",
+                AnimationType.LedgeClimbPreviewReverse => "LedgeClimbPreviewReverse"
             });
         }
 
@@ -109,6 +112,14 @@ namespace PlayerControllerTest
                 newPosition = new Vector3(hit.point.x, hit.point.y, newPosition.z);
                 transform.position = newPosition;
             }
+        }
+
+        public void SetDirection(PlayerDirection dir)
+        {
+            if (dir == direction) return;
+            
+            direction = dir;
+            spriteRenderer.flipX = dir == PlayerDirection.Back;
         }
         
         #region Event
@@ -153,7 +164,7 @@ namespace PlayerControllerTest
             Move = 10,
             Jump = 20,
             Climb = 30,
-            Falling = 40,
+            Fall = 40,
             Hang = 50,
         }
 
@@ -171,6 +182,10 @@ namespace PlayerControllerTest
             JumpRise,
             JumpMid,
             JumpFall,
+            
+            LedgeHangPreview,
+            LedgeClimbPreview,
+            LedgeClimbPreviewReverse
         }
         public enum PlayerDirection
         {

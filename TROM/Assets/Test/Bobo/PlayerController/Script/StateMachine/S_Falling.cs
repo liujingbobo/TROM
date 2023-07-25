@@ -35,7 +35,7 @@ public class S_Falling : IState
 
     public override void OnJump(InputAction.CallbackContext context)
     {
-        if (CanJump)
+        if (context is { started: true, canceled: false } && CanJump)
         {
             sm.Switch(FSM.PlayerState.Jump);
         }
@@ -83,7 +83,7 @@ public class S_Falling : IState
         
         if (curX != 0)
         {
-            sm.spriteRenderer.flipX = curX < 0;
+            sm.SetDirection(curX < 0 ? FSM.PlayerDirection.Back : FSM.PlayerDirection.Front);
         }
 
         TargetRb2D.velocity = new Vector2(curX, curY);

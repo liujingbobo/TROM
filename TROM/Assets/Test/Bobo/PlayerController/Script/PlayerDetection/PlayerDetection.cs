@@ -10,10 +10,6 @@ public class PlayerDetection : MonoBehaviour
 {
     [SerializeField] public bool grounded;
 
-    public readonly CustomColliderDetector hangDetector;
-
-    public PlayerDetection(CustomColliderDetector hangDetector)
-    {
-        this.hangDetector = hangDetector;
-    }
+    public CustomColliderDetector upperHangDetector;
+    public CustomColliderDetector downHangDetector;
 }

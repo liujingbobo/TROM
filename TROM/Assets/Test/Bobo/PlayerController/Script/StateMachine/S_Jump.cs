@@ -30,7 +30,7 @@ namespace PlayerControllerTest
             {
                 if (MoveValue.x != 0)
                 {
-                    return sm.detection.hangDetector.collider2Ds.Count > 0;
+                    return sm.detection.upperHangDetector.collider2Ds.Count > 0;
                 }
                 else
                 {
@@ -49,13 +49,14 @@ namespace PlayerControllerTest
 
         private bool reachedHighes = false;
 
-        private JumpState curState;
+        [ShowInInspector]private JumpState curState;
 
         public override void StateEnter(FSM.PlayerState preState)
         {
             jumped = false;
             isReleased = false;
             reachedHighes = false;
+            curState = JumpState.Boost;
         }
 
         public override void OnJump(InputAction.CallbackContext context)
@@ -80,7 +81,6 @@ namespace PlayerControllerTest
                 TargetRb2D.gravityScale = ascendingGravityScaleLight;
                 sm.PlayAnim(FSM.AnimationType.JumpRise);
                 curState = JumpState.Rise;
-                return;
             }
             else
             {
@@ -120,6 +120,7 @@ namespace PlayerControllerTest
                 }
                 
                 TargetRb2D.velocity = new Vector2(curVelocityX, curVelocityY);
+                
                 #endregion
 
                 #region VerticalMove
@@ -141,7 +142,7 @@ namespace PlayerControllerTest
                         }
                     }
 
-                    if (curVelocityY == 0)
+                    if (curVelocityY <= 0)
                     {
                         curState = JumpState.Fall;
                         Debug.Log($"Reach Highest: {sm.transform.position.y}");
@@ -155,7 +156,7 @@ namespace PlayerControllerTest
                 // Set sprite position
                 if (curVelocityX != 0)
                 {
-                    sm.spriteRenderer.flipX = curVelocityX < 0;
+                    sm.SetDirection(curVelocityX < 0 ? FSM.PlayerDirection.Back : FSM.PlayerDirection.Front);
                 }
                 
                 #region HangDetection

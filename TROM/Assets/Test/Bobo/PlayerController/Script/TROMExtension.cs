@@ -18,5 +18,4 @@ public static class TROMExtension
     {
         return new Vector2(dir.x, dir.y);
     }
-    
 }

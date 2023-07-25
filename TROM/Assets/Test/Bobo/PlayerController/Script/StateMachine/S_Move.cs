@@ -9,7 +9,6 @@ namespace PlayerControllerTest
                 
         // Move
         [BoxGroup("Move")]public float moveSpeed = 10f;
-        [BoxGroup("Move")]public float coyoteTime;
         [BoxGroup("Move")]public float acceleration;
         [BoxGroup("Move")]public float turnSpeed;
         
@@ -72,7 +71,7 @@ namespace PlayerControllerTest
                 }
                 else
                 {
-                    sm.Switch(FSM.PlayerState.Falling);
+                    sm.Switch(FSM.PlayerState.Fall);
                     return;
                 }
             }
@@ -131,7 +130,7 @@ namespace PlayerControllerTest
             
             if (curX != 0)
             {
-                sm.spriteRenderer.flipX = curX < 0;
+                sm.SetDirection(curX < 0 ? FSM.PlayerDirection.Back : FSM.PlayerDirection.Front);
             }
         }
     }
