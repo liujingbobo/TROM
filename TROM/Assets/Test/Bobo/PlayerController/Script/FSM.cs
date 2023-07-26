@@ -98,7 +98,9 @@ namespace PlayerControllerTest
                 AnimationType.LedgeClimbPreview => "LedgeClimbPreview",
                 AnimationType.LedgeClimbPreviewReverse => "LedgeClimbPreviewReverse",
                 AnimationType.LadderClimb => "LadderClimb",
-                AnimationType.LadderClimbFinish => "LadderClimbFinish"
+                AnimationType.LadderClimbFinish => "LadderClimbFinish",
+                AnimationType.LadderClimbReverse => "LadderClimbReverse",
+                AnimationType.LadderClimbFinishReverse => "LadderClimbFinishReverse"
             });
         }
 
@@ -190,7 +192,9 @@ namespace PlayerControllerTest
             LedgeClimbPreviewReverse,
             
             LadderClimb,
+            LadderClimbReverse,
             LadderClimbFinish,
+            LadderClimbFinishReverse
         }
         public enum PlayerDirection
         {

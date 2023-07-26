@@ -18,4 +18,20 @@ public static class TROMExtension
     {
         return new Vector2(dir.x, dir.y);
     }
+
+    public static void SetXY(this Transform transform, Vector2 xy)
+    {
+        transform.position = new Vector3(xy.x, xy.y, transform.position.z);
+    }
+    
+    public static void SetXY(this Transform transform, Vector3 xy)
+    {
+        transform.position = new Vector3(xy.x, xy.y, transform.position.z);
+    }
+    
+    public static void SetXY(this Transform transform, Transform xy)
+    {
+        var position = xy.position;
+        transform.position = new Vector3(position.x, position.y, transform.position.z);
+    }
 }
