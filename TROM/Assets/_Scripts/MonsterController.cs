@@ -6,14 +6,14 @@ using UnityEngine;
 public class MonsterController : EntityActionStateMachine
 {
     [Button]
-    public void MoveTo(Vector2 direction)
+    public void MoveTo(Vector2 position)
     {
-        var key = nameof(MonsterHorizontalMove);
-        var moveAction = (MonsterHorizontalMove) StateMachine.GetState(key);
-        moveAction.direction = direction;
+        var key = nameof(MonsterMove);
+        var moveAction = (MonsterMove) StateMachine.GetState(key);
+        moveAction.position = position;
         if (StateMachine.GetCurrentStateKey() != key)
         {
-            TryPlayAction(nameof(MonsterHorizontalMove));
+            TryPlayAction(nameof(MonsterMove));
         }
     }
     

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class MonsterHorizontalMove : EntityStateAction
+public class MonsterMove : EntityStateAction
 {
-    public Vector2 direction;
+    public Vector2 position;
     public float speed = 5;
     protected override void OnActionStart()
     {
@@ -33,7 +33,20 @@ public class MonsterHorizontalMove : EntityStateAction
     {
         if (actionState == EntityActionState.InProgress)
         {
-            fromEntity.rBody2D.velocity = direction * speed;
+            var currentPos = (Vector2) fromEntity.transform.position;
+            var displacement = position - currentPos;
+            var direction = displacement.normalized;
+
+            var moveDis = direction * Time.fixedDeltaTime * speed;
+            if ((moveDis).magnitude > displacement.magnitude)
+            {
+                //overshoot
+                fromEntity.rBody2D.MovePosition(position);
+            }
+            else
+            {
+                fromEntity.rBody2D.velocity = direction * speed;
+            }
         }
     }
 }

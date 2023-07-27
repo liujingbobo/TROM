@@ -41,6 +41,10 @@ public static class VectorExtensions
         return new Vector3(vector.x + offsetX, vector.y + offsetY, vector.z + offsetZ);
     }
 
+    public static Vector2 XZ(this Vector3 dir)
+    {
+        return new Vector2(dir.x, dir.z);
+    }
     #endregion
     
 
