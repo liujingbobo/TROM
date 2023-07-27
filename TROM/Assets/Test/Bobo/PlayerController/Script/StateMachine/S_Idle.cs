@@ -8,6 +8,8 @@ namespace PlayerControllerTest
 {
     public class S_Idle : IState
     {
+
+        [SerializeField] private float hangYThreshold = 0.1f;
         [BoxGroup] public float horizontalMoveThreshold = 0.1f;
         
         public override void StateEnter(FSM.PlayerState preState)
@@ -27,7 +29,14 @@ namespace PlayerControllerTest
 
         public override void OnJump(InputAction.CallbackContext context)
         {
-            if (context is { started: true, canceled: false })
+            if (sm.MoveValue.y <= -hangYThreshold && context is { started: true, canceled: false })
+            {
+                // TODO: overlap detect
+                if (sm.detection.downHangDetector.collider2Ds.Count > 0)
+                {
+                    sm.Switch(FSM.PlayerState.Hang);
+                }
+            }else if (context is { started: true, canceled: false })
             {
                 sm.Switch(FSM.PlayerState.Jump);
             }
@@ -37,7 +46,7 @@ namespace PlayerControllerTest
         {
             if (!sm.detection.grounded)
             {
-                sm.Switch(FSM.PlayerState.Falling);
+                sm.Switch(FSM.PlayerState.Fall);
             }
         }
     }
