@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,7 +12,7 @@ namespace PlayerControllerTest
 
         [SerializeField] private float hangYThreshold = 0.1f;
         [BoxGroup] public float horizontalMoveThreshold = 0.1f;
-        
+        [BoxGroup] public float verticalLadderThreshold = 0.1f;
         public override void StateEnter(FSM.PlayerState preState)
         {
             sm.targetRb2D.gravityScale = 0;
@@ -24,6 +25,30 @@ namespace PlayerControllerTest
             if (Mathf.Abs(sm.MoveValue.x) > horizontalMoveThreshold)
             {
                 sm.Switch(FSM.PlayerState.Move);
+            }else if (Mathf.Abs(sm.MoveValue.y) > verticalLadderThreshold)
+            {
+                if (sm.detection.ladderDetector.collider2Ds.Count > 0)
+                {
+                    var collider = sm.detection.ladderDetector.collider2Ds.Last();
+                    
+                    if (collider.GetComponent<LadderInfo>() is { } li)
+                    {
+                        if (collider == li.bottomCollider)
+                        {
+                            if (sm.MoveValue.y > 0)
+                            {
+                                sm.Switch(FSM.PlayerState.Ladder);
+                            }
+                        }
+                        else
+                        {
+                            if (sm.MoveValue.y < 0)
+                            {
+                                sm.Switch(FSM.PlayerState.Ladder);
+                            }
+                        }
+                    }
+                }
             }
         }
 

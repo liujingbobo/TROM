@@ -12,15 +12,13 @@ public class S_Ladder : IState
     [SerializeField] private float climbThresholdY;
     [SerializeField] private float snapThreshold;
 
-    private LadderInfo ladderInfo;
-    private bool inited;
-    private LadderState curState;
-    private Collider2D collider2D;
-    private Vector2 snapTargetPos;
+    [SerializeField] private LadderInfo ladderInfo;
+    [SerializeField] private LadderState curState;
+    [SerializeField] private Collider2D collider2D;
+    [SerializeField] private Vector2 snapTargetPos;
 
     public override void StateEnter(FSM.PlayerState preState)
     {
-        inited = false;
         sm.playerCollider.enabled = false;
 
         collider2D = sm.detection.ladderDetector.collider2Ds.Last();
@@ -34,6 +32,8 @@ public class S_Ladder : IState
         else
         {
             curState = LadderState.SnapDown;
+            snapTargetPos = new Vector2(collider2D.transform.position.x,
+                Mathf.Clamp(sm.targetRb2D.transform.position.y, ladderInfo.bottomPoint.position.y, ladderInfo.climbMaxPoint.position.y));
         }
     }
 
@@ -47,51 +47,40 @@ public class S_Ladder : IState
         switch (curState)
         {
             case LadderState.SnapDown:
-                if (!inited)
+                sm.animator.enabled = true;
+                var snapDownDistance = snapTargetPos - sm.character.transform.position.xy();
+
+                if (snapDownDistance.magnitude <= snapThreshold)
                 {
-                    inited = true;
+                    sm.character.transform.SetXY(snapTargetPos);
+                    sm.targetRb2D.velocity = Vector2.zero;
+                    curState = LadderState.Waiting;
                 }
                 else
                 {
-                    var distance = snapTargetPos - sm.character.transform.position.xy();
-
-                    if (distance.magnitude <= snapThreshold)
-                    {
-                        sm.character.transform.position = snapTargetPos;
-                        sm.targetRb2D.velocity = Vector2.zero;
-                        curState = LadderState.Waiting;
-                    }
-                    else
-                    {
-                        var velocity = distance.normalized * snapSpeed;
-                        sm.targetRb2D.velocity = velocity;
-                    }
+                    var velocity = snapDownDistance.normalized * snapSpeed;
+                    sm.targetRb2D.velocity = velocity;
                 }
                 break;
             case LadderState.SnapUp:
-                if (!inited)
+                sm.animator.enabled = true;
+                var snapUpDistance = snapTargetPos - sm.character.transform.position.xy();
+
+                if (snapUpDistance.magnitude <= snapThreshold)
                 {
-                    inited = true;
+                    sm.character.transform.SetXY(snapTargetPos);
+                    sm.targetRb2D.velocity = Vector2.zero;
+                    sm.PlayAnim(FSM.AnimationType.LadderClimbFinishReverse);
+                    curState = LadderState.ClimbDown;
                 }
                 else
                 {
-                    var distance = snapTargetPos - sm.character.transform.position.xy();
-
-                    if (distance.magnitude <= snapThreshold)
-                    {
-                        sm.character.transform.position = snapTargetPos;
-                        sm.targetRb2D.velocity = Vector2.zero;
-                        sm.PlayAnim(FSM.AnimationType.LadderClimbFinishReverse);
-                        curState = LadderState.ClimbDown;
-                    }
-                    else
-                    {
-                        var velocity = distance.normalized * snapSpeed;
-                        sm.targetRb2D.velocity = velocity;
-                    }
+                    var velocity = snapUpDistance.normalized * snapSpeed;
+                    sm.targetRb2D.velocity = velocity;
                 }
                 break;
             case LadderState.ClimbDown:
+                sm.animator.enabled = true;
                 if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                 {
                     sm.character.transform.SetXY(ladderInfo.climbMaxPoint.position);
@@ -114,17 +103,17 @@ public class S_Ladder : IState
                     }
                 }
                 break;
-            case LadderState.Climbing:
-                if (transform.position.y >= ladderInfo.climbMaxPoint.position.y)
+            case LadderState.Climbing: 
+                sm.animator.enabled = true;
+                if (transform.position.y > ladderInfo.climbMaxPoint.position.y)
                 {
                     curState = LadderState.ClimbUp;
                     sm.targetRb2D.velocity = Vector2.zero;
-                }else if (transform.position.y <= ladderInfo.bottomPoint.position.y)
+                }else if (transform.position.y < ladderInfo.bottomPoint.position.y)
                 {
                     sm.targetRb2D.velocity = Vector2.zero;
                     sm.FixPosition();
                     sm.Switch(FSM.PlayerState.Idle);
-                    return;
                 }
                 else
                 {
@@ -142,39 +131,47 @@ public class S_Ladder : IState
             case LadderState.Waiting:
                 if (Mathf.Abs(sm.MoveValue.y) >= climbThresholdY)
                 {
-                    TryClimb();
-                    curState = LadderState.Climbing;
+                    if (transform.position.y > ladderInfo.climbMaxPoint.position.y)
+                    {
+                        sm.animator.enabled = true;
+                        curState = LadderState.ClimbUp;
+                        sm.targetRb2D.velocity = Vector2.zero;
+                    }else if (transform.position.y < ladderInfo.bottomPoint.position.y)
+                    {
+                        sm.animator.enabled = true;
+                        sm.targetRb2D.velocity = Vector2.zero;
+                        sm.FixPosition();
+                        sm.Switch(FSM.PlayerState.Idle);
+                    }
+                    else
+                    {
+                        if (Mathf.Abs(sm.MoveValue.y) < climbThresholdY)
+                        {
+                            sm.targetRb2D.velocity = Vector2.zero;
+                            curState = LadderState.Waiting;
+                        }
+                        else
+                        {
+                            sm.animator.enabled = true;
+                            TryClimb();
+                            curState = LadderState.Climbing;
+                        }
+                    }
                 }
                 else
                 {
+                    sm.animator.enabled = false;
                     sm.targetRb2D.velocity = Vector2.zero;
                 }
                 break;
             case LadderState.ClimbUp:
+                sm.animator.enabled = true;
                 if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                 {
                     sm.character.transform.SetXY(ladderInfo.climbMaxPoint.position);
-                    // sm.FixPosition();
-                    if (Mathf.Abs(sm.MoveValue.y) >= climbThresholdY)
-                    {
-                        if (sm.MoveValue.y > 0)
-                        {
-                            sm.PlayAnim(FSM.AnimationType.LadderClimbFinish);
-                            curState = LadderState.ClimbUp;
-                        }else
-                        {
-                            curState = LadderState.Climbing;
-                            TryClimb();
-                        }
-                    }
-                    else
-                    {
-                        curState = LadderState.Waiting;
-                    }
+                    sm.Switch(FSM.PlayerState.Idle);
                 }
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
 
