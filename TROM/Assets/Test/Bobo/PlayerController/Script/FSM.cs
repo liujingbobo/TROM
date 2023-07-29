@@ -32,6 +32,7 @@ namespace PlayerControllerTest
         public IState MoveState;
         public IState HangState;
         public IState FallingState;
+        public IState LadderState;
 
         [ShowInInspector] private PlayerState curStateTag = PlayerState.InValid;
         [ShowInInspector] private PlayerState preStateTag = PlayerState.InValid;
@@ -51,6 +52,7 @@ namespace PlayerControllerTest
             stateMachine[PlayerState.Move] = MoveState.Init(this);
             stateMachine[PlayerState.Hang] = HangState.Init(this);
             stateMachine[PlayerState.Fall] = FallingState.Init(this);
+            stateMachine[PlayerState.Ladder] = LadderState.Init(this);
 
             Init();
         }
@@ -108,11 +110,12 @@ namespace PlayerControllerTest
         {
             var newPosition = transform.position;
                 
-            RaycastHit2D hit = Physics2D.Raycast(new Vector2(newPosition.x, newPosition.y) + Vector2.up, Vector2.down, 1,
+            RaycastHit2D hit = Physics2D.Raycast(new Vector2(newPosition.x, newPosition.y) + Vector2.up, Vector2.down, 1.5f,
                 LayerMask.GetMask($"Ground"));
 
             if (hit.collider != null)
             {
+                print($"Fix Position to {new Vector3(hit.point.x, hit.point.y, newPosition.z)}");
                 newPosition = new Vector3(hit.point.x, hit.point.y, newPosition.z);
                 transform.position = newPosition;
             }
@@ -170,6 +173,7 @@ namespace PlayerControllerTest
             Climb = 30,
             Fall = 40,
             Hang = 50,
+            Ladder = 60
         }
 
         public enum AnimationType

@@ -75,26 +75,20 @@ public class S_Hang : IState
         {
             // Front top to bot
             case HungState.SnappingUp:
-                if (!inited)
+                var snappingUpDistance = endTargetPos - sm.character.transform.position.xy();
+
+                if (snappingUpDistance.magnitude <= hangSnapRange)
                 {
-                    inited = true;
+                    sm.character.transform.position = endTargetPos;
+                    sm.targetRb2D.velocity = Vector2.zero;
+                    
+                    curState = HungState.ClimbDown;
+                    inited = false;
                 }
                 else
                 {
-                    var distance = endTargetPos - sm.character.transform.position.xy();
-
-                    if (distance.magnitude <= hangSnapRange)
-                    {
-                        sm.character.transform.position = endTargetPos;
-                        sm.targetRb2D.velocity = Vector2.zero;
-                        inited = false;
-                        curState = HungState.ClimbDown;
-                    }
-                    else
-                    {
-                        distance = distance.normalized * hangSnappingSpeed;
-                        sm.targetRb2D.velocity = distance;
-                    }
+                    var snapSpeed  = snappingUpDistance.normalized * hangSnappingSpeed;
+                    sm.targetRb2D.velocity = snapSpeed;
                 }
                 break;
             case HungState.ClimbDown:
