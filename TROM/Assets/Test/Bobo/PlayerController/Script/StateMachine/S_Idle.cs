@@ -15,6 +15,7 @@ namespace PlayerControllerTest
         [BoxGroup] public float verticalLadderThreshold = 0.1f;
         public override void StateEnter(FSM.PlayerState preState)
         {
+            sm.FixPosition();
             sm.targetRb2D.gravityScale = 0;
             sm.targetRb2D.velocity = Vector2.zero;
             sm.PlayAnim(FSM.AnimationType.Idle);

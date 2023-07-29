@@ -11,7 +11,7 @@ public class LadderInfo : MonoBehaviour
 
     public List<FSM.PlayerDirection> validDirection;
 
-    public Transform topPoint;
+    public Transform topPoint; 
 
     public Transform climbMaxPoint;
 
