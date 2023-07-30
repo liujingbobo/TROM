@@ -111,9 +111,7 @@ public class S_Ladder : IState
                     sm.animator.enabled = true;
                     sm.PlayAnim(FSM.AnimationType.LadderClimbFinishReverse);
                     inited = true;
-                }
-
-                if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+                }else if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                 {
                     if (Mathf.Abs(sm.MoveValue.y) >= climbThresholdY)
                     {

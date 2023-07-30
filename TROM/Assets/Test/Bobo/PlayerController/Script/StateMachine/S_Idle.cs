@@ -73,6 +73,12 @@ namespace PlayerControllerTest
             if (!sm.detection.grounded)
             {
                 sm.Switch(FSM.PlayerState.Fall);
+                return;
+            }
+
+            if (Mathf.Abs(sm.MoveValue.x) > horizontalMoveThreshold)
+            {
+                sm.Switch(FSM.PlayerState.Move);
             }
         }
     }

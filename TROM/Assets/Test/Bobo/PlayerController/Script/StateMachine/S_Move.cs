@@ -1,3 +1,4 @@
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,7 +12,8 @@ namespace PlayerControllerTest
         [BoxGroup("Move")]public float moveSpeed = 10f;
         [BoxGroup("Move")]public float acceleration;
         [BoxGroup("Move")]public float turnSpeed;
-        
+        [BoxGroup("Jump")]public float ladderEnterThresholdOnY = 0.1f;
+
 
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
         private Vector2 MoveValue => sm.MoveValue;
@@ -80,7 +82,33 @@ namespace PlayerControllerTest
                 isFalling = false;
             }
             
-            
+            if (Mathf.Abs(sm.MoveValue.y) > ladderEnterThresholdOnY)
+            {
+                if (sm.detection.ladderDetector.collider2Ds.Count > 0)
+                {
+                    var collider = sm.detection.ladderDetector.collider2Ds.Last();
+                    
+                    if (collider.GetComponent<LadderInfo>() is { } li)
+                    {
+                        if (collider == li.bottomCollider)
+                        {
+                            if (sm.MoveValue.y > 0)
+                            {
+                                sm.Switch(FSM.PlayerState.Ladder);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            if (sm.MoveValue.y < 0)
+                            {
+                                sm.Switch(FSM.PlayerState.Ladder);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
             
             var speedChangeValue = MoveValue.x * acceleration * Time.fixedDeltaTime;
             var curX = curVelocity.x;
