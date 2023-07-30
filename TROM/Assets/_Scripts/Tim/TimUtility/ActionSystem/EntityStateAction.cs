@@ -9,6 +9,9 @@ public class EntityStateAction : EntityAction<GameEntity>, IState
 {
     public EntityActionStateMachine actionStateMachine;
     public ActionType actionType;
+    public ActionPriorityType priorityType;
+    public SameActionResolveType sameActionResolveType;
+    public SamePriorityActionResolveType samePriorityActionResolveType;
     
     public float animationFinishTime;
     
@@ -39,6 +42,11 @@ public class EntityStateAction : EntityAction<GameEntity>, IState
                 actionStateMachine.TryPlayDefaultAction();
             }
         }
+
+        if (reason == EntityActionStopReason.Interrupted)
+        {
+            Debug.Log(GetType().ToString());
+        }
     }
     
     public void OnStateEnter()
@@ -57,7 +65,7 @@ public class EntityStateAction : EntityAction<GameEntity>, IState
     [Button]
     public void SwitchToActionState()
     {
-        actionStateMachine.TryPlayAction(GetType().Name);
+        actionStateMachine.TrySwitchAction(GetType().Name);
     }
     [Button]
     public void TestStartAction()
@@ -81,4 +89,21 @@ public enum ActionType
     TimedToDefaultOnComplete,
     ToDefaultOnComplete,
     PlayLoop,
+}
+
+public enum ActionPriorityType
+{
+    Default,
+    HighPriorityAction,
+    ReactiveAction,
+}
+public enum SameActionResolveType
+{
+    Restart,
+    Ignore,
+}
+public enum SamePriorityActionResolveType
+{
+    PlayOther,
+    Ignore,
 }

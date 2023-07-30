@@ -6,25 +6,27 @@ using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
 
 
-[TaskDescription("Check to see if the any objects are within sight of the agent.")]
+[TaskDescription("Set Path finding destination of a PlatformAILerp Class")]
 [TaskCategory("MonsterControl")]
 public class PlatformMoveTo : Action
 {
-    public PlatformAStarMovement movement;
-    public SharedTransform targetTransform;
+    public PlatformAILerp movementAI;
+    public SharedTransform movementTargetTransform;
 
     public override void OnStart()
     {
-        movement.targetTransform = targetTransform.Value;
-        movement.ChaseToTargetTransform();
+        movementAI.SetDestination(movementTargetTransform.Value.position);
     }
     
     public override TaskStatus OnUpdate()
     {
-        if (movement.reachedEndOfPath)
+        if (movementAI.ReachedDestination)
         {
             return TaskStatus.Success;
         }
+        
+        movementAI.SetDestination(movementTargetTransform.Value.position);
+        
         return TaskStatus.Running;
     }
 }

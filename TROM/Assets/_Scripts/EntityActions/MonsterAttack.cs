@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class MonsterAttack : EntityStateAction
 {
-    public Vector2 direction;
+    public Vector2 targetPoint;
     protected override void OnActionStart()
     {
         base.OnActionStart();
