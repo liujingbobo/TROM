@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -13,21 +15,22 @@ public class MonsterController : EntityActionStateMachine
         moveAction.position = position;
         if (StateMachine.GetCurrentStateKey() != key)
         {
-            TryPlayAction(nameof(MonsterMove));
+            TrySwitchAction(nameof(MonsterMove));
         }
     }
     
     [Button]
-    public void AttackAt(Vector2 direction)
+    public void AttackAt(Vector3 targetPoint, Action<EntityActionState, EntityActionStopReason> callback = null)
     {
         var action = (MonsterAttack) StateMachine.GetState(nameof(MonsterAttack));
-        action.direction = direction;
-        TryPlayAction(nameof(MonsterAttack));
+        action.targetPoint = targetPoint;
+        TrySwitchAction(nameof(MonsterAttack));
+        if(callback != null) action.OnActionStopped += callback;
     }
     
     [Button]
     public void SetIdle()
     {
-        TryPlayAction(nameof(MonsterIdle));
+        TrySwitchAction(nameof(MonsterIdle));
     }
 }

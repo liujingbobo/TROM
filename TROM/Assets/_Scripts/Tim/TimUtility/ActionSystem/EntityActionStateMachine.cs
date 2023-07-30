@@ -26,12 +26,54 @@ public class EntityActionStateMachine: MonoBehaviour
         debugCurrentState = StateMachine.currentStateKey;
     }
 
-    public void TryPlayAction(string actionStateKey)
+    public EntityStateAction GetState(string stateName)
     {
-        StateMachine.currentState?.StopAction(EntityActionStopReason.Interrupted);
-        StateMachine.SwitchToState(actionStateKey);
+        return StateMachine.GetState(stateName);
     }
-    
+    public bool TrySwitchAction(string actionStateKey)
+    {
+        var currentActionState = StateMachine.currentState;
+        var targetActionState = StateMachine.GetState(actionStateKey);
+        
+        bool shouldSwitch = true;
+        
+        if (targetActionState.priorityType < currentActionState.priorityType) shouldSwitch = false;
+        else if (targetActionState.priorityType == currentActionState.priorityType)
+        {
+            if (currentActionState == targetActionState)
+            {
+                switch (currentActionState.sameActionResolveType)
+                {
+                    case SameActionResolveType.Restart:
+                        shouldSwitch = true;
+                        break;
+                    case SameActionResolveType.Ignore:
+                        shouldSwitch = false;
+                        break;
+                }
+            }
+            else
+            {
+                switch (currentActionState.samePriorityActionResolveType)
+                {
+                    case SamePriorityActionResolveType.PlayOther:
+                        shouldSwitch = true;
+                        break;
+                    case SamePriorityActionResolveType.Ignore:
+                        shouldSwitch = false;
+                        break;
+                }
+            }
+        }
+        
+        if (shouldSwitch)
+        {
+            StateMachine.currentState?.StopAction(EntityActionStopReason.Interrupted);
+            StateMachine.SwitchToState(actionStateKey);
+        }
+        return shouldSwitch;
+    }
+
     public void TryPlayDefaultAction()
     {
         StateMachine.SwitchToState(defaultAction.GetType().Name);
