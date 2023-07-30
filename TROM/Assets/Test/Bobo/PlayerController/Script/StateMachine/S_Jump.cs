@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using BehaviorDesigner.Runtime.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace PlayerControllerTest
         [BoxGroup("Jump")] public float airAcceleration; 
         [BoxGroup("Jump")] public float moveSpeedOnAir; // Separate the speed on air and ground
         [BoxGroup("Jump")] public float horizontalMoveThreshold; // Only change velocity when moveValue.x > horizontalMoveThreshold
+        [BoxGroup("Jump")] public float ladderEnterThresholdOnY = 0.1f;
         
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
         private bool CanCheckGround => timeAfterJump >= jumpGroundCheckGap;
@@ -74,6 +76,23 @@ namespace PlayerControllerTest
             var curVelocityX = curVelocity.x;
             var inputX = MoveValue.x;
             var inputY = MoveValue.y;
+
+            if (Mathf.Abs(MoveValue.y) >= ladderEnterThresholdOnY && MoveValue.y > 0)
+            {
+                if (sm.detection.ladderDetector.collider2Ds.Count > 0)
+                {
+                    var ladderCollider = sm.detection.ladderDetector.collider2Ds.Last();
+                    if (ladderCollider.GetComponent<LadderInfo>() is { } ladderInfo)
+                    {
+                        if (ladderInfo.bottomCollider == ladderCollider)
+                        {
+                            sm.Switch(FSM.PlayerState.Ladder);
+                            return;
+                        }
+                    }
+                }
+            }
+            
             if (curState == JumpState.Boost)
             {
                 timeAfterJump = 0;
@@ -198,7 +217,7 @@ namespace PlayerControllerTest
 
         public override void StateExit()
         {
-            TargetRb2D.gravityScale = ascendingGravityScaleLight;
+            TargetRb2D.gravityScale = 0;
         }
 
         void SwitchGravity(GravityType t)
