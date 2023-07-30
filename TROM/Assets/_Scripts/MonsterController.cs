@@ -8,6 +8,12 @@ using UnityEngine;
 public class MonsterController : EntityActionStateMachine
 {
     [Button]
+    public void GetStaggered()
+    {
+        TrySwitchAction(nameof(MonsterStagger));
+    }
+    
+    [Button]
     public void MoveTo(Vector2 position)
     {
         var key = nameof(MonsterMove);
