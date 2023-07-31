@@ -2655,7 +2655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayer:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 2048
   checkCustomLayer: 1
   targetCustomLayer: 01000000
   collider2Ds: []
