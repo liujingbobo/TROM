@@ -24,12 +24,12 @@ public class S_Falling : IState
     private bool CanJump => timeAfterEnter <= coyoteTime;
     private bool CanCheckGround => timeAfterEnter >= fallingGroundCheckGap;
     
-    public override void StateEnter(FSM.PlayerState preState)
+    public override void StateEnter(PlayerState preState)
     {
         sm.targetRb2D.gravityScale = fallGravityScale;
         timeAfterEnter = 0;
         started = false;
-        sm.PlayAnim(FSM.AnimationType.JumpFall);
+        sm.PlayAnim(AnimationType.JumpFall);
     }
 
 
@@ -37,7 +37,7 @@ public class S_Falling : IState
     {
         if (context is { started: true, canceled: false } && CanJump)
         {
-            sm.Switch(FSM.PlayerState.Jump);
+            sm.Switch(PlayerState.Jump);
         }
     }
 
@@ -83,7 +83,7 @@ public class S_Falling : IState
         
         if (curX != 0)
         {
-            sm.SetDirection(curX < 0 ? FSM.PlayerDirection.Back : FSM.PlayerDirection.Front);
+            sm.SetDirection(curX < 0 ? PlayerDirection.Back : PlayerDirection.Front);
         }
 
         TargetRb2D.velocity = new Vector2(curX, curY);
@@ -96,6 +96,6 @@ public class S_Falling : IState
         if (curY != 0) return;
         
         sm.FixPosition();
-        sm.Switch(sm.MoveValue.x != 0 ? FSM.PlayerState.Move : FSM.PlayerState.Idle);
+        sm.Switch(sm.MoveValue.x != 0 ? PlayerState.Move : PlayerState.Idle);
     }
 }

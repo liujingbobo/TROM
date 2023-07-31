@@ -6,5 +6,5 @@ using UnityEngine.Serialization;
 
 public class HangObjectInfo : MonoBehaviour
 {
-    public FSM.PlayerDirection onHangDirection;
+    public PlayerDirection onHangDirection;
 }

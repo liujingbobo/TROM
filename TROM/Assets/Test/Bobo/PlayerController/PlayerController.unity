@@ -1850,6 +1850,7 @@ MonoBehaviour:
   HangState: {fileID: 2115529834}
   FallingState: {fileID: 1623080248}
   LadderState: {fileID: 1314293452}
+  AttackState: {fileID: 0}
   CurAnimation: 0
 --- !u!114 &935532082
 MonoBehaviour:
@@ -1956,6 +1957,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 8e8b5ce8-2c12-4fc1-a1d5-62f082e8e344
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bdc83f43-4780-415c-942c-0e83fcc51eef
+    m_ActionName: Player/Attack[/Keyboard/j]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player

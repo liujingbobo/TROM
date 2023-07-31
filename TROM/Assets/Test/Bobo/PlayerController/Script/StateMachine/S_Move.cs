@@ -23,13 +23,13 @@ namespace PlayerControllerTest
         [ShowInInspector] private bool isFalling;
         [ShowInInspector] private bool started;
 
-        public override void StateEnter(FSM.PlayerState preState)
+        public override void StateEnter(PlayerState preState)
         {
             sm.targetRb2D.gravityScale = 0;
             started = false;
             timeAfterStart = 0;
             isFalling = false;
-            sm.PlayAnim(FSM.AnimationType.Run);
+            sm.PlayAnim(AnimationType.Run);
         }
 
         public override void OnMove(InputAction.CallbackContext context)
@@ -48,7 +48,15 @@ namespace PlayerControllerTest
         {
             if (context is { started: true, canceled: false })
             {
-                sm.Switch(FSM.PlayerState.Jump);
+                sm.Switch(PlayerState.Jump);
+            }
+        }
+        
+        public override void OnAttack(InputAction.CallbackContext context)
+        {
+            if (context is { started: true, canceled: false })
+            {
+                sm.Switch(PlayerState.Attack);
             }
         }
         public override void StateFixedUpdate()
@@ -73,7 +81,7 @@ namespace PlayerControllerTest
                 }
                 else
                 {
-                    sm.Switch(FSM.PlayerState.Fall);
+                    sm.Switch(PlayerState.Fall);
                     return;
                 }
             }
@@ -94,7 +102,7 @@ namespace PlayerControllerTest
                         {
                             if (sm.MoveValue.y > 0)
                             {
-                                sm.Switch(FSM.PlayerState.Ladder);
+                                sm.Switch(PlayerState.Ladder);
                                 return;
                             }
                         }
@@ -102,7 +110,7 @@ namespace PlayerControllerTest
                         {
                             if (sm.MoveValue.y < 0)
                             {
-                                sm.Switch(FSM.PlayerState.Ladder);
+                                sm.Switch(PlayerState.Ladder);
                                 return;
                             }
                         }
@@ -145,12 +153,12 @@ namespace PlayerControllerTest
 
                     if (curX == 0)
                     {
-                        sm.Switch(FSM.PlayerState.Idle);
+                        sm.Switch(PlayerState.Idle);
                     }
                 }
                 else
                 {
-                    sm.Switch(FSM.PlayerState.Idle);
+                    sm.Switch(PlayerState.Idle);
                 }
             }
 
@@ -158,7 +166,7 @@ namespace PlayerControllerTest
             
             if (curX != 0)
             {
-                sm.SetDirection(curX < 0 ? FSM.PlayerDirection.Back : FSM.PlayerDirection.Front);
+                sm.SetDirection(curX < 0 ? PlayerDirection.Back : PlayerDirection.Front);
             }
         }
     }

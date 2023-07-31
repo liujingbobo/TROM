@@ -9,7 +9,7 @@ public class LadderInfo : MonoBehaviour
 
     public Collider2D bottomCollider;
 
-    public List<FSM.PlayerDirection> validDirection;
+    public List<PlayerDirection> validDirection;
 
     public Transform topPoint; 
 

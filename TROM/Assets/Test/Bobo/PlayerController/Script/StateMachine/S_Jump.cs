@@ -53,7 +53,7 @@ namespace PlayerControllerTest
 
         [ShowInInspector]private JumpState curState;
 
-        public override void StateEnter(FSM.PlayerState preState)
+        public override void StateEnter(PlayerState preState)
         {
             jumped = false;
             isReleased = false;
@@ -86,7 +86,7 @@ namespace PlayerControllerTest
                     {
                         if (ladderInfo.bottomCollider == ladderCollider)
                         {
-                            sm.Switch(FSM.PlayerState.Ladder);
+                            sm.Switch(PlayerState.Ladder);
                             return;
                         }
                     }
@@ -98,7 +98,7 @@ namespace PlayerControllerTest
                 timeAfterJump = 0;
                 TargetRb2D.velocity = new Vector2(sm.MoveValue.x * moveSpeedOnAir, jumpSpeed);
                 TargetRb2D.gravityScale = ascendingGravityScaleLight;
-                sm.PlayAnim(FSM.AnimationType.JumpRise);
+                sm.PlayAnim(AnimationType.JumpRise);
                 curState = JumpState.Rise;
             }
             else
@@ -150,14 +150,14 @@ namespace PlayerControllerTest
                     if (timeAfterJump >= bigJumpTime)
                     {
                         TargetRb2D.gravityScale = ascendingGravityScaleHeavy;
-                        sm.PlayAnim(FSM.AnimationType.JumpMid);
+                        sm.PlayAnim(AnimationType.JumpMid);
                     }
                     else if (timeAfterJump >= smallJumpTime)
                     {
                         if (isReleased)
                         {
                             TargetRb2D.gravityScale = ascendingGravityScaleHeavy;
-                            sm.PlayAnim(FSM.AnimationType.JumpMid);
+                            sm.PlayAnim(AnimationType.JumpMid);
                         }
                     }
 
@@ -166,7 +166,7 @@ namespace PlayerControllerTest
                         curState = JumpState.Fall;
                         Debug.Log($"Reach Highest: {sm.transform.position.y}");
                         TargetRb2D.gravityScale = fallGravityScale;
-                        sm.PlayAnim(FSM.AnimationType.JumpFall);
+                        sm.PlayAnim(AnimationType.JumpFall);
                     }
                 }
 
@@ -175,7 +175,7 @@ namespace PlayerControllerTest
                 // Set sprite position
                 if (curVelocityX != 0)
                 {
-                    sm.SetDirection(curVelocityX < 0 ? FSM.PlayerDirection.Back : FSM.PlayerDirection.Front);
+                    sm.SetDirection(curVelocityX < 0 ? PlayerDirection.Back : PlayerDirection.Front);
                 }
                 
                 #region HangDetection
@@ -184,7 +184,7 @@ namespace PlayerControllerTest
                 // if (curVelocity.y <= 0 && CanHung && !sm.detection.grounded)
                 if (CanHang && !sm.detection.grounded)
                 {
-                    sm.Switch(FSM.PlayerState.Hang);
+                    sm.Switch(PlayerState.Hang);
                     return;
                 }
                 
@@ -200,13 +200,13 @@ namespace PlayerControllerTest
                         {
                             Debug.Log($"Jump use time :{timeAfterJump}");
                             sm.FixPosition();
-                            sm.Switch(FSM.PlayerState.Move);
+                            sm.Switch(PlayerState.Move);
                         }
                         else
                         {
                             Debug.Log($"Jump use time :{timeAfterJump}");
                             sm.FixPosition();
-                            sm.Switch(FSM.PlayerState.Idle);
+                            sm.Switch(PlayerState.Idle);
                         }
                     }
                 }

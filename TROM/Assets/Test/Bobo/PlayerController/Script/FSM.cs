@@ -33,6 +33,7 @@ namespace PlayerControllerTest
         public IState HangState;
         public IState FallingState;
         public IState LadderState;
+        public IState AttackState;
 
         [ShowInInspector] private PlayerState curStateTag = PlayerState.InValid;
         [ShowInInspector] private PlayerState preStateTag = PlayerState.InValid;
@@ -53,12 +54,8 @@ namespace PlayerControllerTest
             stateMachine[PlayerState.Hang] = HangState.Init(this);
             stateMachine[PlayerState.Fall] = FallingState.Init(this);
             stateMachine[PlayerState.Ladder] = LadderState.Init(this);
+            stateMachine[PlayerState.Attack] = AttackState.Init(this);
 
-            Init();
-        }
-
-        private void Init()
-        {
             Switch(PlayerState.Idle);
         }
 
@@ -155,56 +152,21 @@ namespace PlayerControllerTest
         public void OnMove(InputAction.CallbackContext context)
         {
             MoveValue = context.ReadValue<Vector2>();
-            CurState?.OnMove(context);
+            if(CurState != null) CurState.OnMove(context);
         }
         public void OnJump(InputAction.CallbackContext context)
         {
-            CurState?.OnJump(context);
+            if(CurState != null) CurState.OnJump(context);
+        }
+
+        public void OnAttack(InputAction.CallbackContext context)
+        {
+            if(CurState != null) CurState.OnAttack(context);
         }
         
         #endregion
 
-        public enum PlayerState
-        {
-            InValid = -1,
-            Idle = 0,
-            Move = 10,
-            Jump = 20,
-            Climb = 30,
-            Fall = 40,
-            Hang = 50,
-            Ladder = 60
-        }
 
-        public enum AnimationType
-        {
-            Empty,
-            Idle,
-            
-            WalkStart,
-            Walk,
-            WalkEnd,
-            
-            Run,
-            
-            JumpRise,
-            JumpMid,
-            JumpFall,
-            
-            LedgeHangPreview,
-            LedgeClimbPreview,
-            LedgeClimbPreviewReverse,
-            
-            LadderClimb,
-            LadderClimbReverse,
-            LadderClimbFinish,
-            LadderClimbFinishReverse
-        }
-        public enum PlayerDirection
-        {
-            Front,
-            Back
-        }
     }
 }
 

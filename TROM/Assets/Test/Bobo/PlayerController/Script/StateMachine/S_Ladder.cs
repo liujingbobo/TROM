@@ -19,7 +19,7 @@ public class S_Ladder : IState
     [SerializeField] private Vector2 snapTargetPos;
     [SerializeField] private bool inited;
 
-    public override void StateEnter(FSM.PlayerState preState)
+    public override void StateEnter(PlayerState preState)
     {
         // Turn collider off
         sm.playerCollider.enabled = false;
@@ -48,7 +48,7 @@ public class S_Ladder : IState
     {
         if ((curState == LadderState.Waiting || curState == LadderState.Climbing) && context.canceled == false)
         {
-            sm.Switch(FSM.PlayerState.Fall);
+            sm.Switch(PlayerState.Fall);
         }
     }
 
@@ -109,7 +109,7 @@ public class S_Ladder : IState
                 {
                     sm.character.transform.SetXY(ladderInfo.climbMaxPoint.position);
                     sm.animator.enabled = true;
-                    sm.PlayAnim(FSM.AnimationType.LadderClimbFinishReverse);
+                    sm.PlayAnim(AnimationType.LadderClimbFinishReverse);
                     inited = true;
                 }else if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                 {
@@ -141,7 +141,7 @@ public class S_Ladder : IState
                 }
                 else if (transform.position.y < ladderInfo.bottomPoint.position.y)
                 {
-                    sm.Switch(FSM.PlayerState.Idle);
+                    sm.Switch(PlayerState.Idle);
                 }
                 else
                 {
@@ -177,7 +177,7 @@ public class S_Ladder : IState
                         sm.targetRb2D.velocity = Vector2.zero;
                         sm.FixPosition();
                         sm.animator.enabled = true;
-                        sm.Switch(FSM.PlayerState.Idle);
+                        sm.Switch(PlayerState.Idle);
                     }
                     else
                     {
@@ -190,7 +190,7 @@ public class S_Ladder : IState
                 if (!inited)
                 {
                     sm.animator.enabled = true;
-                    sm.PlayAnim(FSM.AnimationType.LadderClimbFinish);
+                    sm.PlayAnim(AnimationType.LadderClimbFinish);
                     inited = true;
                 }
                 else
@@ -200,7 +200,7 @@ public class S_Ladder : IState
                     if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                     {
                         sm.character.transform.SetXY(ladderInfo.topPoint.position);
-                        sm.Switch(FSM.PlayerState.Idle);
+                        sm.Switch(PlayerState.Idle);
                     }
                 }
 
@@ -220,12 +220,12 @@ public class S_Ladder : IState
     {
         if (sm.MoveValue.y > 0)
         {
-            sm.PlayAnim(FSM.AnimationType.LadderClimb);
+            sm.PlayAnim(AnimationType.LadderClimb);
             sm.targetRb2D.velocity = new Vector2(0, climbSpeed);
         }
         else if (sm.MoveValue.y < 0)
         {
-            sm.PlayAnim(FSM.AnimationType.LadderClimbReverse);
+            sm.PlayAnim(AnimationType.LadderClimbReverse);
             sm.targetRb2D.velocity = new Vector2(0, -climbSpeed);
         }
     }

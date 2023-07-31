@@ -13,7 +13,7 @@ namespace PlayerControllerTest
             this.sm = sm;
             return this;
         }
-        public virtual void StateEnter(FSM.PlayerState preState){}
+        public virtual void StateEnter(PlayerState preState){}
         public virtual void StateUpdate(){}
         public virtual void StateLateUpdate() { }
         public virtual void StateFixedUpdate(){}
@@ -21,5 +21,6 @@ namespace PlayerControllerTest
         public virtual void OnMove(InputAction.CallbackContext context){}
         public virtual void OnInteract(InputAction.CallbackContext context){}
         public virtual void OnJump(InputAction.CallbackContext context){}
+        public virtual void OnAttack(InputAction.CallbackContext context){}
     }
 }

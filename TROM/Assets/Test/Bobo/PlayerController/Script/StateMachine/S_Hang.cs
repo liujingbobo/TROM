@@ -23,7 +23,7 @@ public class S_Hang : IState
     private Vector2 startTargetPos;
     private Vector2 endTargetPos;
 
-    public override void StateEnter(FSM.PlayerState preState)
+    public override void StateEnter(PlayerState preState)
     {
         inited = false;
         jumped = false;
@@ -31,29 +31,30 @@ public class S_Hang : IState
         curState = HungState.SnappingDown;
 
         sm.targetRb2D.gravityScale = 0;
-        
+
         targetCollider = preState switch
         {
-            FSM.PlayerState.Move => sm.detection.downHangDetector.collider2Ds.Last(),
-            FSM.PlayerState.Idle => sm.detection.downHangDetector.collider2Ds.Last(),
-            FSM.PlayerState.Jump => sm.detection.upperHangDetector.collider2Ds.Last(),
-            FSM.PlayerState.Fall => sm.detection.upperHangDetector.collider2Ds.Last()
+            PlayerState.Move => sm.detection.downHangDetector.collider2Ds.Last(),
+            PlayerState.Idle => sm.detection.downHangDetector.collider2Ds.Last(),
+            PlayerState.Jump => sm.detection.upperHangDetector.collider2Ds.Last(),
+            PlayerState.Fall => sm.detection.upperHangDetector.collider2Ds.Last()
         };
-        
+
         if (targetCollider.gameObject.GetComponent<HangObjectInfo>() is { } targetHangInfo)
         {
             this.hangInfo = targetHangInfo;
         }
+
         sm.SetDirection(hangInfo.onHangDirection);
-        
+
         CalculatePosition();
-        
+
         curState = preState switch
         {
-            FSM.PlayerState.Move => HungState.SnappingUp,
-            FSM.PlayerState.Idle => HungState.SnappingUp,
-            FSM.PlayerState.Jump => HungState.SnappingDown,
-            FSM.PlayerState.Fall => HungState.SnappingDown
+            PlayerState.Move => HungState.SnappingUp,
+            PlayerState.Idle => HungState.SnappingUp,
+            PlayerState.Jump => HungState.SnappingDown,
+            PlayerState.Fall => HungState.SnappingDown
         };
 
         sm.playerCollider.enabled = false;
@@ -62,8 +63,10 @@ public class S_Hang : IState
     private void CalculatePosition()
     {
         var colPos = targetCollider.transform.position.xy();
-        var offset = new Vector2((hangInfo.onHangDirection == FSM.PlayerDirection.Front ? 1 : -1) * hangStartOffset.x, hangStartOffset.y);
-        var endoffset = new Vector2((hangInfo.onHangDirection == FSM.PlayerDirection.Front ? 1 : -1) * hangEndOffset.x, hangEndOffset.y);
+        var offset = new Vector2((hangInfo.onHangDirection == PlayerDirection.Front ? 1 : -1) * hangStartOffset.x,
+            hangStartOffset.y);
+        var endoffset = new Vector2((hangInfo.onHangDirection == PlayerDirection.Front ? 1 : -1) * hangEndOffset.x,
+            hangEndOffset.y);
 
         endTargetPos = colPos + endoffset;
         startTargetPos = colPos + offset;
@@ -81,32 +84,34 @@ public class S_Hang : IState
                 {
                     sm.character.transform.position = endTargetPos;
                     sm.targetRb2D.velocity = Vector2.zero;
-                    
+
                     curState = HungState.ClimbDown;
                     inited = false;
                 }
                 else
                 {
-                    var snapSpeed  = snappingUpDistance.normalized * hangSnappingSpeed;
+                    var snapSpeed = snappingUpDistance.normalized * hangSnappingSpeed;
                     sm.targetRb2D.velocity = snapSpeed;
                 }
+
                 break;
             case HungState.ClimbDown:
                 if (!inited)
                 {
                     sm.character.transform.position = startTargetPos;
                     inited = true;
-                    sm.PlayAnim(FSM.AnimationType.LedgeClimbPreviewReverse);
+                    sm.PlayAnim(AnimationType.LedgeClimbPreviewReverse);
                 }
                 else
                 {
                     if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                     {
                         sm.character.transform.position = startTargetPos;
-                        sm.PlayAnim(FSM.AnimationType.LedgeHangPreview);
+                        sm.PlayAnim(AnimationType.LedgeHangPreview);
                         curState = HungState.Waiting;
                     }
                 }
+
                 break;
             // Front bot to top
             case HungState.SnappingDown:
@@ -123,7 +128,7 @@ public class S_Hang : IState
                         sm.character.transform.position = startTargetPos;
                         sm.targetRb2D.velocity = Vector2.zero;
                         curState = HungState.Waiting;
-                        sm.PlayAnim(FSM.AnimationType.LedgeHangPreview);
+                        sm.PlayAnim(AnimationType.LedgeHangPreview);
                     }
                     else
                     {
@@ -131,17 +136,19 @@ public class S_Hang : IState
                         sm.targetRb2D.velocity = distance;
                     }
                 }
+
                 break;
             case HungState.Waiting:
                 if (sm.MoveValue.y >= climbUpThresholdY && jumped)
                 {
-                    sm.PlayAnim(FSM.AnimationType.LedgeClimbPreview);
+                    sm.PlayAnim(AnimationType.LedgeClimbPreview);
                     curState = HungState.ClimbUp;
                 }
-                else if(jumped)
+                else if (jumped)
                 {
-                    sm.Switch(FSM.PlayerState.Fall);
+                    sm.Switch(PlayerState.Fall);
                 }
+
                 break;
             case HungState.ClimbUp:
                 if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
@@ -150,13 +157,14 @@ public class S_Hang : IState
                     // sm.FixPosition();
                     if (sm.MoveValue.x != 0)
                     {
-                        sm.Switch(FSM.PlayerState.Move);
+                        sm.Switch(PlayerState.Move);
                     }
                     else
                     {
-                        sm.Switch(FSM.PlayerState.Idle);
+                        sm.Switch(PlayerState.Idle);
                     }
                 }
+
                 break;
         }
     }
@@ -168,7 +176,7 @@ public class S_Hang : IState
             jumped = true;
         }
     }
-    
+
     public override void StateExit()
     {
         sm.playerCollider.enabled = true;

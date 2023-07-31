@@ -13,19 +13,27 @@ namespace PlayerControllerTest
         [SerializeField] private float hangYThreshold = 0.1f;
         [BoxGroup] public float horizontalMoveThreshold = 0.1f;
         [BoxGroup] public float verticalLadderThreshold = 0.1f;
-        public override void StateEnter(FSM.PlayerState preState)
+        public override void StateEnter(PlayerState preState)
         {
             sm.FixPosition();
             sm.targetRb2D.gravityScale = 0;
             sm.targetRb2D.velocity = Vector2.zero;
-            sm.PlayAnim(FSM.AnimationType.Idle);
+            sm.PlayAnim(AnimationType.Idle);
         }
 
+        public override void OnAttack(InputAction.CallbackContext context)
+        {
+            if (context is { started: true, canceled: false })
+            {
+                sm.Switch(PlayerState.Attack);
+            }
+            
+        }
         public override void OnMove(InputAction.CallbackContext context)
         {
             if (Mathf.Abs(sm.MoveValue.x) > horizontalMoveThreshold)
             {
-                sm.Switch(FSM.PlayerState.Move);
+                sm.Switch(PlayerState.Move);
             }else if (Mathf.Abs(sm.MoveValue.y) > verticalLadderThreshold)
             {
                 if (sm.detection.ladderDetector.collider2Ds.Count > 0)
@@ -38,14 +46,14 @@ namespace PlayerControllerTest
                         {
                             if (sm.MoveValue.y > 0)
                             {
-                                sm.Switch(FSM.PlayerState.Ladder);
+                                sm.Switch(PlayerState.Ladder);
                             }
                         }
                         else
                         {
                             if (sm.MoveValue.y < 0)
                             {
-                                sm.Switch(FSM.PlayerState.Ladder);
+                                sm.Switch(PlayerState.Ladder);
                             }
                         }
                     }
@@ -60,11 +68,11 @@ namespace PlayerControllerTest
                 // TODO: overlap detect
                 if (sm.detection.downHangDetector.collider2Ds.Count > 0)
                 {
-                    sm.Switch(FSM.PlayerState.Hang);
+                    sm.Switch(PlayerState.Hang);
                 }
             }else if (context is { started: true, canceled: false })
             {
-                sm.Switch(FSM.PlayerState.Jump);
+                sm.Switch(PlayerState.Jump);
             }
         }
 
@@ -72,13 +80,13 @@ namespace PlayerControllerTest
         {
             if (!sm.detection.grounded)
             {
-                sm.Switch(FSM.PlayerState.Fall);
+                sm.Switch(PlayerState.Fall);
                 return;
             }
 
             if (Mathf.Abs(sm.MoveValue.x) > horizontalMoveThreshold)
             {
-                sm.Switch(FSM.PlayerState.Move);
+                sm.Switch(PlayerState.Move);
             }
         }
     }
