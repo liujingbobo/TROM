@@ -83,7 +83,11 @@ namespace PlayerControllerTest
 
         public void PlayAnim(AnimationType animationType)
         {
-            if (CurAnimation == animationType) return;
+            if (CurAnimation == animationType)
+            {
+                print($"Curanimation is the same as target. {CurAnimation.ToString()}");
+                return;
+            }
             
             animator.Play(animationType switch
             {
@@ -99,22 +103,26 @@ namespace PlayerControllerTest
                 AnimationType.LadderClimb => "LadderClimb",
                 AnimationType.LadderClimbFinish => "LadderClimbFinish",
                 AnimationType.LadderClimbReverse => "LadderClimbReverse",
-                AnimationType.LadderClimbFinishReverse => "LadderClimbFinishReverse"
+                AnimationType.LadderClimbFinishReverse => "LadderClimbFinishReverse",
+                AnimationType.Attack => "SwordAttack"
             });
         }
 
         public void FixPosition()
         {
-            var newPosition = transform.position;
-                
-            RaycastHit2D hit = Physics2D.Raycast(new Vector2(newPosition.x, newPosition.y) + Vector2.up, Vector2.down, 1.5f,
-                LayerMask.GetMask($"Ground"));
-
-            if (hit.collider != null)
+            detection.ResetGrounded();
+            
+            if (detection.IsGrounded)
             {
-                print($"Fix Position to {new Vector3(hit.point.x, hit.point.y, newPosition.z)}");
-                newPosition = new Vector3(hit.point.x, hit.point.y, newPosition.z);
-                transform.position = newPosition;
+                if (detection.GroundHit.collider != null)
+                {
+                    var newPosition = transform.position;
+
+                    var hit = detection.GroundHit;
+                    print($"Fix Position to {new Vector3(hit.point.x, hit.point.y, newPosition.z)}");
+                    newPosition = new Vector3(hit.point.x, hit.point.y, newPosition.z);
+                    transform.position = newPosition;
+                }
             }
         }
 

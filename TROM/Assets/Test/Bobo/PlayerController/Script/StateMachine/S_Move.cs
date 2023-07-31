@@ -73,7 +73,7 @@ namespace PlayerControllerTest
             var curVelocity = sm.targetRb2D.velocity;
 
             // TODO: Falling
-            if (!sm.detection.grounded)
+            if (!sm.detection.IsGrounded)
             {
                 if(!isFalling)
                 {
