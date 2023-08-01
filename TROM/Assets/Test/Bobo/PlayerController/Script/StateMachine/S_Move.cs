@@ -59,6 +59,19 @@ namespace PlayerControllerTest
                 sm.Switch(PlayerState.Attack);
             }
         }
+        
+        Vector2 RotateVector2(Vector2 originalVector, float degrees)
+        {
+            float radians = degrees * Mathf.Deg2Rad;
+            float sinAngle = Mathf.Sin(radians);
+            float cosAngle = Mathf.Cos(radians);
+
+            float rotatedX = originalVector.x * cosAngle - originalVector.y * sinAngle;
+            float rotatedY = originalVector.x * sinAngle + originalVector.y * cosAngle;
+
+            return new Vector2(rotatedX, rotatedY);
+            
+        }
         public override void StateFixedUpdate()
         {
             if (!started)
@@ -71,6 +84,8 @@ namespace PlayerControllerTest
             }
             
             var curVelocity = sm.targetRb2D.velocity;
+
+            var groundNormal = sm.detection.GroundHit.normal;
 
             // TODO: Falling
             if (!sm.detection.IsGrounded)
@@ -119,6 +134,7 @@ namespace PlayerControllerTest
             }
             
             var speedChangeValue = MoveValue.x * acceleration * Time.fixedDeltaTime;
+            
             var curX = curVelocity.x;
             
             if (MoveValue.x != 0)

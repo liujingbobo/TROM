@@ -25,14 +25,19 @@ public class PlayerDetection : MonoBehaviour
     {
         ResetGrounded();
     }
-
+    
     public void ResetGrounded()
     {
         var newPosition = transform.position;
                 
         groundHit = Physics2D.Raycast(new Vector2(newPosition.x, newPosition.y) + Vector2.up, Vector2.down, 1f + groundCheckHeight,
             LayerMask.GetMask($"Ground"));
+    
+        // grounded = groundHit.collider != null;
+    }
 
-        grounded = groundHit.collider != null;
+    public void SetGround(bool setGround)
+    {
+        grounded = setGround;
     }
 }

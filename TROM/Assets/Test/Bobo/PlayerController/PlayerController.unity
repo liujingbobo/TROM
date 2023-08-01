@@ -378,9 +378,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1039262799}
-  PrePosition: {x: 0, y: 0, z: 0}
+  OriPos: {x: 0, y: 0, z: 0}
   Set: 0
   effector: {x: 0.9, y: 1}
+  camm: {fileID: 1584441820}
 --- !u!1 &155145304
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,7 +546,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 3710a2165818542dca092d3051792938, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -751,7 +752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &246373344
 Transform:
   m_ObjectHideFlags: 0
@@ -832,9 +833,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1039262799}
-  PrePosition: {x: 0, y: 0, z: 0}
+  OriPos: {x: 0, y: 0, z: 0}
   Set: 0
   effector: {x: 0.9, y: 0.9}
+  camm: {fileID: 0}
 --- !u!1 &263766377
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,9 +967,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1039262799}
-  PrePosition: {x: 0, y: 0, z: 0}
+  OriPos: {x: 0, y: 0, z: 0}
   Set: 0
   effector: {x: 0.95, y: 1}
+  camm: {fileID: 1584441820}
 --- !u!1 &370478697
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,9 +1661,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1039262799}
-  PrePosition: {x: 0, y: 0, z: 0}
+  OriPos: {x: 0, y: 0, z: 0}
   Set: 0
   effector: {x: 0.85, y: 1}
+  camm: {fileID: 1584441820}
 --- !u!1 &841207197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2069,7 +2073,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.84}
-  m_Size: {x: 0.76, y: 1.68}
+  m_Size: {x: 0.68, y: 1.68}
   m_Direction: 0
 --- !u!50 &935532085
 Rigidbody2D:
@@ -2270,7 +2274,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 1
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
@@ -3330,7 +3334,7 @@ Transform:
   m_GameObject: {fileID: 1609368176}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
-  m_LocalScale: {x: 500, y: 6, z: 1}
+  m_LocalScale: {x: 5000, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 579422513}
@@ -3437,7 +3441,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610127321}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -3463,7 +3467,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.4, y: 0.05}
+  m_Size: {x: 0.68, y: 0.05}
   m_Direction: 1
 --- !u!1 &1623080246
 GameObject:
@@ -4064,9 +4068,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1039262799}
-  PrePosition: {x: 0, y: 0, z: 0}
+  OriPos: {x: 0, y: 0, z: 0}
   Set: 0
   effector: {x: 0.8, y: 1}
+  camm: {fileID: 1584441820}
 --- !u!1 &2058827935
 GameObject:
   m_ObjectHideFlags: 0
