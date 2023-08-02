@@ -33,7 +33,6 @@ public class A_Parallax : MonoBehaviour
             Vector3 curPos = camm.transform.position;
             Vector3 offSet = curPos - OriPos;
             transform.position = new Vector3(offSet.x * effector.x, offSet.y * effector.y, transform.position.z);
-            print(transform.position);
         }
     }
 }

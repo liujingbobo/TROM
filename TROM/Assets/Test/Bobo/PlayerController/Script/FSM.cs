@@ -39,6 +39,8 @@ namespace PlayerControllerTest
         [ShowInInspector] private PlayerState preStateTag = PlayerState.InValid;
         
         public Vector2 MoveValue { get; private set; }
+        public Vector2 posDirection;
+        
         public PlayerState PreStateTag => preStateTag;
         public AnimationType CurAnimation = AnimationType.Empty;
 
@@ -65,9 +67,9 @@ namespace PlayerControllerTest
             
             if (curStateTag != PlayerState.InValid)
             {
-                if (stateMachine.ContainsKey(curStateTag))
+                if (stateMachine.TryGetValue(curStateTag, out var value))
                 {
-                    stateMachine[curStateTag].StateExit();
+                    value.StateExit();
                 }
             }
 
@@ -75,9 +77,9 @@ namespace PlayerControllerTest
             
             curStateTag = targetState;
 
-            if (stateMachine.ContainsKey(curStateTag))
+            if (stateMachine.TryGetValue(curStateTag, out var value1))
             {
-                stateMachine[curStateTag].StateEnter(preStateTag);
+                value1.StateEnter(preStateTag);
             }
         }
 
@@ -147,8 +149,20 @@ namespace PlayerControllerTest
         {
             CurState?.StateLateUpdate();
         }
+        
         private void FixedUpdate()
         {
+            detection.ResetGrounded();
+
+            var hit = detection.GroundHit;
+
+            if (detection.IsGrounded && hit.collider != null)
+            {
+                var normal = hit.normal;
+                
+                posDirection = Vector3.ProjectOnPlane(Vector2.right, normal).normalized;
+            }
+            
             CurState?.StateFixedUpdate();
         }
 
@@ -162,9 +176,11 @@ namespace PlayerControllerTest
             MoveValue = context.ReadValue<Vector2>();
             if(CurState != null) CurState.OnMove(context);
         }
+        
         public void OnJump(InputAction.CallbackContext context)
         {
-            if(CurState != null) CurState.OnJump(context);
+            if(CurState != null) CurState
+            .OnJump(context);
         }
 
         public void OnAttack(InputAction.CallbackContext context)

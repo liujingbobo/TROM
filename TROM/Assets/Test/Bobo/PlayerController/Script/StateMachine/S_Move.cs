@@ -13,8 +13,8 @@ namespace PlayerControllerTest
         [BoxGroup("Move")]public float acceleration;
         [BoxGroup("Move")]public float turnSpeed;
         [BoxGroup("Jump")]public float ladderEnterThresholdOnY = 0.1f;
-
-
+        [BoxGroup("Jump")]public float moveThresholdOnX = 0.1f;
+        
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
         private Vector2 MoveValue => sm.MoveValue;
             
@@ -70,8 +70,8 @@ namespace PlayerControllerTest
             float rotatedY = originalVector.x * sinAngle + originalVector.y * cosAngle;
 
             return new Vector2(rotatedX, rotatedY);
-            
         }
+        
         public override void StateFixedUpdate()
         {
             if (!started)
@@ -82,27 +82,40 @@ namespace PlayerControllerTest
             {
                 timeAfterStart += Time.fixedDeltaTime;
             }
+
+            var curDir = sm.targetRb2D.velocity.normalized;
             
-            var curVelocity = sm.targetRb2D.velocity;
+            var curVelocity = Mathf.Sign(curDir.x) * sm.targetRb2D.velocity.magnitude;
 
             var groundNormal = sm.detection.GroundHit.normal;
 
             // TODO: Falling
             if (!sm.detection.IsGrounded)
             {
-                if(!isFalling)
+                if (sm.detection.GroundHit.collider == null)
                 {
-                    isFalling = true;
+                    if(!isFalling)
+                    {
+                        isFalling = true;
+                    }
+                    else
+                    {
+                        sm.Switch(PlayerState.Fall);
+                        return;
+                    }
                 }
                 else
                 {
-                    sm.Switch(PlayerState.Fall);
-                    return;
+                    sm.transform.position = sm.transform.position.SetY(sm.detection.GroundHit.point.y);
                 }
             }
             else
             {
-                isFalling = false;
+                isFalling = false;           
+                // if (sm.detection.GroundHit.collider != null)
+                // {
+                //     sm.transform.position = sm.transform.position.SetY(sm.detection.GroundHit.point.y);
+                // }
             }
             
             if (Mathf.Abs(sm.MoveValue.y) > ladderEnterThresholdOnY)
@@ -135,39 +148,36 @@ namespace PlayerControllerTest
             
             var speedChangeValue = MoveValue.x * acceleration * Time.fixedDeltaTime;
             
-            var curX = curVelocity.x;
-            
-            if (MoveValue.x != 0)
+            if (Mathf.Abs(MoveValue.x) >= moveThresholdOnX)
             {
                 // Move
-
-                if (curX * MoveValue.x < 0)
+                if (curDir.x * MoveValue.x < 0)
                 {
                     // use turn speed
-                    speedChangeValue = MoveValue.x * turnSpeed * Time.fixedDeltaTime;
+                    speedChangeValue = Mathf.Sign(MoveValue.x) * turnSpeed * Time.fixedDeltaTime;
                 }
 
-                curX += speedChangeValue;
-                curX = Mathf.Clamp(curX, -moveSpeed,
+                curVelocity += speedChangeValue;
+                curVelocity = Mathf.Clamp(curVelocity, -moveSpeed,
                     moveSpeed);
             }
             else
             {
                 // Stop or deceleration\
-                if (curX != 0)
+                if (curVelocity != 0)
                 {
-                    if (curX > 0)
+                    if (curVelocity > 0)
                     {
-                        curX -= acceleration * Time.fixedDeltaTime;
-                        curX = Mathf.Max(curX, 0);
+                        curVelocity -= acceleration * Time.fixedDeltaTime;
+                        curVelocity = Mathf.Max(curVelocity, 0);
                     }
                     else
                     {                            
-                        curX += acceleration * Time.fixedDeltaTime;
-                        curX = Mathf.Min(curX, 0);
+                        curVelocity += acceleration * Time.fixedDeltaTime;
+                        curVelocity = Mathf.Min(curVelocity, 0);
                     }
 
-                    if (curX == 0)
+                    if (curVelocity == 0)
                     {
                         sm.Switch(PlayerState.Idle);
                     }
@@ -178,11 +188,11 @@ namespace PlayerControllerTest
                 }
             }
 
-            TargetRb2D.velocity = new Vector2(curX, 0);
+            TargetRb2D.velocity = sm.posDirection * curVelocity;
             
-            if (curX != 0)
+            if (curVelocity != 0)
             {
-                sm.SetDirection(curX < 0 ? PlayerDirection.Back : PlayerDirection.Front);
+                sm.SetDirection(curVelocity < 0 ? PlayerDirection.Back : PlayerDirection.Front);
             }
         }
     }

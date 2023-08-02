@@ -21,11 +21,6 @@ public class PlayerDetection : MonoBehaviour
     public RaycastHit2D GroundHit => groundHit;
     public bool IsGrounded => grounded;
     
-    private void FixedUpdate()
-    {
-        ResetGrounded();
-    }
-    
     public void ResetGrounded()
     {
         var newPosition = transform.position;
