@@ -10,6 +10,8 @@ public class BackpackUI : MonoBehaviour
 {
     public static BackpackUI Singleton;
 
+    public bool isUIOpen;
+    
     public Button exitButton;
     public Button dropButton;
     public Button equipButton;
@@ -170,12 +172,14 @@ public class BackpackUI : MonoBehaviour
         root.gameObject.SetActive(true);
         this.searchedContainer = searchedContainer;
         RefreshItemPanels();
+        isUIOpen = true;
     }
 
     public void CloseUI()
     {
         searchedContainer = null;
         root.gameObject.SetActive(false);
+        isUIOpen = false;
     }
 
     [Button]

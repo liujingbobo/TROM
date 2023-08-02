@@ -22,6 +22,10 @@ public class SceneItemContainer : ItemContainer
     public void OnInteractableNearestStateChanged(Interactor2D interactor2D, bool isNearest)
     {
         interactIcon.gameObject.SetActive(isNearest);
+        if (!isNearest && BackpackUI.Singleton.isUIOpen && BackpackUI.Singleton.searchedContainer == this)
+        {
+            BackpackUI.Singleton.CloseUI();
+        }
     }
 
     [Button]

@@ -37,5 +37,28 @@ public class S_Attack : IState
     {
         
     }
-    
+
+    public void OnAnimationEventTriggered(AnimationEventType type, string data)
+    {
+        if (type == AnimationEventType.CustomStringEvent && data == "attack")
+        {
+            SpawnAttackHitBox();
+        }
+    }
+    //TODO get playerSpriteRenderer in a better way?
+    public SpriteRenderer playerSpriteRenderer;
+    public void SpawnAttackHitBox()
+    {
+        var attackInfo = new AttackReleaseInfo()
+        {
+            objectName = "attackRelease",
+            fromEntity = null,
+            worldPos = transform.position.OffsetX(playerSpriteRenderer.flipX? -1f:1f).OffsetY(1f), //TODO find a way to better get this position?
+            localScale = 2 * Vector3.one,
+            duration = 0.1f,
+            damage = 1,
+            team = GameTeam.Player,
+        };
+        AttackReleaseExtension.CreateAttackRelease2D(attackInfo);
+    }
 }

@@ -56,9 +56,15 @@ public class AttackRelease : MonoBehaviour
     }
 }
 
+public enum GameTeam
+{
+    Player,
+    Enemy,
+}
 public class AttackReleaseInfo
 {
     public string objectName = "attackRelease";
+    public GameTeam team = GameTeam.Player;
     public GameEntity fromEntity;
     public Vector3 worldPos;
     public Vector3 localScale;
