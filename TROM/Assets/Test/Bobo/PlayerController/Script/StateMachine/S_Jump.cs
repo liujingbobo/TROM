@@ -182,7 +182,7 @@ namespace PlayerControllerTest
 
                 // Check Hangable
                 // if (curVelocity.y <= 0 && CanHung && !sm.detection.grounded)
-                if (CanHang && !sm.detection.IsGrounded)
+                if (CanHang && !sm.detection.isGrounded)
                 {
                     sm.Switch(PlayerState.Hang);
                     return;
@@ -194,7 +194,7 @@ namespace PlayerControllerTest
 
                 if (curState == JumpState.Fall)
                 {
-                    if (CanCheckGround && sm.detection.IsGrounded)
+                    if (CanCheckGround && sm.detection.isGrounded)
                     {
                         if (sm.MoveValue.x != 0)
                         {

@@ -78,7 +78,7 @@ namespace PlayerControllerTest
 
         public override void StateFixedUpdate()
         {
-            if (!sm.detection.IsGrounded)
+            if (!sm.detection.isGrounded)
             {
                 sm.Switch(PlayerState.Fall);
                 return;

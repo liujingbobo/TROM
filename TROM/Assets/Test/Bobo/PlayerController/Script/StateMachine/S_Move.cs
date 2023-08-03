@@ -87,12 +87,12 @@ namespace PlayerControllerTest
             
             var curVelocity = Mathf.Sign(curDir.x) * sm.targetRb2D.velocity.magnitude;
 
-            var groundNormal = sm.detection.GroundHit.normal;
+            var groundNormal = sm.detection.slopeNormal;
 
             // TODO: Falling
-            if (!sm.detection.IsGrounded)
+            if (!sm.detection.isGrounded)
             {
-                if (sm.detection.GroundHit.collider == null)
+                if (!sm.detection.isGrounded)
                 {
                     if(!isFalling)
                     {
@@ -104,18 +104,10 @@ namespace PlayerControllerTest
                         return;
                     }
                 }
-                else
-                {
-                    sm.transform.position = sm.transform.position.SetY(sm.detection.GroundHit.point.y);
-                }
             }
             else
             {
                 isFalling = false;           
-                // if (sm.detection.GroundHit.collider != null)
-                // {
-                //     sm.transform.position = sm.transform.position.SetY(sm.detection.GroundHit.point.y);
-                // }
             }
             
             if (Mathf.Abs(sm.MoveValue.y) > ladderEnterThresholdOnY)

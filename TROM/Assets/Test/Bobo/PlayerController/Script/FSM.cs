@@ -114,13 +114,13 @@ namespace PlayerControllerTest
         {
             detection.ResetGrounded();
             
-            if (detection.IsGrounded)
+            if (detection.isGrounded)
             {
-                if (detection.GroundHit.collider != null)
+                if (detection.isGrounded)
                 {
                     var newPosition = transform.position;
 
-                    var hit = detection.GroundHit;
+                    var hit = detection.MidGroundRaycastHit2D;
                     print($"Fix Position to {new Vector3(hit.point.x, hit.point.y, newPosition.z)}");
                     newPosition = new Vector3(hit.point.x, hit.point.y, newPosition.z);
                     transform.position = newPosition;
@@ -154,9 +154,9 @@ namespace PlayerControllerTest
         {
             detection.ResetGrounded();
 
-            var hit = detection.GroundHit;
+            var hit = detection.MidGroundRaycastHit2D;
 
-            if (detection.IsGrounded && hit.collider != null)
+            if (detection.isGrounded && hit.collider != null)
             {
                 var normal = hit.normal;
                 

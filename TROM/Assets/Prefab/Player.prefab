@@ -100,6 +100,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpriteRenderer: {fileID: 959782243555968317}
+--- !u!1 &1487072033810796283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 435124406657800607}
+  m_Layer: 9
+  m_Name: GroundRaycast
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &435124406657800607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487072033810796283}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8975986699704130765}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2035433208978400702
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,6 +163,7 @@ Transform:
   - {fileID: 4547755001266058805}
   - {fileID: 7247597102144242}
   - {fileID: 2608696959456729586}
+  - {fileID: 435124406657800607}
   m_Father: {fileID: 2073383641069908990}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -570,6 +602,7 @@ MonoBehaviour:
   FallingState: {fileID: 2097153477647845673}
   LadderState: {fileID: 8426961332929114983}
   AttackState: {fileID: 3538309249006610285}
+  posDirection: {x: 0, y: 0}
   CurAnimation: 0
 --- !u!114 &7650918560982048421
 MonoBehaviour:
@@ -583,11 +616,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32479e3c49d411640a1a36eea05fc2de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheckHeight: 0.5
-  grounded: 0
   upperHangDetector: {fileID: 8621123429924700859}
   downHangDetector: {fileID: 4346778245581034871}
   ladderDetector: {fileID: 5529374871497140462}
+  groundRaycastOffsetX: 0.34
+  groundRaycastOffsetY: 0.1
+  groundRaycastLength: 0.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  midGroundRaycastLength: 0.2
+  isGrounded: 0
+  slopeNormal: {x: 0, y: 0}
 --- !u!1 &3742576952435083403
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,7 +1057,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5943168267471190000
 Transform:
   m_ObjectHideFlags: 0
@@ -1132,6 +1172,7 @@ MonoBehaviour:
   acceleration: 50
   turnSpeed: 100
   ladderEnterThresholdOnY: 0.1
+  moveThresholdOnX: 0.1
 --- !u!1 &8680046811193654006
 GameObject:
   m_ObjectHideFlags: 0

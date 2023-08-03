@@ -88,7 +88,7 @@ public class S_Falling : IState
 
         TargetRb2D.velocity = new Vector2(curX, curY);
 
-        if (!CanCheckGround || !sm.detection.IsGrounded)
+        if (!CanCheckGround || !sm.detection.isGrounded)
         {
             return;
         }
