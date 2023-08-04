@@ -23,6 +23,8 @@ namespace PlayerControllerTest
         [BoxGroup("Jump")] public float moveSpeedOnAir; // Separate the speed on air and ground
         [BoxGroup("Jump")] public float horizontalMoveThreshold; // Only change velocity when moveValue.x > horizontalMoveThreshold
         [BoxGroup("Jump")] public float ladderEnterThresholdOnY = 0.1f;
+
+        public float gravtiyOnEnter;
         
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
         private bool CanCheckGround => timeAfterJump >= jumpGroundCheckGap;
@@ -55,6 +57,7 @@ namespace PlayerControllerTest
 
         public override void StateEnter(PlayerState preState)
         {
+            gravtiyOnEnter = sm.targetRb2D.gravityScale;
             jumped = false;
             isReleased = false;
             reachedHighes = false;
@@ -199,13 +202,11 @@ namespace PlayerControllerTest
                         if (sm.MoveValue.x != 0)
                         {
                             Debug.Log($"Jump use time :{timeAfterJump}");
-                            sm.FixPosition();
                             sm.Switch(PlayerState.Move);
                         }
                         else
                         {
                             Debug.Log($"Jump use time :{timeAfterJump}");
-                            sm.FixPosition();
                             sm.Switch(PlayerState.Idle);
                         }
                     }
@@ -217,24 +218,8 @@ namespace PlayerControllerTest
 
         public override void StateExit()
         {
-            TargetRb2D.gravityScale = 0;
-        }
-
-        void SwitchGravity(GravityType t)
-        {
-            if (!Equals(t, curGravity))
-            {
-                curGravity = t;
-                Debug.Log($"Switch To Gravity {curGravity.ToString()}");
-            }
-
-            TargetRb2D.gravityScale = curGravity switch
-            {
-                GravityType.Light => ascendingGravityScaleLight,
-                GravityType.Heavy => ascendingGravityScaleHeavy,
-                GravityType.Fall => fallGravityScale,
-                _ => ascendingGravityScaleLight
-            };
+            TargetRb2D.gravityScale = sm.targetRb2D.gravityScale;
+            ;
         }
 
         enum GravityType

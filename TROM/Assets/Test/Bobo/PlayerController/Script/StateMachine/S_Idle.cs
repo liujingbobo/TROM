@@ -13,10 +13,12 @@ namespace PlayerControllerTest
         [SerializeField] private float hangYThreshold = 0.1f;
         [BoxGroup] public float horizontalMoveThreshold = 0.1f;
         [BoxGroup] public float verticalLadderThreshold = 0.1f;
+
+        public float normalGravity = 1;
+        
         public override void StateEnter(PlayerState preState)
         {
-            sm.FixPosition();
-            sm.targetRb2D.gravityScale = 0;
+            sm.targetRb2D.gravityScale = normalGravity;
             sm.targetRb2D.velocity = Vector2.zero;
             sm.PlayAnim(AnimationType.Idle);
         }
@@ -27,7 +29,6 @@ namespace PlayerControllerTest
             {
                 sm.Switch(PlayerState.Attack);
             }
-            
         }
         public override void OnMove(InputAction.CallbackContext context)
         {

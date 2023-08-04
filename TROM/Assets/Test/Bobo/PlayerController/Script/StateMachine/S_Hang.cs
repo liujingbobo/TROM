@@ -30,7 +30,7 @@ public class S_Hang : IState
 
         curState = HungState.SnappingDown;
 
-        sm.targetRb2D.gravityScale = 0;
+        sm.targetRb2D.bodyType = RigidbodyType2D.Kinematic;
 
         targetCollider = preState switch
         {
@@ -180,6 +180,7 @@ public class S_Hang : IState
     public override void StateExit()
     {
         sm.playerCollider.enabled = true;
+        sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
     }
 
     private enum HungState

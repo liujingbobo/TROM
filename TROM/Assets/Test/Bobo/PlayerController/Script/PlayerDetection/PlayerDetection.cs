@@ -31,6 +31,8 @@ public class PlayerDetection : MonoBehaviour
 
     [BoxGroup("GroundDetection"), SerializeField]
     private LayerMask groundLayer;
+    [BoxGroup("GroundDetection"), SerializeField]
+    private LayerMask slopeLayer;
 
 
     [BoxGroup("MidGroundDetection"), SerializeField]
@@ -43,6 +45,13 @@ public class PlayerDetection : MonoBehaviour
 
     public Vector2 slopeNormal;
 
+    public RaycastHit2D GetActiveRaycast2D()
+    {
+        if (MidGroundRaycastHit2D) return MidGroundRaycastHit2D;
+        if (LeftGroundedHit2D) return LeftGroundedHit2D;
+        if (RightGroundedHit2D) return RightGroundedHit2D;
+        return MidGroundRaycastHit2D;
+    }
     public void ResetGrounded()
     {
         var position = transform.position;
@@ -57,6 +66,12 @@ public class PlayerDetection : MonoBehaviour
 
         MidGroundRaycastHit2D = Physics2D.Raycast(position.xy() + new Vector2(0, groundRaycastOffsetY),
             Vector2.down, midGroundRaycastLength, groundLayer);
+
+        if (!MidGroundRaycastHit2D)
+        {
+            MidGroundRaycastHit2D = Physics2D.Raycast(position.xy() + new Vector2(0, groundRaycastOffsetY),
+                Vector2.down, midGroundRaycastLength, slopeLayer);
+        }
 
         isGrounded = LeftGroundedHit2D || RightGroundedHit2D;
 

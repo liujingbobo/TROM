@@ -52,7 +52,7 @@ MonoBehaviour:
   smallJumpTime: 0.1
   bigJumpTime: 0.1
   airAcceleration: 5
-  moveSpeedOnAir: 7
+  moveSpeedOnAir: 3.5
   horizontalMoveThreshold: 0.1
   ladderEnterThresholdOnY: 0.1
 --- !u!1 &1414661801663598433
@@ -266,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallingGroundCheckGap: 0.1
   airAcceleration: 30
-  moveSpeedOnAir: 7
+  moveSpeedOnAir: 3.5
   horizontalMoveThreshold: 0.1
   fallGravityScale: 1.5
   coyoteTime: 0.05
@@ -349,7 +349,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3151529356831321676}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.8, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -359,7 +359,7 @@ Transform:
   - {fileID: 6735256418417718062}
   - {fileID: 8975986699704130765}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1925072972189512501
 Rigidbody2D:
@@ -1168,7 +1168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7a5a3d84583bf4c8e6955db54dbbed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
+  moveSpeed: 4
   acceleration: 50
   turnSpeed: 100
   ladderEnterThresholdOnY: 0.1

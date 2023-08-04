@@ -12,8 +12,12 @@ namespace PlayerControllerTest
         [BoxGroup("Move")]public float moveSpeed = 10f;
         [BoxGroup("Move")]public float acceleration;
         [BoxGroup("Move")]public float turnSpeed;
+        [BoxGroup("Move")]public float maxGapOnGround = 0.01f;
+
         [BoxGroup("Jump")]public float ladderEnterThresholdOnY = 0.1f;
         [BoxGroup("Jump")]public float moveThresholdOnX = 0.1f;
+
+        public float normalGravity = 1;
         
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
         private Vector2 MoveValue => sm.MoveValue;
@@ -25,7 +29,7 @@ namespace PlayerControllerTest
 
         public override void StateEnter(PlayerState preState)
         {
-            sm.targetRb2D.gravityScale = 0;
+            sm.targetRb2D.gravityScale = normalGravity;
             started = false;
             timeAfterStart = 0;
             isFalling = false;
@@ -60,17 +64,6 @@ namespace PlayerControllerTest
             }
         }
         
-        Vector2 RotateVector2(Vector2 originalVector, float degrees)
-        {
-            float radians = degrees * Mathf.Deg2Rad;
-            float sinAngle = Mathf.Sin(radians);
-            float cosAngle = Mathf.Cos(radians);
-
-            float rotatedX = originalVector.x * cosAngle - originalVector.y * sinAngle;
-            float rotatedY = originalVector.x * sinAngle + originalVector.y * cosAngle;
-
-            return new Vector2(rotatedX, rotatedY);
-        }
         
         public override void StateFixedUpdate()
         {
@@ -86,8 +79,6 @@ namespace PlayerControllerTest
             var curDir = sm.targetRb2D.velocity.normalized;
             
             var curVelocity = Mathf.Sign(curDir.x) * sm.targetRb2D.velocity.magnitude;
-
-            var groundNormal = sm.detection.slopeNormal;
 
             // TODO: Falling
             if (!sm.detection.isGrounded)
@@ -107,7 +98,7 @@ namespace PlayerControllerTest
             }
             else
             {
-                isFalling = false;           
+                isFalling = false;
             }
             
             if (Mathf.Abs(sm.MoveValue.y) > ladderEnterThresholdOnY)

@@ -93,9 +93,9 @@ public class S_Falling : IState
             return;
         }
 
-        if (curY != 0) return;
-        
-        sm.FixPosition();
-        sm.Switch(sm.MoveValue.x != 0 ? PlayerState.Move : PlayerState.Idle);
+        if (sm.detection.isGrounded)
+        {
+            sm.Switch(sm.MoveValue.x != 0 ? PlayerState.Move : PlayerState.Idle);
+        }
     }
 }

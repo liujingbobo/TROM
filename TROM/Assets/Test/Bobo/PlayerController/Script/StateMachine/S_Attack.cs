@@ -10,6 +10,7 @@ public class S_Attack : IState
     
     public override void StateEnter(PlayerState preState)
     {
+        sm.targetRb2D.gravityScale = 1f;
         inited = false;
         sm.targetRb2D.velocity = Vector2.zero;
     }
@@ -25,9 +26,6 @@ public class S_Attack : IState
         {
             if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
             {
-                var position = sm.transform.position;
-                position = position.SetX(position.x + 0.5f);
-                sm.transform.position = position;
                 sm.Switch(PlayerState.Idle);
             }
         }
@@ -45,6 +43,7 @@ public class S_Attack : IState
             SpawnAttackHitBox();
         }
     }
+    
     //TODO get playerSpriteRenderer in a better way?
     public SpriteRenderer playerSpriteRenderer;
     public void SpawnAttackHitBox()

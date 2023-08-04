@@ -21,6 +21,7 @@ public class S_Ladder : IState
 
     public override void StateEnter(PlayerState preState)
     {
+        sm.targetRb2D.bodyType = RigidbodyType2D.Kinematic;
         // Turn collider off
         sm.playerCollider.enabled = false;
 
@@ -57,6 +58,7 @@ public class S_Ladder : IState
         sm.targetRb2D.velocity = Vector2.zero;
         sm.playerCollider.enabled = true;
         sm.animator.enabled = true;
+        sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
     }
 
     private void SwitchState(LadderState targetState)
@@ -175,7 +177,6 @@ public class S_Ladder : IState
                     {
                         sm.animator.enabled = true;
                         sm.targetRb2D.velocity = Vector2.zero;
-                        sm.FixPosition();
                         sm.animator.enabled = true;
                         sm.Switch(PlayerState.Idle);
                     }

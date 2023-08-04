@@ -106,7 +106,7 @@ namespace PlayerControllerTest
                 AnimationType.LadderClimbFinish => "LadderClimbFinish",
                 AnimationType.LadderClimbReverse => "LadderClimbReverse",
                 AnimationType.LadderClimbFinishReverse => "LadderClimbFinishReverse",
-                AnimationType.Attack => "SwordAttack"
+                AnimationType.Attack => "Kick03"
             });
         }
 
@@ -116,15 +116,12 @@ namespace PlayerControllerTest
             
             if (detection.isGrounded)
             {
-                if (detection.isGrounded)
-                {
-                    var newPosition = transform.position;
+                var newPosition = transform.position;
 
-                    var hit = detection.MidGroundRaycastHit2D;
-                    print($"Fix Position to {new Vector3(hit.point.x, hit.point.y, newPosition.z)}");
-                    newPosition = new Vector3(hit.point.x, hit.point.y, newPosition.z);
-                    transform.position = newPosition;
-                }
+                var hit = detection.GetActiveRaycast2D();
+                print($"Fix Position to {new Vector3(hit.point.x, hit.point.y, newPosition.z)}");
+                newPosition = new Vector3(newPosition.x, hit.point.y, newPosition.z);
+                transform.position = newPosition;
             }
         }
 
