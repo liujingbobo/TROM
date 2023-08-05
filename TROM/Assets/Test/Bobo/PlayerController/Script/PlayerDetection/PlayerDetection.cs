@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks.Triggers;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -31,19 +32,20 @@ public class PlayerDetection : MonoBehaviour
 
     [BoxGroup("GroundDetection"), SerializeField]
     private LayerMask groundLayer;
+
     [BoxGroup("GroundDetection"), SerializeField]
     private LayerMask slopeLayer;
 
+    [BoxGroup("GroundDetection"), SerializeField]
+    private float verticalGapFromGround = 0.03f;
 
     [BoxGroup("MidGroundDetection"), SerializeField]
     private float midGroundRaycastLength;
 
     [BoxGroup("MidGroundDetection"), SerializeField]
     public RaycastHit2D MidGroundRaycastHit2D;
-    
-    public bool isGrounded;
 
-    public Vector2 slopeNormal;
+    public bool isGrounded;
 
     public RaycastHit2D GetActiveRaycast2D()
     {
@@ -52,7 +54,8 @@ public class PlayerDetection : MonoBehaviour
         if (RightGroundedHit2D) return RightGroundedHit2D;
         return MidGroundRaycastHit2D;
     }
-    public void ResetGrounded()
+
+    public void GroundDetect()
     {
         var position = transform.position;
 
@@ -74,26 +77,59 @@ public class PlayerDetection : MonoBehaviour
         }
 
         isGrounded = LeftGroundedHit2D || RightGroundedHit2D;
+    }
 
-        if (MidGroundRaycastHit2D)
+    public (Vector2 posDirection, float stickToGroundY) GetSlopeInfo(Vector2 input)
+    {
+        RaycastHit2D hit = default;
+
+        if (LeftGroundedHit2D)
         {
-            slopeNormal = MidGroundRaycastHit2D.normal;
+            if (RightGroundedHit2D)
+            {
+                var leftPoint = LeftGroundedHit2D.point.y;
+                var rightPoint = RightGroundedHit2D.point.y;
+                
+                if (leftPoint > rightPoint)
+                {
+                    hit = LeftGroundedHit2D;
+                }else if (leftPoint == rightPoint)
+                {
+                    hit = input.x > 0 ? RightGroundedHit2D : LeftGroundedHit2D;
+                }
+                else
+                {
+                    hit = RightGroundedHit2D;
+                }
+            }
+            else
+            {
+                hit = LeftGroundedHit2D;
+            }
         }
+        else if (RightGroundedHit2D)
+        {
+            hit = RightGroundedHit2D;
+        }
+
+        return (Vector3.ProjectOnPlane(Vector2.right, hit.normal), hit.point.y + verticalGapFromGround);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        
+
         var position = transform.position;
-        
-        Gizmos.DrawLine(new Vector2(position.x -groundRaycastOffsetX,position.y + groundRaycastOffsetY),
-            new Vector2(position.x -groundRaycastOffsetX,position.y+ groundRaycastOffsetY) - new Vector2(0, groundRaycastLength));     
-        
-        Gizmos.DrawLine(new Vector2(position.x + groundRaycastOffsetX,position.y+ groundRaycastOffsetY),
-            new Vector2(position.x +groundRaycastOffsetX,position.y+ groundRaycastOffsetY) - new Vector2(0, groundRaycastLength));    
-        
-        Gizmos.DrawLine(new Vector2(position.x,position.y+ groundRaycastOffsetY),
-            new Vector2(position.x,position.y+ groundRaycastOffsetY) - new Vector2(0, groundRaycastLength));
+
+        Gizmos.DrawLine(new Vector2(position.x - groundRaycastOffsetX, position.y + groundRaycastOffsetY),
+            new Vector2(position.x - groundRaycastOffsetX, position.y + groundRaycastOffsetY) -
+            new Vector2(0, groundRaycastLength));
+
+        Gizmos.DrawLine(new Vector2(position.x + groundRaycastOffsetX, position.y + groundRaycastOffsetY),
+            new Vector2(position.x + groundRaycastOffsetX, position.y + groundRaycastOffsetY) -
+            new Vector2(0, groundRaycastLength));
+
+        Gizmos.DrawLine(new Vector2(position.x, position.y + groundRaycastOffsetY),
+            new Vector2(position.x, position.y + groundRaycastOffsetY) - new Vector2(0, groundRaycastLength));
     }
 }

@@ -29,11 +29,18 @@ namespace PlayerControllerTest
 
         public override void StateEnter(PlayerState preState)
         {
-            sm.targetRb2D.gravityScale = normalGravity;
+            sm.FixPosition();
+            sm.targetRb2D.bodyType = RigidbodyType2D.Kinematic;
+            
             started = false;
             timeAfterStart = 0;
             isFalling = false;
             sm.PlayAnim(AnimationType.Run);
+        }
+
+        public override void StateExit()
+        {
+            sm.targetRb2D.bodyType = RigidbodyType2D.Kinematic;
         }
 
         public override void OnMove(InputAction.CallbackContext context)
@@ -98,6 +105,7 @@ namespace PlayerControllerTest
             }
             else
             {
+                sm.FixPosition();
                 isFalling = false;
             }
             

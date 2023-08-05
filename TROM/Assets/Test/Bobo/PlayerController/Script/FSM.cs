@@ -39,6 +39,14 @@ namespace PlayerControllerTest
         [ShowInInspector] private PlayerState preStateTag = PlayerState.InValid;
         
         public Vector2 MoveValue { get; private set; }
+
+        public (Vector2 posDirection, float stickToGroundY) curSlopeInfo;
+        
+        public (Vector2 posDirection, float stickToGroundY) GetPosDirection()
+        {
+            return detection.GetSlopeInfo(MoveValue);
+        }
+        
         public Vector2 posDirection;
         
         public PlayerState PreStateTag => preStateTag;
@@ -112,17 +120,20 @@ namespace PlayerControllerTest
 
         public void FixPosition()
         {
-            detection.ResetGrounded();
+            if (!detection.isGrounded) return;
             
-            if (detection.isGrounded)
-            {
-                var newPosition = transform.position;
+            var newPosition = transform.position;
+            newPosition = new Vector3(newPosition.x, GetPosDirection().stickToGroundY, newPosition.z);
+            targetRb2D.transform.position = newPosition;
+        }
 
-                var hit = detection.GetActiveRaycast2D();
-                print($"Fix Position to {new Vector3(hit.point.x, hit.point.y, newPosition.z)}");
-                newPosition = new Vector3(newPosition.x, hit.point.y, newPosition.z);
-                transform.position = newPosition;
-            }
+        public void ForceFixPosition()
+        {
+            detection.GroundDetect();
+
+            curSlopeInfo = detection.GetSlopeInfo(MoveValue);
+
+            FixPosition();
         }
 
         public void SetDirection(PlayerDirection dir)
@@ -137,11 +148,12 @@ namespace PlayerControllerTest
 
         private void Update()
         {
-            if (curStateTag != PlayerState.InValid && stateMachine.ContainsKey(curStateTag))
+            if (curStateTag != PlayerState.InValid && stateMachine.TryGetValue(curStateTag, out var value))
             {
-                stateMachine[curStateTag].StateUpdate();
+                value.StateUpdate();
             }
         }
+        
         private void LateUpdate()
         {
             CurState?.StateLateUpdate();
@@ -149,16 +161,11 @@ namespace PlayerControllerTest
         
         private void FixedUpdate()
         {
-            detection.ResetGrounded();
+            detection.GroundDetect();
 
-            var hit = detection.MidGroundRaycastHit2D;
-
-            if (detection.isGrounded && hit.collider != null)
-            {
-                var normal = hit.normal;
-                
-                posDirection = Vector3.ProjectOnPlane(Vector2.right, normal).normalized;
-            }
+            curSlopeInfo = GetPosDirection();
+            
+            posDirection = detection.isGrounded ? curSlopeInfo.posDirection : Vector2.right;
             
             CurState?.StateFixedUpdate();
         }

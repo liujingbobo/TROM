@@ -26,6 +26,7 @@ public class S_Falling : IState
     
     public override void StateEnter(PlayerState preState)
     {
+        sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
         sm.targetRb2D.gravityScale = fallGravityScale;
         timeAfterEnter = 0;
         started = false;

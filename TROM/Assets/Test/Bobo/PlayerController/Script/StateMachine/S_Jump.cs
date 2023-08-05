@@ -57,6 +57,7 @@ namespace PlayerControllerTest
 
         public override void StateEnter(PlayerState preState)
         {
+            sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
             gravtiyOnEnter = sm.targetRb2D.gravityScale;
             jumped = false;
             isReleased = false;
