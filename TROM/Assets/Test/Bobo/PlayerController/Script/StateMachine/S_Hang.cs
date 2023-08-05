@@ -154,7 +154,6 @@ public class S_Hang : IState
                 if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                 {
                     sm.character.transform.position = endTargetPos;
-                    // sm.FixPosition();
                     if (sm.MoveValue.x != 0)
                     {
                         sm.Switch(PlayerState.Move);
