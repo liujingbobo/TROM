@@ -7,7 +7,6 @@ namespace PlayerControllerTest
 {
     public class S_Move : IState
     {
-                
         // Move
         [BoxGroup("Move")]public float moveSpeed = 10f;
         [BoxGroup("Move")]public float acceleration;
@@ -29,13 +28,15 @@ namespace PlayerControllerTest
 
         public override void StateEnter(PlayerState preState)
         {
-            sm.targetRb2D.gravityScale = normalGravity;
+            sm.ForceFixPosition();
+            sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
+            sm.targetRb2D.gravityScale = 0;
             started = false;
             timeAfterStart = 0;
             isFalling = false;
             sm.PlayAnim(AnimationType.Run);
         }
-
+        
         public override void OnMove(InputAction.CallbackContext context)
         {
             if (sm.MoveValue.x == 0)
@@ -98,6 +99,7 @@ namespace PlayerControllerTest
             }
             else
             {
+                sm.FixPosition();
                 isFalling = false;
             }
             

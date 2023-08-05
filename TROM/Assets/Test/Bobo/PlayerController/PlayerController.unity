@@ -677,7 +677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 946728018}
   - component: {fileID: 946728019}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: Slope (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -877,7 +877,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1604673826}
   - component: {fileID: 1604673827}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: Slope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1225,7 +1225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2025508980}
   - component: {fileID: 2025508982}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: PlatForm (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1307,10 +1307,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1925072972189512501, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2073383641069908990, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1358,18 +1354,6 @@ PrefabInstance:
     - target: {fileID: 3151529356831321676, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5086231885049992850, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
-      propertyPath: m_Size.x
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5086231885049992850, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 5373d1513eabdfc4697251bdd36ee0fb, type: 2}
-    - target: {fileID: 7650918560982048421, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
-      propertyPath: groundRaycastOffsetX
-      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

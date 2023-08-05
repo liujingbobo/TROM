@@ -55,6 +55,7 @@ MonoBehaviour:
   moveSpeedOnAir: 3.5
   horizontalMoveThreshold: 0.1
   ladderEnterThresholdOnY: 0.1
+  gravtiyOnEnter: 0
 --- !u!1 &1414661801663598433
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,7 +330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2073383641069908990}
   - component: {fileID: 1925072972189512501}
-  - component: {fileID: 5086231885049992850}
+  - component: {fileID: 8601191500920157458}
   - component: {fileID: 2528072156061745329}
   - component: {fileID: 4539642514406219752}
   - component: {fileID: 8626951882301116441}
@@ -388,8 +389,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &5086231885049992850
-CapsuleCollider2D:
+--- !u!61 &8601191500920157458
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -397,7 +398,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 3151529356831321676}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 9fcd54751304e6048a00a12edd78f8a6, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -421,8 +422,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.84}
-  m_Size: {x: 0.68, y: 1.68}
-  m_Direction: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 1.58}
+  m_EdgeRadius: 0.05
 --- !u!114 &2528072156061745329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,7 +603,7 @@ MonoBehaviour:
   controller: {fileID: 4539642514406219752}
   animator: {fileID: 8791821363394650792}
   spriteRenderer: {fileID: 959782243555968317}
-  playerCollider: {fileID: 5086231885049992850}
+  playerCollider: {fileID: 8601191500920157458}
   direction: 0
   targetRb2D: {fileID: 1925072972189512501}
   JumpState: {fileID: 694072715552403949}
@@ -619,15 +630,18 @@ MonoBehaviour:
   upperHangDetector: {fileID: 8621123429924700859}
   downHangDetector: {fileID: 4346778245581034871}
   ladderDetector: {fileID: 5529374871497140462}
-  groundRaycastOffsetX: 0.34
-  groundRaycastOffsetY: 0.1
-  groundRaycastLength: 0.2
+  groundRaycastOffsetX: 0.2
+  groundRaycastOffsetY: 0.5
+  groundRaycastLength: 0.7
   groundLayer:
     serializedVersion: 2
     m_Bits: 4096
+  slopeLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  verticalGapFromGround: 0.03
   midGroundRaycastLength: 0.2
   isGrounded: 0
-  slopeNormal: {x: 0, y: 0}
 --- !u!1 &3742576952435083403
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +785,7 @@ MonoBehaviour:
   hangYThreshold: 0.1
   horizontalMoveThreshold: 0.1
   verticalLadderThreshold: 0.1
+  normalGravity: 1
 --- !u!1 &5530584319230657216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,8 +1186,10 @@ MonoBehaviour:
   moveSpeed: 4
   acceleration: 50
   turnSpeed: 100
+  maxGapOnGround: 0.01
   ladderEnterThresholdOnY: 0.1
   moveThresholdOnX: 0.1
+  normalGravity: 1
 --- !u!1 &8680046811193654006
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,9 @@ namespace PlayerControllerTest
         
         public override void StateEnter(PlayerState preState)
         {
-            sm.targetRb2D.gravityScale = normalGravity;
+            sm.ForceFixPosition();
+            sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
+            sm.targetRb2D.gravityScale = 0;
             sm.targetRb2D.velocity = Vector2.zero;
             sm.PlayAnim(AnimationType.Idle);
         }
