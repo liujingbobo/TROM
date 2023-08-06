@@ -48,6 +48,9 @@ public class AttackRelease : MonoBehaviour
             {
                 return;
             }
+
+            if (receiver.team == attackReleaseInfo.team) return;
+            
             TriggeredReceivers.Add(receiver, Time.time);
             
             Debug.Log($"timtest Triggered Attack to {receiver.transform.parent.name}");

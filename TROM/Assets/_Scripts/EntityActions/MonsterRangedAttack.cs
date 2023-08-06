@@ -5,12 +5,13 @@ using Sirenix.OdinInspector;
 using TimUtility;
 using UnityEngine;
 
-public class MonsterAttack : EntityStateAction
+public class MonsterRangedAttack : EntityStateAction
 {
     public Vector2 targetPoint;
     protected override void OnActionStart()
     {
         base.OnActionStart();
+        fromEntity.spriteRenderer.flipX = targetPoint.x - transform.position.x > 0 ? false : true;
         fromEntity.animator.Play("Punch01",0,0);
         fromEntity.animator.Update(0);
         fromEntity.animatorHelper.OnAnimationEventTriggered.AddListener(OnAttack);
@@ -20,7 +21,7 @@ public class MonsterAttack : EntityStateAction
         base.OnActionStop(reason);
         fromEntity.animatorHelper.OnAnimationEventTriggered.RemoveListener(OnAttack);
     }
-    
+
     public void OnAttack(AnimationEventType type, string data)
     {
         if (type == AnimationEventType.CustomStringEvent && data == "attack")

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public class AttackReceiver : MonoBehaviour
 {
+    public GameTeam team;
     public Collider receiverCollider;
     public AttackReceiverGetAttackEvent OnGetAttacked;
 

@@ -9,6 +9,11 @@ public class PlatformAILerp : AILerp
     public MonsterController monsterController;
     public float reachedEndPointDistance;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        SetDestination(transform.position);
+    }
 
     public bool ReachedDestination
     {
