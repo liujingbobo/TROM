@@ -35,6 +35,15 @@ public class MonsterController : EntityActionStateMachine
     }
     
     [Button]
+    public void RangeAttackAt(Vector3 targetPoint, Action<EntityActionState, EntityActionStopReason> callback = null)
+    {
+        var action = (MonsterRangedAttack) StateMachine.GetState(nameof(MonsterRangedAttack));
+        action.targetPoint = targetPoint;
+        TrySwitchAction(nameof(MonsterRangedAttack));
+        if(callback != null) action.OnActionStopped += callback;
+    }
+    
+    [Button]
     public void SetIdle()
     {
         TrySwitchAction(nameof(MonsterIdle));

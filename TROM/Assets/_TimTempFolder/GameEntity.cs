@@ -22,6 +22,9 @@ public class GameEntity : MonoBehaviour
 
     public void GetAttacked(AttackReleaseInfo info)
     {
-        controller.GetStaggered();
+        if (info.team == GameTeam.Player)
+        {
+            controller.GetStaggered();
+        }
     }
 }

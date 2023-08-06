@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8966181714307501453
 Transform:
   m_ObjectHideFlags: 0
@@ -38,7 +38,7 @@ Transform:
   - {fileID: 3241040216168329465}
   - {fileID: 4763035402408393870}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4825681600947913517
 MonoBehaviour:
@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d85d490a986011e4193f9c1ddf73a0ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 1
   receiverCollider: {fileID: 0}
   OnGetAttacked:
     m_PersistentCalls:
@@ -516,10 +517,10 @@ MonoBehaviour:
         dataPosition: 
         unityObjects:
         - {fileID: 5933678646467557803}
-        - {fileID: 6200144772382310583}
+        - {fileID: 0}
         - {fileID: 7532439736249488445}
         - {fileID: 6200144772382310583}
-        - {fileID: 8966181714307501453}
+        - {fileID: 0}
         byteData: 
         byteDataArray: 
       Version: 1.7.6
