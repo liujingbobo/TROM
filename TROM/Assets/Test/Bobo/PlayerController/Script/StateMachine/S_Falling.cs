@@ -24,7 +24,7 @@ public class S_Falling : IState
     private bool CanJump => timeAfterEnter <= coyoteTime;
     private bool CanCheckGround => timeAfterEnter >= fallingGroundCheckGap;
     
-    public override void StateEnter(PlayerState preState)
+    public override void StateEnter(PlayerState preState, params object[] objects)
     {
         sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
         sm.targetRb2D.gravityScale = fallGravityScale;

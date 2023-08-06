@@ -19,7 +19,7 @@ public class S_Ladder : IState
     [SerializeField] private Vector2 snapTargetPos;
     [SerializeField] private bool inited;
 
-    public override void StateEnter(PlayerState preState)
+    public override void StateEnter(PlayerState preState, params object[] objects)
     {
         sm.targetRb2D.bodyType = RigidbodyType2D.Kinematic;
         // Turn collider off

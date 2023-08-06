@@ -1,85 +1,138 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Tools;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class Interactor2D : MonoBehaviour
 {
-    public List<Interactable2D> registeredInteractables = new List<Interactable2D>();
-    public Interactable2D nearestInteractable2D;
+    // Current touching interactable objects. 
+    public LayerMask targetLayer;
     
-    public void RegisterInteractable(Interactable2D interactable2D)
+    public List<InteractableObject> touchedInteractableObjects = new List<InteractableObject>();
+    
+    public InteractableObject nearestInteractable2D;
+
+    public InteractableObject currentInteractingIO;
+
+    private bool _isInteracting;
+    public bool IsInteracting
     {
-        registeredInteractables.Add(interactable2D);
+        get => _isInteracting;
     }
-    
-    public void UnregisterInteractable(Interactable2D interactable2D)
+    public bool CheckInteractable()
     {
-        if (nearestInteractable2D && nearestInteractable2D == interactable2D)
+        return nearestInteractable2D != null && nearestInteractable2D.CheckInteractable(this);
+    }
+
+    public void Interact(params object[] objects)
+    {
+        if (nearestInteractable2D)
         {
-            nearestInteractable2D.OnUnsetNearestByInteractor(this);
-            nearestInteractable2D = null;
-        }
-        if (registeredInteractables.Contains(interactable2D))
-        {
-            registeredInteractables.Remove(interactable2D);
+            if (!nearestInteractable2D.CheckInteractable(this)) return;
+            
+            var interactResult = nearestInteractable2D.TryInteract(this, objects);
+            
+            _isInteracting = interactResult;
         }
     }
 
+    // TODO: something might be wrong
+    public void StopInteract()
+    {
+        if (nearestInteractable2D)
+        {
+            _isInteracting = false;
+
+            nearestInteractable2D.TryStopInteract(this);
+        }
+    }
+    
     private void Update()
     {
-        UpdateNearestInteractable();
-        
-        //TODO added a quick f key to interact Nearest
-        if (Keyboard.current.fKey.wasPressedThisFrame)
+        if (!_isInteracting)
         {
-            InteractNearestInteractableStart();
+            UpdateNearestRegistrableObject();
         }
     }
 
-    private void UpdateNearestInteractable()
+    private void UpdateNearestRegistrableObject()
     {
-        var newNearest = GetNearestInteractable();
-        if (newNearest)
-        {
-            if (nearestInteractable2D == newNearest) return;
-            if(nearestInteractable2D) nearestInteractable2D.OnUnsetNearestByInteractor(this);
-            nearestInteractable2D = newNearest;
-            nearestInteractable2D.OnSetAsNearestByInteractor(this);
-        }
+        var newNearestIO = GetNearestRegistrableObject();
+        
+        if (newNearestIO == nearestInteractable2D) return;
+        
+        if (nearestInteractable2D) nearestInteractable2D.OnUnRegistered(this);
+            
+        if (newNearestIO) newNearestIO.OnRegistered(this);
+
+        nearestInteractable2D = newNearestIO;
     }
     
-    public Interactable2D GetNearestInteractable()
+    public InteractableObject GetNearestRegistrableObject()
     {
         var dis = float.MaxValue;
-        Interactable2D target = null;
-        foreach (var interactable in registeredInteractables)
+        InteractableObject target = null;
+        foreach (var interactable in touchedInteractableObjects)
         {
+            if (!interactable.CheckRegistrable(this)) continue;
+            
             var newDis = Vector3.Distance(transform.position , interactable.transform.position);
-            if (newDis < dis)
-            {
-                dis = newDis;
-                target = interactable;
-            }
+            
+            if (!(newDis < dis)) continue;
+            
+            dis = newDis;
+            target = interactable;
         }
         return target;
     }
 
-    [Button]
-    public void LogNearestInteractable()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"Nearest: {GetNearestInteractable().name}");
+        // Might switch 
+        if (targetLayer.MMContains(other.gameObject.layer))
+        {
+            if (other.GetComponentInChildren<InteractableObject>() is { } io)
+            {
+                if (!touchedInteractableObjects.Contains(io))
+                {
+                    touchedInteractableObjects.Add(io);
+                }
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        // Might switch 
+        if (targetLayer.MMContains(other.gameObject.layer))
+        {
+            if (other.GetComponentInChildren<InteractableObject>() is { } io)
+            {
+                if (touchedInteractableObjects.Contains(io))
+                {
+                    touchedInteractableObjects.Remove(io);
+                }
+            }
+        }
+    }
+
+    [Button]
+    public void LogNearestInteractableObject()
+    {
+        Debug.Log($"Nearest: {GetNearestRegistrableObject().name}");
     }
     
     [Button]
     public void InteractNearestInteractableStart()
     {
-        var interactable = GetNearestInteractable();
+        var interactable = GetNearestRegistrableObject();
         if (interactable)
         {
-            interactable.InteractionStart(this);
+            interactable.TryInteract(this);
         }
     }
 }

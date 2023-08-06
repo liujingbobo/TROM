@@ -8,19 +8,50 @@ namespace PlayerControllerTest
     public abstract class IState : MonoBehaviour
     {
         protected FSM sm;
+
+        public void Switch(PlayerState state)
+        {
+            sm.Switch(state);
+        }
         public virtual IState Init(FSM sm)
         {
             this.sm = sm;
             return this;
         }
-        public virtual void StateEnter(PlayerState preState){}
-        public virtual void StateUpdate(){}
-        public virtual void StateLateUpdate() { }
-        public virtual void StateFixedUpdate(){}
-        public virtual void StateExit(){}
-        public virtual void OnMove(InputAction.CallbackContext context){}
-        public virtual void OnInteract(InputAction.CallbackContext context){}
-        public virtual void OnJump(InputAction.CallbackContext context){}
-        public virtual void OnAttack(InputAction.CallbackContext context){}
+
+        public virtual void StateEnter(PlayerState preState, params object[] objects)
+        {
+        }
+        public virtual void StateUpdate()
+        {
+        }
+        public virtual void StateLateUpdate()
+        {
+        }
+        public virtual void StateFixedUpdate()
+        {
+        }
+        public virtual void StateExit()
+        {
+        }
+        public virtual void OnMove(InputAction.CallbackContext context)
+        {
+        }
+        public virtual void OnInteract(InputAction.CallbackContext context)
+        {
+        }
+        public virtual void OnJump(InputAction.CallbackContext context)
+        {
+        }
+        public virtual void OnAttack(InputAction.CallbackContext context)
+        {
+        }
+        public virtual void OnHit()
+        {
+        }
+        public virtual bool CanSwitchTo(PlayerState state, params object[] objects)
+        {
+            return false;
+        }
     }
 }

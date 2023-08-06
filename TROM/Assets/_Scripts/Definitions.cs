@@ -12,7 +12,9 @@ public enum PlayerState
     Fall = 40,
     Hang = 50,
     Ladder = 60,
-    Attack = 70
+    Attack = 70,
+    
+    CheckItemContainer = 100,
 }
 
 public enum AnimationType
@@ -40,9 +42,12 @@ public enum AnimationType
     LadderClimbFinishReverse,
             
     Attack,
+    
+    CheckItemContainer
 }
 public enum PlayerDirection
 {
     Front,
     Back
 }
+

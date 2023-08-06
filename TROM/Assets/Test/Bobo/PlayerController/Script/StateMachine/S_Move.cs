@@ -16,24 +16,22 @@ namespace PlayerControllerTest
         [BoxGroup("Jump")]public float ladderEnterThresholdOnY = 0.1f;
         [BoxGroup("Jump")]public float moveThresholdOnX = 0.1f;
 
-        public float normalGravity = 1;
-        
         private Rigidbody2D TargetRb2D => sm.targetRb2D;
         private Vector2 MoveValue => sm.MoveValue;
             
-        [ShowInInspector] private float timeAfterStop;
-        [ShowInInspector] private float timeAfterStart;
-        [ShowInInspector] private bool isFalling;
-        [ShowInInspector] private bool started;
+        [ShowInInspector] private float _timeAfterStop;
+        [ShowInInspector] private float _timeAfterStart;
+        [ShowInInspector] private bool _isFalling;
+        [ShowInInspector] private bool _started;
 
-        public override void StateEnter(PlayerState preState)
+        public override void StateEnter(PlayerState preState, params object[] objects)
         {
             sm.ForceFixPosition();
             sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
             sm.targetRb2D.gravityScale = 0;
-            started = false;
-            timeAfterStart = 0;
-            isFalling = false;
+            _started = false;
+            _timeAfterStart = 0;
+            _isFalling = false;
             sm.PlayAnim(AnimationType.Run);
         }
         
@@ -41,11 +39,11 @@ namespace PlayerControllerTest
         {
             if (sm.MoveValue.x == 0)
             {
-                timeAfterStop = 0;
+                _timeAfterStop = 0;
             }
             else
             {
-                timeAfterStop = 0;
+                _timeAfterStop = 0;
             }
         }
         
@@ -68,27 +66,28 @@ namespace PlayerControllerTest
         
         public override void StateFixedUpdate()
         {
-            if (!started)
+            if (!_started)
             {
-                started = true;
+                _started = true;
             }
             else
             {
-                timeAfterStart += Time.fixedDeltaTime;
+                _timeAfterStart += Time.fixedDeltaTime;
             }
 
+            // Get current velocity direction. 
             var curDir = sm.targetRb2D.velocity.normalized;
             
             var curVelocity = Mathf.Sign(curDir.x) * sm.targetRb2D.velocity.magnitude;
 
-            // TODO: Falling
+            // If it's not grounded, maybe wait for next frame, if still not graounded, switch to fall state. 
             if (!sm.detection.isGrounded)
             {
                 if (!sm.detection.isGrounded)
                 {
-                    if(!isFalling)
+                    if(!_isFalling)
                     {
-                        isFalling = true;
+                        _isFalling = true;
                     }
                     else
                     {
@@ -100,7 +99,7 @@ namespace PlayerControllerTest
             else
             {
                 sm.FixPosition();
-                isFalling = false;
+                _isFalling = false;
             }
             
             if (Mathf.Abs(sm.MoveValue.y) > ladderEnterThresholdOnY)

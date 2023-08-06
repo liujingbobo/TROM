@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2341449984599999826, guid: e6ad1622230c5114797977fceddc176d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3595602683692499186, guid: e6ad1622230c5114797977fceddc176d, type: 3}
       propertyPath: mBehaviorSource.mTaskData.JSONSerialization
       value: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(338.388916,85.55555)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(9.374945,146.8751)"},"ID":1,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(-340.6906,120.889793)"},"ID":2,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(2.777813,102.222229)"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"CanSeeObjectFlipX","NodeData":{"Offset":"(-116.111115,104.444458)"},"ID":4,"Name":"Can
@@ -2201,6 +2205,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestInteractableBarrel (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5368021559078211168, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413702842798765638, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: itemList.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2862,6 +2874,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestInteractableBarrel (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5368021559078211168, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2984,15 +3000,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2528072156061745329, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
+      propertyPath: targetLayer.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 3151529356831321676, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4782092906102125066, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
+      propertyPath: interactor2D
+      value: 
+      objectReference: {fileID: 1255950010}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
+--- !u!114 &1255950010 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2528072156061745329, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
+  m_PrefabInstance: {fileID: 1255950009}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de08de60feac24a4691a419219025a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1259978124 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4603590120712569810, guid: d5d77b427c87ea742b490403796a61d6, type: 3}
@@ -3756,6 +3791,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1531789512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1531789514}
+  - component: {fileID: 1531789513}
+  m_Layer: 7
+  m_Name: Item0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1531789513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531789512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9fedd685bee040408361bbf3803f718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 1
+  itemType: 1
+  weight: 1
+  durability: 1
+--- !u!4 &1531789514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531789512}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2079721613}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1534057161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4840,11 +4923,35 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestInteractableBarrel
       objectReference: {fileID: 0}
+    - target: {fileID: 6413702842798765638, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: maxSlot
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413702842798765638, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: maxWeight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413702842798765638, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: itemList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413702842798765638, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: itemList.Array.data[0]
+      value: 
+      objectReference: {fileID: 1531789513}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4051437637488633025, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1531789514}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+--- !u!4 &2079721613 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4051437637488633025, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+  m_PrefabInstance: {fileID: 2079721612}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2102234356
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4900,6 +5007,22 @@ PrefabInstance:
     - target: {fileID: 5368021559078211168, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
       propertyPath: m_Name
       value: TestInteractableBarrel (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368021559078211168, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015804297537742391, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015804297537742391, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015804297537742391, guid: 3a7ff4a4121dbe74f866cb795e3aedd6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

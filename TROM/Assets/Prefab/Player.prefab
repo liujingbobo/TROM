@@ -360,7 +360,7 @@ Transform:
   - {fileID: 6735256418417718062}
   - {fileID: 8975986699704130765}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1925072972189512501
 Rigidbody2D:
@@ -446,8 +446,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de08de60feac24a4691a419219025a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registeredInteractables: []
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  touchedInteractableObjects: []
   nearestInteractable2D: {fileID: 0}
+  currentInteractingIO: {fileID: 0}
 --- !u!114 &4539642514406219752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +510,19 @@ MonoBehaviour:
     m_ActionId: 4e512dea-05de-4a41-831c-e5d731d3f737
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4782092906102125066}
+        m_TargetAssemblyTypeName: PlayerControllerTest.FSM, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f0363cb3-0780-4292-9a08-6482a7445419
     m_ActionName: Player/Interect[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -605,14 +621,16 @@ MonoBehaviour:
   spriteRenderer: {fileID: 959782243555968317}
   playerCollider: {fileID: 8601191500920157458}
   direction: 0
+  interactor2D: {fileID: 0}
   targetRb2D: {fileID: 1925072972189512501}
-  JumpState: {fileID: 694072715552403949}
-  IdleState: {fileID: 3644462866073063929}
-  MoveState: {fileID: 9194220577032072760}
-  HangState: {fileID: 8108019520814012705}
-  FallingState: {fileID: 2097153477647845673}
-  LadderState: {fileID: 8426961332929114983}
-  AttackState: {fileID: 3538309249006610285}
+  jumpState: {fileID: 694072715552403949}
+  idleState: {fileID: 3644462866073063929}
+  moveState: {fileID: 9194220577032072760}
+  hangState: {fileID: 8108019520814012705}
+  fallingState: {fileID: 2097153477647845673}
+  ladderState: {fileID: 8426961332929114983}
+  attackState: {fileID: 3538309249006610285}
+  checkItemContainerState: {fileID: 4110553883712966103}
   posDirection: {x: 0, y: 0}
   CurAnimation: 0
 --- !u!114 &7650918560982048421
@@ -786,6 +804,50 @@ MonoBehaviour:
   horizontalMoveThreshold: 0.1
   verticalLadderThreshold: 0.1
   normalGravity: 1
+--- !u!1 &5459036893652479366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6117281439352811252}
+  - component: {fileID: 4110553883712966103}
+  m_Layer: 9
+  m_Name: CheckItemContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6117281439352811252
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5459036893652479366}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6735256418417718062}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4110553883712966103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5459036893652479366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612533ace3dfe7e409210e2781d340b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5530584319230657216
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,6 +1018,7 @@ Transform:
   - {fileID: 4386077955303316571}
   - {fileID: 2925565485412730396}
   - {fileID: 5804384328531063862}
+  - {fileID: 6117281439352811252}
   m_Father: {fileID: 2073383641069908990}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1189,7 +1252,6 @@ MonoBehaviour:
   maxGapOnGround: 0.01
   ladderEnterThresholdOnY: 0.1
   moveThresholdOnX: 0.1
-  normalGravity: 1
 --- !u!1 &8680046811193654006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,7 +1297,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemList: []
-  currentWeight: 0
   maxWeight: 0
   maxSlot: 0
 --- !u!1 &9026187791936389801

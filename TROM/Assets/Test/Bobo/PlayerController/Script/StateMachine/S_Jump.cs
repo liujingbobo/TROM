@@ -55,7 +55,7 @@ namespace PlayerControllerTest
 
         [ShowInInspector]private JumpState curState;
 
-        public override void StateEnter(PlayerState preState)
+        public override void StateEnter(PlayerState preState, params object[] objects)
         {
             sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
             gravtiyOnEnter = sm.targetRb2D.gravityScale;

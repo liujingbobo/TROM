@@ -15,24 +15,24 @@ public class S_Hang : IState
     [SerializeField] private Vector2 hangEndOffset;
     [SerializeField] private float climbUpThresholdY = 0.1f;
 
-    private HangObjectInfo hangInfo;
-    private Collider2D targetCollider;
-    private HungState curState;
-    private bool inited;
-    private bool jumped;
-    private Vector2 startTargetPos;
-    private Vector2 endTargetPos;
+    private HangObjectInfo _hangInfo;
+    private Collider2D _targetCollider;
+    private HangState _curState;
+    private bool _inited;
+    private bool _jumped;
+    private Vector2 _startTargetPos;
+    private Vector2 _endTargetPos;
 
-    public override void StateEnter(PlayerState preState)
+    public override void StateEnter(PlayerState preState, params object[] objects)
     {
-        inited = false;
-        jumped = false;
+        _inited = false;
+        _jumped = false;
 
-        curState = HungState.SnappingDown;
+        _curState = HangState.SnappingDown;
 
         sm.targetRb2D.bodyType = RigidbodyType2D.Kinematic;
 
-        targetCollider = preState switch
+        _targetCollider = preState switch
         {
             PlayerState.Move => sm.detection.downHangDetector.collider2Ds.Last(),
             PlayerState.Idle => sm.detection.downHangDetector.collider2Ds.Last(),
@@ -40,21 +40,21 @@ public class S_Hang : IState
             PlayerState.Fall => sm.detection.upperHangDetector.collider2Ds.Last()
         };
 
-        if (targetCollider.gameObject.GetComponent<HangObjectInfo>() is { } targetHangInfo)
+        if (_targetCollider.gameObject.GetComponent<HangObjectInfo>() is { } targetHangInfo)
         {
-            this.hangInfo = targetHangInfo;
+            this._hangInfo = targetHangInfo;
         }
 
-        sm.SetDirection(hangInfo.onHangDirection);
+        sm.SetDirection(_hangInfo.onHangDirection);
 
         CalculatePosition();
 
-        curState = preState switch
+        _curState = preState switch
         {
-            PlayerState.Move => HungState.SnappingUp,
-            PlayerState.Idle => HungState.SnappingUp,
-            PlayerState.Jump => HungState.SnappingDown,
-            PlayerState.Fall => HungState.SnappingDown
+            PlayerState.Move => HangState.SnappingUp,
+            PlayerState.Idle => HangState.SnappingUp,
+            PlayerState.Jump => HangState.SnappingDown,
+            PlayerState.Fall => HangState.SnappingDown
         };
 
         sm.playerCollider.enabled = false;
@@ -62,31 +62,31 @@ public class S_Hang : IState
 
     private void CalculatePosition()
     {
-        var colPos = targetCollider.transform.position.xy();
-        var offset = new Vector2((hangInfo.onHangDirection == PlayerDirection.Front ? 1 : -1) * hangStartOffset.x,
+        var colPos = _targetCollider.transform.position.xy();
+        var offset = new Vector2((_hangInfo.onHangDirection == PlayerDirection.Front ? 1 : -1) * hangStartOffset.x,
             hangStartOffset.y);
-        var endoffset = new Vector2((hangInfo.onHangDirection == PlayerDirection.Front ? 1 : -1) * hangEndOffset.x,
+        var endoffset = new Vector2((_hangInfo.onHangDirection == PlayerDirection.Front ? 1 : -1) * hangEndOffset.x,
             hangEndOffset.y);
 
-        endTargetPos = colPos + endoffset;
-        startTargetPos = colPos + offset;
+        _endTargetPos = colPos + endoffset;
+        _startTargetPos = colPos + offset;
     }
 
     public override void StateFixedUpdate()
     {
-        switch (curState)
+        switch (_curState)
         {
             // Front top to bot
-            case HungState.SnappingUp:
-                var snappingUpDistance = endTargetPos - sm.character.transform.position.xy();
+            case HangState.SnappingUp:
+                var snappingUpDistance = _endTargetPos - sm.character.transform.position.xy();
 
                 if (snappingUpDistance.magnitude <= hangSnapRange)
                 {
-                    sm.character.transform.position = endTargetPos;
+                    sm.character.transform.position = _endTargetPos;
                     sm.targetRb2D.velocity = Vector2.zero;
 
-                    curState = HungState.ClimbDown;
-                    inited = false;
+                    _curState = HangState.ClimbDown;
+                    _inited = false;
                 }
                 else
                 {
@@ -95,39 +95,39 @@ public class S_Hang : IState
                 }
 
                 break;
-            case HungState.ClimbDown:
-                if (!inited)
+            case HangState.ClimbDown:
+                if (!_inited)
                 {
-                    sm.character.transform.position = startTargetPos;
-                    inited = true;
+                    sm.character.transform.position = _startTargetPos;
+                    _inited = true;
                     sm.PlayAnim(AnimationType.LedgeClimbPreviewReverse);
                 }
                 else
                 {
                     if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                     {
-                        sm.character.transform.position = startTargetPos;
+                        sm.character.transform.position = _startTargetPos;
                         sm.PlayAnim(AnimationType.LedgeHangPreview);
-                        curState = HungState.Waiting;
+                        _curState = HangState.Waiting;
                     }
                 }
 
                 break;
             // Front bot to top
-            case HungState.SnappingDown:
-                if (!inited)
+            case HangState.SnappingDown:
+                if (!_inited)
                 {
-                    inited = true;
+                    _inited = true;
                 }
                 else
                 {
-                    var distance = startTargetPos - sm.character.transform.position.xy();
+                    var distance = _startTargetPos - sm.character.transform.position.xy();
 
                     if (distance.magnitude <= hangSnapRange)
                     {
-                        sm.character.transform.position = startTargetPos;
+                        sm.character.transform.position = _startTargetPos;
                         sm.targetRb2D.velocity = Vector2.zero;
-                        curState = HungState.Waiting;
+                        _curState = HangState.Waiting;
                         sm.PlayAnim(AnimationType.LedgeHangPreview);
                     }
                     else
@@ -138,22 +138,22 @@ public class S_Hang : IState
                 }
 
                 break;
-            case HungState.Waiting:
-                if (sm.MoveValue.y >= climbUpThresholdY && jumped)
+            case HangState.Waiting:
+                if (sm.MoveValue.y >= climbUpThresholdY && _jumped)
                 {
                     sm.PlayAnim(AnimationType.LedgeClimbPreview);
-                    curState = HungState.ClimbUp;
+                    _curState = HangState.ClimbUp;
                 }
-                else if (jumped)
+                else if (_jumped)
                 {
                     sm.Switch(PlayerState.Fall);
                 }
 
                 break;
-            case HungState.ClimbUp:
+            case HangState.ClimbUp:
                 if (sm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                 {
-                    sm.character.transform.position = endTargetPos;
+                    sm.character.transform.position = _endTargetPos;
                     if (sm.MoveValue.x != 0)
                     {
                         sm.Switch(PlayerState.Move);
@@ -170,9 +170,9 @@ public class S_Hang : IState
 
     public override void OnJump(InputAction.CallbackContext context)
     {
-        if (curState == HungState.Waiting && jumped == false && context.canceled == false)
+        if (_curState == HangState.Waiting && _jumped == false && context.canceled == false)
         {
-            jumped = true;
+            _jumped = true;
         }
     }
 
@@ -182,7 +182,7 @@ public class S_Hang : IState
         sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;
     }
 
-    private enum HungState
+    private enum HangState
     {
         ClimbDown,
         SnappingUp,

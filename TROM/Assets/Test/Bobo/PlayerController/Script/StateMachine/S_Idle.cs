@@ -16,7 +16,7 @@ namespace PlayerControllerTest
 
         public float normalGravity = 1;
         
-        public override void StateEnter(PlayerState preState)
+        public override void StateEnter(PlayerState preState, params object[] objects)
         {
             sm.ForceFixPosition();
             sm.targetRb2D.bodyType = RigidbodyType2D.Dynamic;

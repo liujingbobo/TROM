@@ -36,27 +36,26 @@ public class CustomColliderDetector : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (targetLayer.MMContains(other.gameObject.layer))
+        if (!targetLayer.MMContains(other.gameObject.layer)) return;
+       
+        if (checkCustomLayer)
         {
-            if (checkCustomLayer)
+            if (other.GetComponent<GeneralCollider>() is { } gc)
             {
-                if (other.GetComponent<GeneralCollider>() is { } gc)
+                if (targetCustomLayer.Contains(gc.CTLayer))
                 {
-                    if (targetCustomLayer.Contains(gc.CTLayer))
+                    if (collider2Ds.Contains(other))
                     {
-                        if (collider2Ds.Contains(other))
-                        {
-                            collider2Ds.Remove(other);
-                        }
+                        collider2Ds.Remove(other);
                     }
                 }
             }
-            else
+        }
+        else
+        {
+            if (collider2Ds.Contains(other))
             {
-                if (collider2Ds.Contains(other))
-                {
-                    collider2Ds.Remove(other);
-                }
+                collider2Ds.Remove(other);
             }
         }
     }

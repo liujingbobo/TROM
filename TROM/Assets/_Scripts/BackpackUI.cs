@@ -34,6 +34,9 @@ public class BackpackUI : MonoBehaviour
 
     private int _selectedBackPackItemIndex = -1;
     private int _selectedSearchedContainerItemIndex = -1;
+
+    private Action _onClose;
+    
     private void Awake()
     {
         Singleton = this;
@@ -167,12 +170,13 @@ public class BackpackUI : MonoBehaviour
         }
     }
     
-    public void OpenUI(ItemContainer searchedContainer)
+    public void OpenUI(ItemContainer searchedContainer, Action onClose = null)
     {
         root.gameObject.SetActive(true);
         this.searchedContainer = searchedContainer;
         RefreshItemPanels();
         isUIOpen = true;
+        _onClose = onClose;
     }
 
     public void CloseUI()
@@ -180,6 +184,7 @@ public class BackpackUI : MonoBehaviour
         searchedContainer = null;
         root.gameObject.SetActive(false);
         isUIOpen = false;
+        _onClose?.Invoke();
     }
 
     [Button]

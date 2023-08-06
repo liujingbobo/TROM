@@ -8,7 +8,7 @@ public class S_Attack : IState
 {
     private bool inited;
     
-    public override void StateEnter(PlayerState preState)
+    public override void StateEnter(PlayerState preState, params object[] objects)
     {
         sm.targetRb2D.gravityScale = 1f;
         inited = false;
