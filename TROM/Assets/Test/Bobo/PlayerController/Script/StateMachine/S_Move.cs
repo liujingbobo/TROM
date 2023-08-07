@@ -176,7 +176,7 @@ namespace PlayerControllerTest
             
             if (curVelocity != 0)
             {
-                sm.SetDirection(curVelocity < 0 ? PlayerDirection.Back : PlayerDirection.Front);
+                sm.SetDirection(curVelocity < 0 ? PlayerDirection.Left : PlayerDirection.Right);
             }
         }
     }

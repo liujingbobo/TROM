@@ -35,6 +35,7 @@ namespace PlayerControllerTest
         [FormerlySerializedAs("LadderState")] public IState ladderState;
         [FormerlySerializedAs("AttackState")] public IState attackState;
         [FormerlySerializedAs("CheckItemContainer")] public IState checkItemContainerState;
+        [FormerlySerializedAs("HitState")] public IState hitState;
 
         [ShowInInspector] private PlayerState curStateTag = PlayerState.InValid;
         [ShowInInspector] private PlayerState preStateTag = PlayerState.InValid;
@@ -69,11 +70,12 @@ namespace PlayerControllerTest
             stateMachine[PlayerState.Ladder] = ladderState.Init(this);
             stateMachine[PlayerState.Attack] = attackState.Init(this);
             stateMachine[PlayerState.CheckItemContainer] = checkItemContainerState.Init(this);
+            stateMachine[PlayerState.Hit] = hitState.Init(this);
 
             Switch(PlayerState.Idle);
         }
 
-        public void Switch(PlayerState targetState)
+        public void Switch(PlayerState targetState,params object[] objects)
         {
             Debug.Log($"Ready to switch to {targetState.ToString()}");
             
@@ -91,7 +93,7 @@ namespace PlayerControllerTest
 
             if (stateMachine.TryGetValue(curStateTag, out var value1))
             {
-                value1.StateEnter(preStateTag);
+                value1.StateEnter(preStateTag,objects);
             }
         }
 
@@ -119,8 +121,8 @@ namespace PlayerControllerTest
                 AnimationType.LadderClimbReverse => "LadderClimbReverse",
                 AnimationType.LadderClimbFinishReverse => "LadderClimbFinishReverse",
                 AnimationType.Attack => "Kick03",
-                AnimationType.CheckItemContainer => "Kick02"
-                
+                AnimationType.CheckItemContainer => "Kick02",
+                AnimationType.Hit => "SwordGuardImpact",
             });
         }
 
@@ -149,7 +151,7 @@ namespace PlayerControllerTest
             if (dir == direction) return;
             
             direction = dir;
-            spriteRenderer.flipX = dir == PlayerDirection.Back;
+            spriteRenderer.flipX = dir == PlayerDirection.Left;
         }
         
         #region UnityEvent
@@ -204,7 +206,12 @@ namespace PlayerControllerTest
             }
         }
         #endregion
-
+        
+        public void GetAttacked(AttackReleaseInfo attackReleaseInfo)
+        {
+            Switch(PlayerState.Hit, attackReleaseInfo);
+        }
+        
         public void OpenBackPack(ItemContainer container)
         {
             var targetState = PlayerState.CheckItemContainer;

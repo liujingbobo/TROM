@@ -45,7 +45,7 @@ public class EntityStateAction : EntityAction<GameEntity>, IState
 
         if (reason == EntityActionStopReason.Interrupted)
         {
-            Debug.Log(GetType().ToString());
+            if(showLog) Debug.Log(GetType().ToString() + " Interrupted");
         }
     }
     

@@ -7,13 +7,14 @@ using UnityEngine.Events;
 public class AttackReceiver : MonoBehaviour
 {
     public GameTeam team;
-    public Collider receiverCollider;
     public AttackReceiverGetAttackEvent OnGetAttacked;
 
     public void GetAttack(AttackReleaseInfo info)
     {
-        Debug.Log($"Get Attacked");
-        OnGetAttacked?.Invoke(info);
+        if (info.team != team)
+        {
+            OnGetAttacked?.Invoke(info);
+        }
     }
     
     

@@ -356,6 +356,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7344107253632977282}
+  - {fileID: 7407545924800825745}
   - {fileID: 3516939581344157703}
   - {fileID: 6735256418417718062}
   - {fileID: 8975986699704130765}
@@ -631,6 +632,7 @@ MonoBehaviour:
   ladderState: {fileID: 8426961332929114983}
   attackState: {fileID: 3538309249006610285}
   checkItemContainerState: {fileID: 4110553883712966103}
+  hitState: {fileID: 8109023368605644839}
   posDirection: {x: 0, y: 0}
   CurAnimation: 0
 --- !u!114 &7650918560982048421
@@ -756,6 +758,51 @@ MonoBehaviour:
   checkCustomLayer: 1
   targetCustomLayer: 02000000
   collider2Ds: []
+--- !u!1 &4299753090521230191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6283053491691853629}
+  - component: {fileID: 8109023368605644839}
+  m_Layer: 9
+  m_Name: Hit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6283053491691853629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4299753090521230191}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6735256418417718062}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8109023368605644839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4299753090521230191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6903f3b66f3f54fb3644b633752927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoverTime: 0.5
 --- !u!1 &4994451634408676750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,6 +1066,7 @@ Transform:
   - {fileID: 2925565485412730396}
   - {fileID: 5804384328531063862}
   - {fileID: 6117281439352811252}
+  - {fileID: 6283053491691853629}
   m_Father: {fileID: 2073383641069908990}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1252,6 +1300,102 @@ MonoBehaviour:
   maxGapOnGround: 0.01
   ladderEnterThresholdOnY: 0.1
   moveThresholdOnX: 0.1
+--- !u!1 &8424336552152481355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7407545924800825745}
+  - component: {fileID: 3456882328116835067}
+  - component: {fileID: 8964877139983401887}
+  m_Layer: 0
+  m_Name: AttackReciever
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7407545924800825745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8424336552152481355}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.25, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2073383641069908990}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3456882328116835067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8424336552152481355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85d490a986011e4193f9c1ddf73a0ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  OnGetAttacked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4782092906102125066}
+        m_TargetAssemblyTypeName: PlayerControllerTest.FSM, Assembly-CSharp
+        m_MethodName: GetAttacked
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!70 &8964877139983401887
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8424336552152481355}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 9fcd54751304e6048a00a12edd78f8a6, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.92}
+  m_Size: {x: 0.76, y: 1.8}
+  m_Direction: 0
 --- !u!1 &8680046811193654006
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ public enum PlayerState
     Attack = 70,
     
     CheckItemContainer = 100,
+    Hit = 110, 
 }
 
 public enum AnimationType
@@ -43,11 +44,13 @@ public enum AnimationType
             
     Attack,
     
-    CheckItemContainer
+    CheckItemContainer,
+    
+    Hit,
 }
 public enum PlayerDirection
 {
-    Front,
-    Back
+    Right,
+    Left
 }
 

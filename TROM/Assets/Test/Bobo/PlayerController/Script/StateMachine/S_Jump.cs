@@ -179,7 +179,7 @@ namespace PlayerControllerTest
                 // Set sprite position
                 if (curVelocityX != 0)
                 {
-                    sm.SetDirection(curVelocityX < 0 ? PlayerDirection.Back : PlayerDirection.Front);
+                    sm.SetDirection(curVelocityX < 0 ? PlayerDirection.Left : PlayerDirection.Right);
                 }
                 
                 #region HangDetection

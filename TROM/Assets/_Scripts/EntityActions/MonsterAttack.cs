@@ -34,7 +34,7 @@ public class MonsterAttack : EntityStateAction
         var attackInfo = new AttackReleaseInfo()
         {
             objectName = "attackRelease",
-            fromEntity = null,
+            fromEntity = fromEntity,
             worldPos = transform.position.OffsetX(fromEntity.spriteRenderer.flipX? -1f:1f).OffsetY(1f),
             localScale = 2 * Vector3.one,
             duration = 0.1f,
