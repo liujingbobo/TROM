@@ -135,44 +135,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 3595602683692499186, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-      propertyPath: mBehaviorSource.mTaskData.JSONSerialization
-      value: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(338.388916,85.55555)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(9.374945,146.8751)"},"ID":1,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(-340.6906,120.889793)"},"ID":2,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(2.777813,102.222229)"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"CanSeeObjectFlipX","NodeData":{"Offset":"(-116.111115,104.444458)"},"ID":4,"Name":"Can
-        See Object Flip X","Instant":true,"BooleanspriteFaceRight":true,"SpriteRendererentitySpriteRenderer":0,"SingleangleOffset":0,"SharedTransformtargetTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"targetPlayerTransform","IsShared":true},"BooleanusePhysics2D":true,"SharedGameObjecttargetObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedGameObjectListtargetObjects":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":null,"List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":""},"LayerMaskobjectLayerMask":512,"Int32maxCollisionCount":10,"LayerMaskignoreLayerMask":3519,"SharedFloatfieldOfViewAngle":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":360},"SharedFloatviewDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":6},"SharedVector3offset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,1.8,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedFloatangleOffset2D":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"HumanBodyBonestargetBone":"Hips","SharedBooldrawDebugRay":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBooldisableAgentColliderLayer":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedGameObjectreturnedObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"target","IsShared":true}},{"Type":"SetMovementTargetTransform","NodeData":{"Offset":"(73.8888855,98.33334)"},"ID":5,"Name":"Set
-        Movement Target Transform","Instant":true,"LayerMaskcollideLayer":4096,"SingleraycastDistance":10,"SharedTransformtargetTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"targetPlayerTransform","IsShared":true},"SharedTransformmovementTargetTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"movementTargetTransform","IsShared":true,"TransformmValue":1}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(148.260864,119.130432)"},"ID":6,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-13.25581,102.093086)"},"ID":7,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-104.782608,113.478256)"},"ID":8,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Movement.WithinDistance","NodeData":{"Offset":"(-222.59642,141.7379)"},"ID":9,"Name":"Within
-        Distance","Instant":true,"BooleanusePhysics2D":true,"SharedGameObjecttargetObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":""},"LayerMaskobjectLayerMask":512,"Int32maxCollisionCount":10,"SharedFloatmagnitude":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1.5},"SharedBoollineOfSight":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"LayerMaskignoreLayerMask":4,"SharedVector3offset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedBooldrawDebugRay":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedGameObjectreturnedObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null}},{"Type":"TriggerMonsterAttack","NodeData":{"Offset":"(-58.7945328,135.671112)"},"ID":10,"Name":"Trigger
-        Monster Attack","Instant":true,"MonsterControllermonsterController":2,"SharedTransformtargetTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"targetPlayerTransform","IsShared":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(91.24597,144.126648)"},"ID":11,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(177.44162,108.372086)"},"ID":12,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Inverter","NodeData":{"Offset":"(-73.33424,105.832443)"},"ID":13,"Name":"Inverter","Instant":true,"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Movement.WithinDistance","NodeData":{"Offset":"(3.48838043,98.60468)"},"ID":14,"Name":"Within
-        Distance","Instant":true,"BooleanusePhysics2D":true,"SharedGameObjecttargetObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":""},"LayerMaskobjectLayerMask":512,"Int32maxCollisionCount":10,"SharedFloatmagnitude":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1.5},"SharedBoollineOfSight":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"LayerMaskignoreLayerMask":4,"SharedVector3offset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedBooldrawDebugRay":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedGameObjectreturnedObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null}}]},{"Type":"PlatformMoveTo","NodeData":{"Offset":"(70,106.976791)"},"ID":15,"Name":"Platform
-        Move To","Instant":true,"PlatformAILerpmovementAI":3,"SharedTransformmovementTargetTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"movementTargetTransform","IsShared":true,"TransformmValue":4}}]}]}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedBehaviour","Name":"monsterController","IsShared":true,"BehaviourmValue":5},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"parentEntityTransform","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"movementTargetTransform","IsShared":true,"TransformmValue":6},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"targetPlayerTransform","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"target","IsShared":true}]}'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3595602683692499186, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-      propertyPath: mBehaviorSource.mTaskData.fieldSerializationData.unityObjects.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3595602683692499186, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-      propertyPath: mBehaviorSource.mTaskData.fieldSerializationData.unityObjects.Array.data[1]
-      value: 
-      objectReference: {fileID: 1484275201}
-    - target: {fileID: 3595602683692499186, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-      propertyPath: mBehaviorSource.mTaskData.fieldSerializationData.unityObjects.Array.data[2]
-      value: 
-      objectReference: {fileID: 164611603}
-    - target: {fileID: 3595602683692499186, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-      propertyPath: mBehaviorSource.mTaskData.fieldSerializationData.unityObjects.Array.data[3]
-      value: 
-      objectReference: {fileID: 164611602}
-    - target: {fileID: 3595602683692499186, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-      propertyPath: mBehaviorSource.mTaskData.fieldSerializationData.unityObjects.Array.data[4]
-      value: 
-      objectReference: {fileID: 1484275201}
-    - target: {fileID: 3595602683692499186, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-      propertyPath: mBehaviorSource.mTaskData.fieldSerializationData.unityObjects.Array.data[5]
-      value: 
-      objectReference: {fileID: 164611603}
-    - target: {fileID: 3595602683692499186, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-      propertyPath: mBehaviorSource.mTaskData.fieldSerializationData.unityObjects.Array.data[6]
-      value: 
-      objectReference: {fileID: 1484275201}
     - target: {fileID: 8966181714307501453, guid: e6ad1622230c5114797977fceddc176d, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -222,28 +184,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6ad1622230c5114797977fceddc176d, type: 3}
---- !u!114 &164611602 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7532439736249488445, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-  m_PrefabInstance: {fileID: 164611601}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1762cec04aea21a4ca3e645a385c3dc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &164611603 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6200144772382310583, guid: e6ad1622230c5114797977fceddc176d, type: 3}
-  m_PrefabInstance: {fileID: 164611601}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2789f822136884849ae82fa2d051068e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &196254592
 GameObject:
   m_ObjectHideFlags: 0
@@ -1966,10 +1906,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1170836575}
     m_Modifications:
+    - target: {fileID: 2998468672220731461, guid: e72b1711b1782604eba9656dbeecd2d8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3492626282287745061, guid: e72b1711b1782604eba9656dbeecd2d8, type: 3}
       propertyPath: playerBackpack
       value: 
       objectReference: {fileID: 1259978124}
+    - target: {fileID: 4716069542983076089, guid: e72b1711b1782604eba9656dbeecd2d8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5910356956475616619, guid: e72b1711b1782604eba9656dbeecd2d8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

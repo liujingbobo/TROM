@@ -18,7 +18,7 @@ public class MonsterController : EntityActionStateMachine
     {
         var key = nameof(MonsterMove);
         var moveAction = (MonsterMove) StateMachine.GetState(key);
-        moveAction.position = position;
+        moveAction.SetDestination(position);
         if (StateMachine.GetCurrentStateKey() != key)
         {
             TrySwitchAction(nameof(MonsterMove));

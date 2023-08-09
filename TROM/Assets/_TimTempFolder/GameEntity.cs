@@ -20,6 +20,31 @@ public class GameEntity : MonoBehaviour
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void Update()
+    {
+    }
+
+    #region FaceDirection
+
+    public FacingDirection facingDirection = FacingDirection.Right;
+    public bool IsFacingRight
+    {
+        get => facingDirection == FacingDirection.Right;
+    }
+    public void SetFacingDirection(FacingDirection direction)
+    {
+        facingDirection = direction;
+        spriteRenderer.flipX = !IsFacingRight;
+    }
+
+    [Button]
+    public void LookAt(FacingDirection direction)
+    {
+        SetFacingDirection(direction);
+    }
+
+    #endregion
+    
     public void GetAttacked(AttackReleaseInfo info)
     {
         if (info.team == GameTeam.Player)

@@ -7,7 +7,7 @@ using UnityEngine;
 public class EntityActionStateMachine: MonoBehaviour
 {
     public string debugCurrentState = null;
-    protected StateMachine<string, EntityStateAction> StateMachine;
+    public StateMachine<string, EntityStateAction> StateMachine;
 
     public EntityStateAction defaultAction;
     public List<EntityStateAction> actionList;

@@ -48,7 +48,7 @@ public enum AnimationType
     
     Hit,
 }
-public enum PlayerDirection
+public enum FacingDirection
 {
     Right,
     Left

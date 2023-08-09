@@ -63,9 +63,9 @@ public class S_Hang : IState
     private void CalculatePosition()
     {
         var colPos = _targetCollider.transform.position.xy();
-        var offset = new Vector2((_hangInfo.onHangDirection == PlayerDirection.Right ? 1 : -1) * hangStartOffset.x,
+        var offset = new Vector2((_hangInfo.onHangDirection == FacingDirection.Right ? 1 : -1) * hangStartOffset.x,
             hangStartOffset.y);
-        var endoffset = new Vector2((_hangInfo.onHangDirection == PlayerDirection.Right ? 1 : -1) * hangEndOffset.x,
+        var endoffset = new Vector2((_hangInfo.onHangDirection == FacingDirection.Right ? 1 : -1) * hangEndOffset.x,
             hangEndOffset.y);
 
         _endTargetPos = colPos + endoffset;

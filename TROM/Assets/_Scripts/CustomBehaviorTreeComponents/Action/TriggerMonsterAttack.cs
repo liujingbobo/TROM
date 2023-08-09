@@ -5,16 +5,18 @@ using BehaviorDesigner.Runtime.Tasks;
 [TaskCategory("MonsterControl")]
 public class TriggerMonsterAttack : Action
 {
-	public MonsterController monsterController;
-	public SharedTransform targetTransform;
+	public SharedBehaviour monsterControllerSB;
+	private MonsterController mc;
+	public SharedGameObject targetGO;
 	public override void OnStart()
 	{
-		monsterController.AttackAt(targetTransform.Value.position);
+		mc = monsterControllerSB.Value as MonsterController;
+		mc.AttackAt(targetGO.Value.transform.position);
 	}
 
 	public override TaskStatus OnUpdate()
 	{
-		var action = (MonsterAttack)monsterController.GetState(nameof(MonsterAttack));
+		var action = (MonsterAttack)mc.GetState(nameof(MonsterAttack));
 		if (action.GetState() == EntityActionState.InProgress)
 		{
 			return TaskStatus.Running;

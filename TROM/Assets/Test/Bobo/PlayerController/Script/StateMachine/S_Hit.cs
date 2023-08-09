@@ -21,8 +21,8 @@ namespace PlayerControllerTest
 
             var info = objects[0] as AttackReleaseInfo;
             var direction = info.fromEntity.transform.position.x < sm.transform.position.x
-                ? PlayerDirection.Left
-                : PlayerDirection.Right;
+                ? FacingDirection.Left
+                : FacingDirection.Right;
             sm.SetDirection(direction);
         }
         

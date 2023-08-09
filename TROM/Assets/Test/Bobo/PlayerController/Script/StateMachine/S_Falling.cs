@@ -84,7 +84,7 @@ public class S_Falling : IState
         
         if (curX != 0)
         {
-            sm.SetDirection(curX < 0 ? PlayerDirection.Left : PlayerDirection.Right);
+            sm.SetDirection(curX < 0 ? FacingDirection.Left : FacingDirection.Right);
         }
 
         TargetRb2D.velocity = new Vector2(curX, curY);

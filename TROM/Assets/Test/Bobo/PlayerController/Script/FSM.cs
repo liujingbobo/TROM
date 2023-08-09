@@ -20,7 +20,7 @@ namespace PlayerControllerTest
         public Animator animator;
         public SpriteRenderer spriteRenderer;
         public Collider2D playerCollider;
-        public PlayerDirection direction;
+        public FacingDirection direction;
         public Interactor2D interactor2D;
 
         [BoxGroup("Other")] public Rigidbody2D targetRb2D;
@@ -146,12 +146,12 @@ namespace PlayerControllerTest
             FixPosition();
         }
 
-        public void SetDirection(PlayerDirection dir)
+        public void SetDirection(FacingDirection dir)
         {
             if (dir == direction) return;
             
             direction = dir;
-            spriteRenderer.flipX = dir == PlayerDirection.Left;
+            spriteRenderer.flipX = dir == FacingDirection.Left;
         }
         
         #region UnityEvent
