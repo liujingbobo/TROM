@@ -13,8 +13,6 @@ public class MonsterJump : EntityStateAction
     protected override void OnActionStart()
     {
         base.OnActionStart();
-        fromEntity.animator.Play("Run",0,0);
-        fromEntity.animator.Update(0);
         fromEntity.rBody2D.AddForce(Vector2.up * jumpForceMagnitude, ForceMode2D.Impulse);
     }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Pathfinding;
+using Spine.Unity;
 using UnityEngine;
 
 public class MonsterMove : EntityStateAction
@@ -10,11 +11,11 @@ public class MonsterMove : EntityStateAction
     public AILerp ai;
     public Vector2 destination;
     public float speed = 5;
+    public string animationName;
     protected override void OnActionStart()
     {
         base.OnActionStart();
-        fromEntity.animator.Play("Run",0,0);
-        fromEntity.animator.Update(0);
+        fromEntity.SkeletonAnimation.AnimationState.SetAnimation(0, animationName, true);
         ai.canMove = true;
         ai.canSearch = true;
     }

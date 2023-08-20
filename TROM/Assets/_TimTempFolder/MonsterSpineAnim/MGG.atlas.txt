@@ -1,0 +1,139 @@
+
+MGG.png
+size: 1881,454
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+MGG_Body
+  rotate: false
+  xy: 2, 65
+  size: 313, 387
+  orig: 313, 389
+  offset: 0, 2
+  index: -1
+MGG_Eye_L
+  rotate: true
+  xy: 162, 17
+  size: 46, 32
+  orig: 46, 35
+  offset: 0, 0
+  index: -1
+MGG_Eye_R
+  rotate: true
+  xy: 317, 98
+  size: 38, 31
+  orig: 39, 35
+  offset: 1, 4
+  index: -1
+MGG_Foot_L
+  rotate: false
+  xy: 2, 12
+  size: 158, 51
+  orig: 160, 53
+  offset: 1, 1
+  index: -1
+MGG_Foot_R
+  rotate: false
+  xy: 196, 19
+  size: 215, 44
+  orig: 216, 44
+  offset: 1, 0
+  index: -1
+MGG_Hand1_R
+  rotate: true
+  xy: 618, 6
+  size: 130, 73
+  orig: 132, 82
+  offset: 0, 9
+  index: -1
+MGG_Hand_L
+  rotate: false
+  xy: 881, 12
+  size: 238, 124
+  orig: 240, 130
+  offset: 0, 5
+  index: -1
+MGG_Hand_L2
+  rotate: false
+  xy: 693, 10
+  size: 87, 126
+  orig: 87, 128
+  offset: 0, 2
+  index: -1
+MGG_Hand_R
+  rotate: false
+  xy: 1121, 16
+  size: 210, 179
+  orig: 583, 179
+  offset: 373, 0
+  index: -1
+MGG_Head
+  rotate: false
+  xy: 317, 138
+  size: 722, 314
+  orig: 722, 314
+  offset: 0, 0
+  index: -1
+MGG_Head1
+  rotate: false
+  xy: 1121, 197
+  size: 743, 255
+  orig: 807, 256
+  offset: 64, 0
+  index: -1
+MGG_LowerArm_L
+  rotate: false
+  xy: 1041, 144
+  size: 67, 159
+  orig: 88, 159
+  offset: 0, 0
+  index: -1
+MGG_LowerArm_R
+  rotate: true
+  xy: 1589, 37
+  size: 158, 144
+  orig: 158, 144
+  offset: 0, 0
+  index: -1
+MGG_LowerLeg_L
+  rotate: true
+  xy: 782, 11
+  size: 125, 97
+  orig: 125, 97
+  offset: 0, 0
+  index: -1
+MGG_LowerLeg_R
+  rotate: false
+  xy: 1041, 305
+  size: 73, 147
+  orig: 73, 147
+  offset: 0, 0
+  index: -1
+MGG_UpperArm_L
+  rotate: false
+  xy: 413, 2
+  size: 203, 134
+  orig: 205, 135
+  offset: 0, 1
+  index: -1
+MGG_UpperArm_R
+  rotate: true
+  xy: 1429, 27
+  size: 168, 158
+  orig: 168, 158
+  offset: 0, 0
+  index: -1
+MGG_UpperLeg_L
+  rotate: false
+  xy: 1333, 16
+  size: 94, 179
+  orig: 122, 182
+  offset: 27, 2
+  index: -1
+MGG_UpperLeg_R
+  rotate: false
+  xy: 1735, 54
+  size: 144, 141
+  orig: 164, 153
+  offset: 16, 12
+  index: -1

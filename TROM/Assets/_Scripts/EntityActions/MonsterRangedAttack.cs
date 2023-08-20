@@ -2,18 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Spine.Unity;
 using TimUtility;
 using UnityEngine;
 
 public class MonsterRangedAttack : EntityStateAction
 {
+    public string attackAnimationName;
     public Vector2 targetPoint;
     protected override void OnActionStart()
     {
         base.OnActionStart();
-        fromEntity.spriteRenderer.flipX = targetPoint.x - transform.position.x > 0 ? false : true;
-        fromEntity.animator.Play("Punch01",0,0);
-        fromEntity.animator.Update(0);
+        fromEntity.SkeletonAnimation.AnimationState.SetAnimation(0, attackAnimationName, true);
         fromEntity.animatorHelper.OnAnimationEventTriggered.AddListener(OnAttack);
     }
     protected override void OnActionStop(EntityActionStopReason reason)
@@ -36,7 +36,7 @@ public class MonsterRangedAttack : EntityStateAction
         {
             objectName = "attackRelease",
             fromEntity = null,
-            worldPos = transform.position.OffsetX(fromEntity.spriteRenderer.flipX? -1f:1f).OffsetY(1f),
+            worldPos = transform.position.OffsetX(fromEntity.IsFacingRight? 1f:-1f).OffsetY(1f),
             localScale = 2 * Vector3.one,
             duration = 0.1f,
             damage = 1,
