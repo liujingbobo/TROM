@@ -8,5 +8,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/MenuScene.unity
+    guid: 1fbd076cfbbef414ea9d2b19697c0ba2
+  - enabled: 1
+    path: Assets/Scenes/CampScene.unity
+    guid: b7f80d1ad1b1fcb4086fb9a097de82c5
+  - enabled: 1
+    path: Assets/Scenes/DepartmentStoreScene.unity
+    guid: 7c8b4e54838cd064894edc9e2feb089b
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 57131a4f3341684418ba1558fa74807b, type: 2}
