@@ -54,7 +54,7 @@ public class EntityStateAction : EntityAction<GameEntity>, IState
         StartAction();
     }
 
-    public void OnStateExecute()
+    public void OnStateUpdate()
     {
     }
 

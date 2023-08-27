@@ -361,7 +361,7 @@ Transform:
   - {fileID: 6735256418417718062}
   - {fileID: 8975986699704130765}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1925072972189512501
 Rigidbody2D:
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   touchedInteractableObjects: []
   nearestInteractable2D: {fileID: 0}
   currentInteractingIO: {fileID: 0}
@@ -622,7 +622,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 959782243555968317}
   playerCollider: {fileID: 8601191500920157458}
   direction: 0
-  interactor2D: {fileID: 0}
+  interactor2D: {fileID: 2528072156061745329}
   targetRb2D: {fileID: 1925072972189512501}
   jumpState: {fileID: 694072715552403949}
   idleState: {fileID: 3644462866073063929}

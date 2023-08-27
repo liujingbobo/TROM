@@ -47,6 +47,26 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 38ac8a4c41e11ab40abfeb986892736c
+    m_Address: Assets/AddressablePrefabs/UIStack.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb103a9a84095a84d85bdd0144a142b1
+    m_Address: Assets/AddressablePrefabs/UIPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93b256022fab9b24cb29d9e8d3589e63
+    m_Address: Assets/AddressablePrefabs/UIExploreMap.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 358a1bf9a70d4cf43a9e138b2d98ff81
+    m_Address: Assets/AddressablePrefabs/SceneLoader.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5c986b0e00e04fa41b6d0cb563bb4341, type: 2}
   m_SchemaSet:

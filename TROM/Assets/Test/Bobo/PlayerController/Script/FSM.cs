@@ -200,7 +200,7 @@ namespace PlayerControllerTest
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (interactor2D.CheckInteractable())
+            if (context.performed && interactor2D.CheckInteractable())
             {
                 interactor2D.Interact();
             }

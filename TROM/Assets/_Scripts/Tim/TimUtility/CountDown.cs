@@ -36,4 +36,14 @@ public class Countdown
         }
         return false;
     }
+
+    public float TimeRatio
+    {
+        get => (Time.time - startTime) / countdownTime;
+    }
+
+    public float TimeLeftRatio
+    {
+        get => 1 - TimeRatio;
+    }
 }

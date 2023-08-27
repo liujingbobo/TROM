@@ -7,13 +7,13 @@ using UnityEngine;
 public class EntityActionStateMachine: MonoBehaviour
 {
     public string debugCurrentState = null;
-    public StateMachine<string, EntityStateAction> StateMachine;
+    public StateMachine<string> StateMachine;
 
     public EntityStateAction defaultAction;
     public List<EntityStateAction> actionList;
     public void Awake()
     {
-        StateMachine = new StateMachine<string, EntityStateAction>();
+        StateMachine = new StateMachine<string>();
         foreach (var stateAction in actionList)
         {
             StateMachine.AddState(stateAction.GetType().Name, stateAction);
@@ -28,12 +28,12 @@ public class EntityActionStateMachine: MonoBehaviour
 
     public EntityStateAction GetState(string stateName)
     {
-        return StateMachine.GetState(stateName);
+        return StateMachine.GetState(stateName) as EntityStateAction;
     }
     public bool TrySwitchAction(string actionStateKey)
     {
-        var currentActionState = StateMachine.currentState;
-        var targetActionState = StateMachine.GetState(actionStateKey);
+        var currentActionState = StateMachine.currentState as EntityStateAction;
+        var targetActionState = StateMachine.GetState(actionStateKey) as EntityStateAction;
         
         bool shouldSwitch = true;
         
@@ -68,7 +68,7 @@ public class EntityActionStateMachine: MonoBehaviour
         
         if (shouldSwitch)
         {
-            StateMachine.currentState?.StopAction(EntityActionStopReason.Interrupted);
+            (StateMachine.currentState as EntityStateAction)?.StopAction(EntityActionStopReason.Interrupted);
             StateMachine.SwitchToState(actionStateKey);
         }
         return shouldSwitch;

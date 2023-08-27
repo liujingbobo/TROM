@@ -1,17 +1,18 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
 namespace TimUtility
 {
-    public class StateMachine<TStateKey, TState> where TState : IState
+    public class StateMachine<TStateKey>
     {
         public TStateKey currentStateKey;
-        public TState currentState;
-        private Dictionary<TStateKey, TState> states;
+        public IState currentState;
+        private Dictionary<TStateKey, IState> states;
 
         public StateMachine()
         {
-            states = new Dictionary<TStateKey, TState>();
+            states = new Dictionary<TStateKey, IState>();
         }
 
         public TStateKey GetCurrentStateKey()
@@ -19,12 +20,12 @@ namespace TimUtility
             return currentStateKey;
         }
 
-        public TState GetCurrentState()
+        public IState GetCurrentState()
         {
             return currentState;
         }
 
-        public TState GetState(TStateKey key)
+        public IState GetState(TStateKey key)
         {
             if (states.ContainsKey(key))
             {
@@ -37,7 +38,7 @@ namespace TimUtility
             }
         }
         
-        public void AddState(TStateKey key, TState state)
+        public void AddState(TStateKey key, IState state)
         {
             if (!states.ContainsKey(key))
             {
@@ -63,7 +64,7 @@ namespace TimUtility
         
         public void SwitchToState(TStateKey key)
         {
-            if (states.TryGetValue(key, out TState state))
+            if (states.TryGetValue(key, out IState state))
             {
                 currentState?.OnStateExit();
 
@@ -79,14 +80,49 @@ namespace TimUtility
 
         public void ExecuteStateUpdate()
         {
-            currentState?.OnStateExecute();
+            currentState?.OnStateUpdate();
+        }
+
+        public StateMachine<TStateKey> AddRuntimeState(TStateKey stateKey,
+            Action onStateStart, Action onStateUpdate, Action onStateExit)
+        {
+            var newState = new RuntimeState(onStateStart, onStateUpdate, onStateExit) as IState;
+            AddState(stateKey, newState);
+            return this;
         }
     }
 
     public interface IState
     {
         void OnStateEnter();
-        void OnStateExecute();
+        void OnStateUpdate();
         void OnStateExit();
+    }
+
+    public class RuntimeState : IState
+    {
+        private Action OnStateStartCallBack;
+        private Action OnStateUpdateCallBack;
+        private Action OnStateExitCallBack;
+
+        public RuntimeState(Action onStateStart, Action onStateUpdate, Action onStateExit)
+        {
+            OnStateStartCallBack = onStateStart;
+            OnStateUpdateCallBack = onStateUpdate;
+            OnStateExitCallBack = onStateExit;
+        }
+
+        public void OnStateEnter()
+        {
+            OnStateStartCallBack?.Invoke();
+        }
+        public void OnStateUpdate()
+        {
+            OnStateUpdateCallBack?.Invoke();
+        }
+        public void OnStateExit()
+        {
+            OnStateExitCallBack?.Invoke();
+        }
     }
 }

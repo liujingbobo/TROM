@@ -2,19 +2,38 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-    public static SceneLoader Singleton;
+    private static SceneLoader _singleton;
+    public static SceneLoader Singleton
+    {
+        get
+        {
+            if (_singleton == null)
+            {
+                _singleton = FindObjectOfType<SceneLoader>();
+                if (_singleton == null)
+                {
+                    //Basic use case of forcing a synchronous load of a GameObject
+                    var op = Addressables.LoadAssetAsync<GameObject>("Assets/AddressablePrefabs/SceneLoader.prefab");
+                    var go = op.WaitForCompletion();
+                    _singleton = Instantiate(go).GetComponent<SceneLoader>();
+                }
+            }
+            return _singleton;
+        }
+    }
     public GameObject loadingScreen; // Assign your loading screen GameObject
     public Slider slider; 
     public TMP_Text text;
 
     public void Awake()
     {
-        Singleton = this;
+        _singleton = this;
         loadingScreen.SetActive(false);
     }
 
