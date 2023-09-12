@@ -40,17 +40,20 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: FarView
+    uniqueID: 3984420837
     locked: 0
   - name: Background
     uniqueID: 2141740605
     locked: 0
-  - name: Platforms
-    uniqueID: 3383330717
+  - name: Sets
+    uniqueID: 3203379211
     locked: 0
-  - name: Player
-    uniqueID: 358751543
+  - name: Enemy
+    uniqueID: 235529659
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: Foreground
     uniqueID: 3072158629

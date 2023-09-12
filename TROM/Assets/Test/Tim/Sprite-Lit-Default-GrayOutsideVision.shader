@@ -5,7 +5,9 @@ Shader "TROM/2D/Sprite-Lit-Default-GrayOutsideVision"
         _MainTex("Diffuse", 2D) = "white" {}
         _MaskTex("Mask", 2D) = "white" {}
         _NormalMap("Normal Map", 2D) = "bump" {}
-
+        _GrayColor ("Gray Color", Color) = (1, 1, 1, 1)
+        _GrayValue ("Gray Value", float) = 0.5
+        
         // Legacy properties. They're here so that materials using this shader can gracefully fallback to the legacy sprite shader.
         [HideInInspector] _Color("Tint", Color) = (1,1,1,1)
         [HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
@@ -67,7 +69,9 @@ Shader "TROM/2D/Sprite-Lit-Default-GrayOutsideVision"
             half4 _MainTex_ST;
             float4 _Color;
             half4 _RendererColor;
-
+            float4 _GrayColor;
+            float _GrayValue;
+            
             #if USE_SHAPE_LIGHT_TYPE_0
             SHAPE_LIGHT(0)
             #endif
@@ -113,7 +117,7 @@ Shader "TROM/2D/Sprite-Lit-Default-GrayOutsideVision"
                 InitializeSurfaceData(main.rgb, main.a, mask, surfaceData);
                 InitializeInputData(i.uv, i.lightingUV, inputData);
 
-                return TROMShapeLightGrayOutsideVisionShared(surfaceData, inputData);
+                return TROMShapeLightGrayOutsideVisionShared(surfaceData, inputData, _GrayColor, _GrayValue);
             }
             ENDHLSL
         }

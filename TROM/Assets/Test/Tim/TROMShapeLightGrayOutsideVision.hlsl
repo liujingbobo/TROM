@@ -7,7 +7,7 @@
 half _HDREmulationScale;
 half _UseSceneLighting;
 
-half4 TROMShapeLightGrayOutsideVisionShared(in SurfaceData2D surfaceData, in InputData2D inputData)
+half4 TROMShapeLightGrayOutsideVisionShared(in SurfaceData2D surfaceData, in InputData2D inputData, in float4 grayColor, in float grayValue)
 {
     #if defined(DEBUG_DISPLAY)
     half4 debugColor = 0;
@@ -101,7 +101,9 @@ half4 TROMShapeLightGrayOutsideVisionShared(in SurfaceData2D surfaceData, in Inp
 #endif
 
     half4 gray = color;
-    gray.r = gray.g = gray.b = dot(color, half4(0.3, 0.59, 0.11, 0)) * 0.2;
+    //gray.r = gray.g = gray.b = dot(color, half4(0.3, 0.59, 0.11, 0)) * 1;
+    gray.r = gray.g = gray.b = dot(color, half4(0.3, 0.59, 0.11, 0)) * 0.6;
+    gray.r = gray.g = gray.b = dot(color, grayColor) * grayValue;
     
     return max(0, finalOutput * shapeLight3Modulate + (1 - shapeLight3Modulate) * gray);  
 }
